@@ -3,7 +3,11 @@ from playwright.sync_api import Page, expect
 
 
 class TestLoginE2E:
-    """Testes end-to-end para o fluxo de login"""
+    """
+    Testes end-to-end para o fluxo de login
+    Relacionado ao TASK-003: Implementar Redirecionamento Após Login
+    e EPIC-001: Implementar Portal Administrativo (validação completa da UX)
+    """
 
     def test_quando_acessar_pagina_login_entao_deve_carregar_formulario(self, page_with_server: Page):
         """Quando acessar a página de login, então deve carregar o formulário corretamente"""

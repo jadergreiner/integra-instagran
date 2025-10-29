@@ -3,7 +3,10 @@ from src.admin.models import Usuario, Licenca
 
 
 class TestUsuario:
-    """Testes para o modelo Usuario"""
+    """
+    Testes para o modelo Usuario
+    Relacionado ao EPIC-001: Implementar Portal Administrativo
+    """
 
     def test_quando_criar_usuario_com_dados_validos_entao_deve_ser_criado_com_sucesso(self):
         # Dado
@@ -50,7 +53,10 @@ class TestUsuario:
 
 
 class TestLicenca:
-    """Testes para o modelo Licenca"""
+    """
+    Testes para o modelo Licenca
+    Relacionado ao EPIC-001: Implementar Portal Administrativo
+    """
 
     def test_quando_criar_licenca_com_dados_validos_entao_deve_ser_criada_com_sucesso(self):
         # Dado

@@ -4,7 +4,11 @@ from src.main import app
 
 
 class TestUsuarioAdmin:
-    """Testes para as rotas de administração de usuários"""
+    """
+    Testes para as rotas de administração de usuários
+    Relacionado às TASK-002: Integrar Página HTML com Backend
+    e TASK-003: Implementar Redirecionamento Após Login
+    """
 
     def test_quando_post_login_com_credenciais_validas_entao_deve_retornar_sucesso(self):
         # Dado

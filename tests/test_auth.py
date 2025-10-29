@@ -3,7 +3,10 @@ from src.core.auth import AuthService
 
 
 class TestAuthService:
-    """Testes para o serviço de autenticação"""
+    """
+    Testes para o serviço de autenticação
+    Relacionado à TASK-001: Implementar Backend de Login
+    """
 
     def test_quando_login_com_credenciais_validas_entao_deve_retornar_sucesso(self):
         # Dado
