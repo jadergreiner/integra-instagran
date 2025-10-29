@@ -11,6 +11,7 @@ class TestUsuarioAdmin:
     """
 
     def test_quando_post_login_com_credenciais_validas_entao_deve_retornar_sucesso(self):
+        """TASK-003: Valida redirecionamento após login bem-sucedido"""
         # Dado
         client = TestClient(app)
         dados = {"usuario": "admin", "senha": "123"}
@@ -23,6 +24,7 @@ class TestUsuarioAdmin:
         assert response.headers["location"] == "/admin/dashboard"
 
     def test_quando_post_login_com_credenciais_invalidas_entao_deve_retornar_erro(self):
+        """TASK-002: Valida tratamento de erro na integração form-backend"""
         # Dado
         client = TestClient(app)
         dados = {"usuario": "admin", "senha": "senha_errada"}
@@ -35,6 +37,7 @@ class TestUsuarioAdmin:
         assert "Credenciais inválidas" in response.json()["detail"]
 
     def test_quando_post_login_com_credenciais_validas_entao_deve_redirecionar_para_dashboard(self):
+        """TASK-003: Valida especificamente o redirecionamento para dashboard"""
         # Dado
         client = TestClient(app)
         dados = {"usuario": "admin", "senha": "123"}

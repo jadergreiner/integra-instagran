@@ -77,6 +77,11 @@ Este documento mantém o Product Backlog priorizado, estruturado em Épicos → 
 **Responsável:** Copilot  
 **Estimativa:** 2h  
 **Commits Relacionados:** [Implementar backend de login com TDD]  
+**Testes Unitários:**
+
+- `TestAuthService.test_quando_login_com_credenciais_validas_entao_deve_retornar_sucesso`
+- `TestAuthService.test_quando_login_com_credenciais_invalidas_entao_deve_lancar_erro`
+- `TestAuthService.test_quando_login_com_usuario_inexistente_entao_deve_lancar_erro`  
 
 #### TASK-002: Integrar Página HTML com Backend
 
@@ -85,6 +90,9 @@ Este documento mantém o Product Backlog priorizado, estruturado em Épicos → 
 **Responsável:** Copilot  
 **Estimativa:** 1h  
 **Commits Relacionados:** [Integrar form data no login]  
+**Testes Unitários:**
+
+- `TestUsuarioAdmin.test_quando_post_login_com_credenciais_invalidas_entao_deve_retornar_erro`  
 
 #### TASK-003: Implementar Redirecionamento Após Login
 
@@ -93,6 +101,25 @@ Este documento mantém o Product Backlog priorizado, estruturado em Épicos → 
 **Responsável:** Copilot  
 **Estimativa:** 2h  
 **Commits Relacionados:** TASK-003: Implementar redirecionamento após login  
+**Testes Unitários:**
+
+- `TestUsuarioAdmin.test_quando_post_login_com_credenciais_validas_entao_deve_retornar_sucesso`
+- `TestUsuarioAdmin.test_quando_post_login_com_credenciais_validas_entao_deve_redirecionar_para_dashboard`
+- `TestLoginE2E.test_quando_acessar_pagina_login_entao_deve_carregar_formulario`
+- `TestLoginE2E.test_quando_fazer_login_com_credenciais_validas_entao_deve_redirecionar_para_dashboard`
+- `TestLoginE2E.test_quando_fazer_login_com_credenciais_invalidas_entao_deve_mostrar_erro`
+- `TestLoginE2E.test_quando_deixar_campos_vazios_entao_deve_mostrar_erro`
+- `TestLoginE2E.test_quando_acessar_dashboard_direto_entao_deve_carregar_pagina`  
+
+### EPIC-001 - Testes Unitários dos Modelos
+
+**Testes Unitários dos Modelos de Dados:**
+
+- `TestUsuario.test_quando_criar_usuario_com_dados_validos_entao_deve_ser_criado_com_sucesso`
+- `TestUsuario.test_quando_criar_usuario_com_email_invalido_entao_deve_lancar_erro`
+- `TestUsuario.test_quando_criar_usuario_sem_nome_entao_deve_lancar_erro`
+- `TestLicenca.test_quando_criar_licenca_com_dados_validos_entao_deve_ser_criada_com_sucesso`
+- `TestLicenca.test_quando_criar_licenca_com_status_invalido_entao_deve_lancar_erro`
 
 ## Priorização
 

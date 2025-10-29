@@ -9,6 +9,7 @@ class TestAuthService:
     """
 
     def test_quando_login_com_credenciais_validas_entao_deve_retornar_sucesso(self):
+        """TASK-001: Valida autenticação bem-sucedida com credenciais corretas"""
         # Dado
         auth_service = AuthService()
         usuario = "admin"
@@ -21,6 +22,7 @@ class TestAuthService:
         assert resultado == {"status": "sucesso", "usuario": usuario}
 
     def test_quando_login_com_credenciais_invalidas_entao_deve_lancar_erro(self):
+        """TASK-001: Valida tratamento de erro para credenciais incorretas"""
         # Dado
         auth_service = AuthService()
         usuario = "admin"
@@ -31,6 +33,7 @@ class TestAuthService:
             auth_service.login(usuario, senha)
 
     def test_quando_login_com_usuario_inexistente_entao_deve_lancar_erro(self):
+        """TASK-001: Valida tratamento de erro para usuário inexistente"""
         # Dado
         auth_service = AuthService()
         usuario = "usuario_inexistente"

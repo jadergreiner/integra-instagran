@@ -9,6 +9,7 @@ class TestUsuario:
     """
 
     def test_quando_criar_usuario_com_dados_validos_entao_deve_ser_criado_com_sucesso(self):
+        """EPIC-001: Valida criação bem-sucedida de usuário com dados válidos"""
         # Dado
         dados = {
             "id": 1,
@@ -27,6 +28,7 @@ class TestUsuario:
         assert usuario.permissao == "admin"
 
     def test_quando_criar_usuario_com_email_invalido_entao_deve_lancar_erro(self):
+        """EPIC-001: Valida validação de email no modelo Usuario"""
         # Dado
         dados_invalidos = {
             "id": 1,
@@ -40,6 +42,7 @@ class TestUsuario:
             Usuario(**dados_invalidos)
 
     def test_quando_criar_usuario_sem_nome_entao_deve_lancar_erro(self):
+        """EPIC-001: Valida obrigatoriedade do campo nome no modelo Usuario"""
         # Dado
         dados_invalidos = {
             "id": 1,
@@ -59,6 +62,7 @@ class TestLicenca:
     """
 
     def test_quando_criar_licenca_com_dados_validos_entao_deve_ser_criada_com_sucesso(self):
+        """EPIC-001: Valida criação bem-sucedida de licença com dados válidos"""
         # Dado
         dados = {
             "id": 1,
@@ -77,6 +81,7 @@ class TestLicenca:
         assert licenca.validade == "2025-12-31"
 
     def test_quando_criar_licenca_com_status_invalido_entao_deve_lancar_erro(self):
+        """EPIC-001: Valida validação do campo status no modelo Licenca"""
         # Dado
         dados_invalidos = {
             "id": 1,
