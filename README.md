@@ -43,6 +43,34 @@ Solução analítica de dados para mídias sociais, voltada para empreendedores,
    - Credenciais de teste: usuário `admin`, senha `123`
 
 
+## Testes
+
+### Testes Unitários
+
+```bash
+# Executar todos os testes unitários
+pytest tests/ -v
+
+# Executar testes específicos
+pytest tests/test_auth.py -v
+```
+
+### Testes End-to-End (Interface Web)
+
+```bash
+# Instalar browsers do Playwright (primeira vez apenas)
+python -m playwright install
+
+# Executar testes e2e (servidor inicia automaticamente)
+python run_e2e_tests.py
+
+# Ou executar manualmente (servidor deve estar rodando):
+pytest tests/test_login_e2e.py -v --browser chromium
+```
+
+**Nota**: Os testes e2e simulam interações reais do usuário no navegador, validando o fluxo completo de login e navegação.
+
+
 ## Migração para AWS
 
 - Utilize Docker para empacotar a aplicação

@@ -17,6 +17,10 @@ def create_app():
     def login_page(request: Request):
         return templates.TemplateResponse("login.html", {"request": request})
     
+    @app.get("/admin/dashboard")
+    def dashboard(request: Request):
+        return templates.TemplateResponse("dashboard.html", {"request": request})
+    
     return app
 
 app = create_app()
