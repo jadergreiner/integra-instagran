@@ -70,6 +70,97 @@ Essa estrutura garante que a equipe esteja sempre conectada à estratégia de al
 6. **Documentação**: Atualizar diário, ADRs mencionando códigos da gestão ágil.
 7. **Premissa**: Nada se desenvolve sem registro e aprovação na gestão ágil.
 
+## Padrão para Architecture Decision Records (ADRs)
+
+### Template Padrão de ADR
+
+Todos os ADRs devem seguir esta estrutura padronizada para consistência e clareza:
+
+```markdown
+# ADR-XXX: Título Descritivo da Decisão
+
+## Status
+
+[ ] Proposto | [ ] Em Análise | [x] Aprovado | [ ] Rejeitado | [ ] Superseded | [ ] Deprecated
+
+## Contexto
+
+[Descrição clara do problema/contexto que motivou a decisão. Incluir dados, requisitos e restrições relevantes.]
+
+## Decisão
+
+[Decisão tomada de forma clara e objetiva. Incluir detalhes técnicos quando necessário.]
+
+### [Subseções específicas da decisão, se aplicável]
+
+[Detalhes técnicos, configurações, implementações específicas]
+
+## Alternativas Consideradas
+
+- **[Alternativa 1]**: [Descrição + prós/contras]
+- **[Alternativa 2]**: [Descrição + prós/contras]
+- **[Alternativa N]**: [Descrição + prós/contras]
+
+## Consequências
+
+### Positivas
+
+- [Benefício 1]
+- [Benefício 2]
+
+### Negativas
+
+- [Desvantagem 1]
+- [Desvantagem 2]
+
+### Riscos
+
+- [Risco identificado e plano de mitigação]
+
+## Implementação
+
+[Detalhes de como a decisão será implementada, se aplicável]
+
+## Métricas de Sucesso
+
+[Como medir se a decisão foi bem-sucedida, se aplicável]
+
+## Próximos Passos
+
+[Próximas ações necessárias para implementar a decisão]
+
+## Data
+
+[Data da decisão - formato DD/MM/YYYY]
+
+## Responsável
+
+[Nome do responsável pela decisão - normalmente "Copilot" para decisões técnicas]
+```
+
+### Regras de Nomenclatura e Numeração
+
+- **Formato**: `ADR-XXX-descricao-curta.md` (ex: `ADR-005-testes-e2e-playwright.md`)
+- **Numeração**: Sequencial, começando do 001
+- **Localização**: `docs/adrs/`
+- **Idioma**: Português brasileiro
+
+### Quando Criar um ADR
+
+- Mudanças arquiteturais significativas
+- Escolha de tecnologias/frameworks
+- Decisões de design que impactam múltiplos componentes
+- Mudanças que afetam a escalabilidade ou performance
+- Introdução de novas dependências ou padrões
+- Correções de decisões anteriores
+
+### Processo de Aprovação
+
+1. **Rascunho**: Status "Proposto" ou "Em Análise"
+2. **Revisão**: Discutir com equipe/stakeholders
+3. **Aprovação**: Status "Aprovado" + implementação
+4. **Superseded**: Quando substituído por nova decisão
+
 ## Estrutura do Projeto Atual
 
 - `src/`: Código fonte
