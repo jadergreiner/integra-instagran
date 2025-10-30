@@ -135,29 +135,45 @@ Este documento mantém o Product Backlog priorizado, estruturado em Épicos → 
 #### TASK-004: Implementar Backend de Logout
 
 **Status:** Planejado  
-**Descrição:** Criar rota GET/POST /admin/logout para encerrar sessão e redirecionar para login.  
+**Descrição:** Criar rota GET /admin/logout para encerrar sessão (cookies) e redirecionar para /admin/login.  
 **Responsável:** Pendente  
 **Estimativa:** 1h  
 **Commits Relacionados:** Pendente  
-**Testes Unitários:** Pendente  
+**Testes Unitários:**
+
+- `TestAuthService.test_quando_logout_entao_deve_limpar_sessao`
+- `TestUsuarioAdmin.test_quando_get_logout_entao_deve_redirecionar_para_login`  
 
 #### TASK-005: Adicionar Interface de Logout no Dashboard
 
 **Status:** Planejado  
-**Descrição:** Criar botão/link de logout no template do dashboard (/admin/dashboard).  
+**Descrição:** Criar botão/link "Logout" no header/topo do template do dashboard (/admin/dashboard).  
 **Responsável:** Pendente  
 **Estimativa:** 30min  
 **Commits Relacionados:** Pendente  
-**Testes Unitários:** Pendente  
+**Testes Unitários:**
+
+- `TestUsuarioAdmin.test_quando_dashboard_carregado_entao_deve_conter_botao_logout`  
 
 #### TASK-006: Implementar Proteção de Rotas Após Logout
 
 **Status:** Planejado  
-**Descrição:** Garantir que rotas protegidas redirecionem para login quando usuário não autenticado.  
+**Descrição:** Middleware para verificar cookies de sessão e redirecionar rotas protegidas para /admin/login.  
 **Responsável:** Pendente  
 **Estimativa:** 1h  
 **Commits Relacionados:** Pendente  
-**Testes Unitários:** Pendente
+**Testes Unitários:**
+
+- `TestUsuarioAdmin.test_quando_acessar_dashboard_sem_sessao_entao_deve_redirecionar_para_login`
+- `TestUsuarioAdmin.test_quando_acessar_rota_protegida_sem_autenticacao_entao_deve_redirecionar`
+
+### US-002 - Testes E2E
+
+**Testes End-to-End do Logout:**
+
+- `TestLogoutE2E.test_quando_fazer_logout_entao_deve_redirecionar_para_login`
+- `TestLogoutE2E.test_quando_acessar_dashboard_apos_logout_entao_deve_redirecionar_para_login`
+- `TestLogoutE2E.test_quando_fazer_login_apos_logout_entao_deve_funcionar_normalmente`
 
 ## Priorização
 
