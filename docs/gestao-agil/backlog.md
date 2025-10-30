@@ -243,22 +243,23 @@ Este documento mantém o Product Backlog priorizado, estruturado em Épicos → 
 
 #### TASK-007: Criar Modelo Pydantic para Licença
 
-**Status:** Planejado  
+**Status:** Concluído  
 **Descrição:** Criar modelo LicencaCreate e LicencaResponse em src/admin/licencas.py com validações.  
 **Responsável:** Copilot  
 **Estimativa:** 30min  
+**Commits Relacionados:** [feat: TASK-007 - Criar modelos Pydantic para Licença]  
 **Testes Unitários:**
 
-- `TestLicenca.test_quando_criar_modelo_com_dados_validos_entao_deve_validar_sucesso`
-- `TestLicenca.test_quando_criar_modelo_com_data_invalida_entao_deve_lancar_erro`
+- `TestLicenca.test_quando_criar_modelo_licenca_create_com_dados_validos_entao_deve_validar_sucesso`
+- `TestLicenca.test_quando_criar_modelo_licenca_create_com_data_invalida_entao_deve_lancar_erro`
 
 #### TASK-008: Implementar Rota POST /admin/licencas
 
-**Status:** Planejado  
+**Status:** Concluído  
 **Descrição:** Criar endpoint para criação de licenças com validação e persistência.  
 **Responsável:** Copilot  
 **Estimativa:** 1h  
-**Commits Relacionados:** [Implementar rota POST /admin/licencas]  
+**Commits Relacionados:** [feat: TASK-008 - Implementar rota POST /admin/licencas]  
 **Testes Unitários:**
 
 - `TestLicenca.test_quando_criar_licenca_com_dados_validos_entao_deve_ser_criada`
@@ -399,6 +400,6 @@ Este documento mantém o Product Backlog priorizado, estruturado em Épicos → 
 - Épicos Concluídos: 0/1
 - Features Concluídas: 0/3
 - Histórias Concluídas: 2/6 (US-001, US-002 ✅)
-- Tarefas Concluídas: 6/24 (TASK-001 até TASK-006 ✅)
+- Tarefas Concluídas: 8/24 (TASK-001 até TASK-008 ✅)
 
 Última Atualização: 30/10/2025
