@@ -21,6 +21,14 @@ def create_app():
     def dashboard(request: Request):
         return templates.TemplateResponse("dashboard.html", {"request": request})
     
+    @app.get("/admin/logout")
+    def logout(request: Request):
+        """TASK-005: Rota GET para logout do usuário"""
+        auth_service = AuthService()
+        auth_service.logout()
+        # Em produção, limparia cookies de sessão aqui
+        return templates.TemplateResponse("login.html", {"request": request})
+    
     return app
 
 app = create_app()

@@ -42,3 +42,14 @@ class TestAuthService:
         # Quando/Então
         with pytest.raises(ValueError, match="Credenciais inválidas"):
             auth_service.login(usuario, senha)
+
+    def test_quando_logout_entao_deve_limpar_sessao(self):
+        """TASK-004: Valida que logout limpa a sessão do usuário"""
+        # Dado
+        auth_service = AuthService()
+
+        # Quando
+        resultado = auth_service.logout()
+
+        # Então
+        assert resultado == {"status": "logout", "mensagem": "Sessão encerrada com sucesso"}

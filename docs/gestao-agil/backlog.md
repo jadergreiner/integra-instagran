@@ -134,11 +134,11 @@ Este documento mantém o Product Backlog priorizado, estruturado em Épicos → 
 
 #### TASK-004: Implementar Backend de Logout
 
-**Status:** Planejado  
+**Status:** Concluído  
 **Descrição:** Criar rota GET /admin/logout para encerrar sessão (cookies) e redirecionar para /admin/login.  
-**Responsável:** Pendente  
+**Responsável:** Copilot  
 **Estimativa:** 1h  
-**Commits Relacionados:** Pendente  
+**Commits Relacionados:** [Implementar método logout no AuthService], [Adicionar rota GET /admin/logout]  
 **Testes Unitários:**
 
 - `TestAuthService.test_quando_logout_entao_deve_limpar_sessao`
@@ -146,11 +146,11 @@ Este documento mantém o Product Backlog priorizado, estruturado em Épicos → 
 
 #### TASK-005: Adicionar Interface de Logout no Dashboard
 
-**Status:** Planejado  
+**Status:** Concluído  
 **Descrição:** Criar botão/link "Logout" no header/topo do template do dashboard (/admin/dashboard).  
-**Responsável:** Pendente  
+**Responsável:** Copilot  
 **Estimativa:** 30min  
-**Commits Relacionados:** Pendente  
+**Commits Relacionados:** [Corrigir link do botão logout no dashboard]  
 **Testes Unitários:**
 
 - `TestUsuarioAdmin.test_quando_dashboard_carregado_entao_deve_conter_botao_logout`  
