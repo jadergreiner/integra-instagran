@@ -28,7 +28,7 @@ Este documento mantém o Product Backlog priorizado, estruturado em Épicos → 
 
 **Status:** Planejado  
 **Descrição:** CRUD completo para licenças (criar, ativar, expirar, listar).  
-**Histórias Associadas:** Pendente  
+**Histórias Associadas:** US-003, US-004, US-005, US-006  
 **Duração Estimada:** 1-2 Sprints  
 
 #### FEAT-003: Gestão de Usuários
@@ -73,7 +73,71 @@ Este documento mantém o Product Backlog priorizado, estruturado em Épicos → 
 
 **Tarefas Associadas:** TASK-004, TASK-005, TASK-006  
 
-## Tarefas por História
+### FEAT-002 - Histórias
+
+#### US-003: Criar Nova Licença
+
+**Status:** Planejado  
+**Como:** Administrador do sistema  
+**Quero:** Criar uma nova licença para um cliente  
+**Para:** Provisionar acesso ao sistema  
+**Critérios de Aceitação:**
+
+- Formulário com campos obrigatórios: cliente_id, validade (data futura)
+- Status inicial definido como "ativa"
+- Validação de dados (cliente existe, data válida)
+- Redirecionamento para lista de licenças após criação
+- Mensagem de sucesso/erro apropriada
+
+**Tarefas Associadas:** TASK-007, TASK-008, TASK-009  
+
+#### US-004: Listar e Filtrar Licenças
+
+**Status:** Planejado  
+**Como:** Administrador do sistema  
+**Quero:** Visualizar todas as licenças com opções de filtro  
+**Para:** Gerenciar licenças ativamente  
+**Critérios de Aceitação:**
+
+- Tabela com colunas: ID, Cliente, Status, Validade, Ações
+- Filtros funcionais por status (todos/ativa/inativa/expirada)
+- Ordenação por data de validade
+- Links para editar/detalhes em cada linha
+- Interface responsiva e paginada
+
+**Tarefas Associadas:** TASK-010, TASK-011, TASK-012  
+
+#### US-005: Gerenciar Status da Licença
+
+**Status:** Planejado  
+**Como:** Administrador do sistema  
+**Quero:** Ativar, desativar ou expirar licenças existentes  
+**Para:** Controlar acesso dos clientes em tempo real  
+**Critérios de Aceitação:**
+
+- Botões de ação visíveis na listagem (Ativar/Desativar/Expirar)
+- Confirmação modal antes de mudança crítica (expirar)
+- Atualização imediata do status na interface
+- Validação de regras de negócio (não expirar licença já expirada)
+- Log de mudanças de status
+
+**Tarefas Associadas:** TASK-013, TASK-014, TASK-015  
+
+#### US-006: Editar Dados da Licença
+
+**Status:** Planejado  
+**Como:** Administrador do sistema  
+**Quero:** Modificar validade e dados da licença  
+**Para:** Atualizar informações conforme necessário  
+**Critérios de Aceitação:**
+
+- Formulário pré-preenchido com dados atuais
+- Validação de datas (validade deve ser futura)
+- Salvar apenas campos modificados
+- Redirecionamento para detalhes após edição
+- Histórico de modificações
+
+**Tarefas Associadas:** TASK-016, TASK-017, TASK-018  
 
 ### US-001 - Tarefas
 
@@ -175,16 +239,166 @@ Este documento mantém o Product Backlog priorizado, estruturado em Épicos → 
 - `TestLogoutE2E.test_quando_acessar_dashboard_apos_logout_entao_deve_redirecionar_para_login`
 - `TestLogoutE2E.test_quando_fazer_login_apos_logout_entao_deve_funcionar_normalmente`
 
+### US-003 - Tarefas
+
+#### TASK-007: Criar Modelo Pydantic para Licença
+
+**Status:** Planejado  
+**Descrição:** Criar modelo LicencaCreate e LicencaResponse em src/admin/licencas.py com validações.  
+**Responsável:** Copilot  
+**Estimativa:** 30min  
+**Testes Unitários:**
+
+- `TestLicenca.test_quando_criar_modelo_com_dados_validos_entao_deve_validar_sucesso`
+- `TestLicenca.test_quando_criar_modelo_com_data_invalida_entao_deve_lancar_erro`
+
+#### TASK-008: Implementar Rota POST /admin/licencas
+
+**Status:** Planejado  
+**Descrição:** Criar endpoint para criação de licenças com validação e persistência.  
+**Responsável:** Copilot  
+**Estimativa:** 1h  
+**Commits Relacionados:** [Implementar rota POST /admin/licencas]  
+**Testes Unitários:**
+
+- `TestLicenca.test_quando_criar_licenca_com_dados_validos_entao_deve_ser_criada`
+- `TestLicenca.test_quando_criar_licenca_com_cliente_inexistente_entao_deve_lancar_erro`
+
+#### TASK-009: Criar Template de Formulário de Licença
+
+**Status:** Planejado  
+**Descrição:** Criar template HTML para formulário de criação de licença (/admin/licencas/nova).  
+**Responsável:** Copilot  
+**Estimativa:** 45min  
+**Commits Relacionados:** [Criar template nova_licenca.html]  
+**Testes Unitários:**
+
+- `TestLicencaAdmin.test_quando_carregar_formulario_nova_licenca_entao_deve_renderizar_formulario`
+
+### US-004 - Tarefas
+
+#### TASK-010: Implementar Rota GET /admin/licencas
+
+**Status:** Planejado  
+**Descrição:** Criar endpoint para listagem de licenças com paginação e filtros.  
+**Responsável:** Copilot  
+**Estimativa:** 1h  
+**Commits Relacionados:** [Implementar rota GET /admin/licencas com filtros]  
+**Testes Unitários:**
+
+- `TestLicenca.test_quando_listar_licencas_entao_deve_retornar_lista_paginada`
+- `TestLicenca.test_quando_filtrar_por_status_entao_deve_retornar_apenas_licencas_filtradas`
+
+#### TASK-011: Criar Template de Listagem de Licenças
+
+**Status:** Planejado  
+**Descrição:** Criar template HTML para listagem de licenças com filtros e ações (/admin/licencas).  
+**Responsável:** Copilot  
+**Estimativa:** 1h  
+**Commits Relacionados:** [Criar template listagem_licencas.html]  
+**Testes Unitários:**
+
+- `TestLicencaAdmin.test_quando_carregar_listagem_entao_deve_mostrar_tabela_com_licencas`
+- `TestLicencaAdmin.test_quando_filtrar_licencas_entao_deve_aplicar_filtros`
+
+#### TASK-012: Implementar Ordenação e Paginação
+
+**Status:** Planejado  
+**Descrição:** Adicionar ordenação por data de validade e paginação na listagem.  
+**Responsável:** Copilot  
+**Estimativa:** 45min  
+**Commits Relacionados:** [Implementar ordenação e paginação na listagem de licenças]  
+**Testes Unitários:**
+
+- `TestLicenca.test_quando_ordenar_por_validade_entao_deve_ordenar_decrescente`
+- `TestLicenca.test_quando_pagina_licencas_entao_deve_retornar_pagina_correta`
+
+### US-005 - Tarefas
+
+#### TASK-013: Implementar Rotas de Mudança de Status
+
+**Status:** Planejado  
+**Descrição:** Criar endpoints POST /admin/licencas/{id}/ativar, /desativar, /expirar.  
+**Responsável:** Copilot  
+**Estimativa:** 1h  
+**Commits Relacionados:** [Implementar rotas de mudança de status de licença]  
+**Testes Unitários:**
+
+- `TestLicenca.test_quando_ativar_licenca_entao_deve_mudar_status_para_ativa`
+- `TestLicenca.test_quando_expirar_licenca_entao_deve_mudar_status_para_expirada`
+
+#### TASK-014: Adicionar Confirmação Modal para Ações Críticas
+
+**Status:** Planejado  
+**Descrição:** Implementar modal de confirmação JavaScript para ação de expirar licença.  
+**Responsável:** Copilot  
+**Estimativa:** 45min  
+**Commits Relacionados:** [Adicionar modal de confirmação para expiração de licença]  
+**Testes Unitários:**
+
+- `TestLicencaAdmin.test_quando_clicar_expirar_entao_deve_mostrar_modal_confirmacao`
+
+#### TASK-015: Implementar Log de Mudanças de Status
+
+**Status:** Planejado  
+**Descrição:** Criar sistema de log para registrar mudanças de status das licenças.  
+**Responsável:** Copilot  
+**Estimativa:** 1h  
+**Commits Relacionados:** [Implementar sistema de log para mudanças de status]  
+**Testes Unitários:**
+
+- `TestLicenca.test_quando_mudar_status_entao_deve_registrar_log`
+
+### US-006 - Tarefas
+
+#### TASK-016: Implementar Rota GET /admin/licencas/{id}/editar
+
+**Status:** Planejado  
+**Descrição:** Criar endpoint para carregar formulário de edição de licença.  
+**Responsável:** Copilot  
+**Estimativa:** 45min  
+**Commits Relacionados:** [Implementar rota GET /admin/licencas/{id}/editar]  
+**Testes Unitários:**
+
+- `TestLicenca.test_quando_carregar_edicao_entao_deve_retornar_dados_da_licenca`
+
+#### TASK-017: Implementar Rota PUT /admin/licencas/{id}
+
+**Status:** Planejado  
+**Descrição:** Criar endpoint para atualização de dados da licença.  
+**Responsável:** Copilot  
+**Estimativa:** 1h  
+**Commits Relacionados:** [Implementar rota PUT /admin/licencas/{id}]  
+**Testes Unitários:**
+
+- `TestLicenca.test_quando_atualizar_licenca_entao_deve_salvar_alteracoes`
+- `TestLicenca.test_quando_atualizar_com_data_invalida_entao_deve_lancar_erro`
+
+#### TASK-018: Criar Template de Edição de Licença
+
+**Status:** Planejado  
+**Descrição:** Criar template HTML para edição de licença com dados pré-preenchidos.  
+**Responsável:** Copilot  
+**Estimativa:** 45min  
+**Commits Relacionados:** [Criar template editar_licenca.html]  
+**Testes Unitários:**
+
+- `TestLicencaAdmin.test_quando_carregar_edicao_entao_deve_mostrar_formulario_preenchido`
+
 ## Priorização
 
-1. US-002 (segurança crítica - completar autenticação)
-2. FEAT-002 (gestão de licenças - funcionalidade core)
+1. US-002 (segurança crítica - completar autenticação) ✅ **CONCLUÍDA**
+2. FEAT-002 (gestão de licenças - funcionalidade core) - **EM PLANEJAMENTO**
+   - US-003: Criar Nova Licença (próxima prioridade)
+   - US-004: Listar e Filtrar Licenças
+   - US-005: Gerenciar Status da Licença
+   - US-006: Editar Dados da Licença
 
 ## Métricas de Progresso
 
 - Épicos Concluídos: 0/1
 - Features Concluídas: 0/3
-- Histórias Concluídas: 2/2 ✅ **US-002 Completa!**
-- Tarefas Concluídas: 6/6 ✅ **Todas as TASKs da US-002 completas!**
+- Histórias Concluídas: 2/6 (US-001, US-002 ✅)
+- Tarefas Concluídas: 6/24 (TASK-001 até TASK-006 ✅)
 
 Última Atualização: 30/10/2025
