@@ -3,6 +3,8 @@ import subprocess
 import time
 import signal
 import os
+import json
+from pathlib import Path
 from playwright.sync_api import Playwright, Browser, BrowserContext, Page
 
 
@@ -44,8 +46,16 @@ def server_process():
         process.wait()
 
 
+@pytest.fixture(scope="function", autouse=True)
+def clean_licencas_data():
+    """Limpa dados de licenças antes de cada teste para isolamento"""
+    licencas_file = Path("data/licencas.json")
+    if licencas_file.exists():
+        licencas_file.unlink()  # Remove o arquivo
+
+
 @pytest.fixture(scope="function")
-def page_with_server(page: Page, server_process):
+def page_with_server(page: Page, server_process, clean_licencas_data):
     """Fixture que garante que o servidor está rodando antes dos testes"""
     # Verifica se o servidor está respondendo
     try:

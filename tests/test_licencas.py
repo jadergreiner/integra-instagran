@@ -42,7 +42,7 @@ class TestLicenca:
 
         # Quando
         response = client.post(
-            "/admin/licencas/",
+            "/admin/licencas/api",
             json=dados_licenca,
             headers=auth_headers
         )
@@ -73,7 +73,7 @@ class TestLicenca:
 
         # Quando
         response = client.post(
-            "/admin/licencas/",
+            "/admin/licencas/api",
             json=dados_licenca,
             headers=auth_headers
         )
@@ -92,7 +92,7 @@ class TestLicenca:
 
         # Quando
         response = client.post(
-            "/admin/licencas/",
+            "/admin/licencas/api",
             json=dados_licenca,
             headers=auth_headers
         )

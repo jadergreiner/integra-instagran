@@ -77,7 +77,7 @@ Este documento mantém o Product Backlog priorizado, estruturado em Épicos → 
 
 #### US-003: Criar Nova Licença
 
-**Status:** Planejado  
+**Status:** ✅ Concluído  
 **Como:** Administrador do sistema  
 **Quero:** Criar uma nova licença para um cliente  
 **Para:** Provisionar acesso ao sistema  
