@@ -204,6 +204,14 @@ Todos os ADRs devem seguir esta estrutura padronizada para consistência e clare
 - Todo o código Python deve seguir o padrão [PEP8](https://peps.python.org/pep-0008/).
 - Utilize ferramentas de lint (ex: flake8, pylint) para garantir conformidade e qualidade.
 - Recomenda-se configurar o lint no ambiente de desenvolvimento e no pipeline de CI/CD.
+
+## Rastreabilidade Ágil e Documentação de Código
+
+- **Sempre referencie a TASK de origem**: Todo código novo deve incluir comentário indicando qual TASK do backlog ágil está sendo implementada.
+- **Formato padrão**: Use comentários como `# TASK-XXX: Descrição breve` no início de classes, funções ou módulos.
+- **Exemplo**: Para uma classe de modelo: `class LicencaCreate(BaseModel):  # TASK-007: Criar Modelo Pydantic para Licença`
+- **Propósito**: Manter rastreabilidade bidirecional entre backlog ágil e código implementado.
+- **Aplicação**: Válido para classes, funções, métodos, testes unitários e qualquer artefato de código.
 ## Padrões de Integração e Princípios de Projeto
 
 - Integração com APIs deve ser feita de forma segura e escalável.
