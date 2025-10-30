@@ -184,7 +184,7 @@ Este documento mantém o Product Backlog priorizado, estruturado em Épicos → 
 
 - Épicos Concluídos: 0/1
 - Features Concluídas: 0/3
-- Histórias Concluídas: 1/2
-- Tarefas Concluídas: 3/6
+- Histórias Concluídas: 2/2 ✅ **US-002 Completa!**
+- Tarefas Concluídas: 6/6 ✅ **Todas as TASKs da US-002 completas!**
 
 Última Atualização: 30/10/2025
