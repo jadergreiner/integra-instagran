@@ -70,6 +70,18 @@ Essa estrutura garante que a equipe esteja sempre conectada à estratégia de al
 6. **Documentação**: Atualizar diário, ADRs mencionando códigos da gestão ágil.
 7. **Premissa**: Nada se desenvolve sem registro e aprovação na gestão ágil.
 
+### Processo de Refinamento de Tasks
+- **Antes de iniciar uma nova task**: Sempre pergunte ao usuário se deseja refinar e revisar a task.
+- **Quando o usuário responder sim**: Repasse a task completa e pergunte sobre pontos específicos que podem ser refinados, revisados e reorganizados:
+  - **Requisitos funcionais**: Especificações detalhadas do que deve ser implementado
+  - **Critérios de aceitação**: Condições claras para considerar a task concluída
+  - **Dependências**: Outras tasks ou recursos necessários
+  - **Estimativa de esforço**: Tempo estimado para conclusão
+  - **Testes necessários**: Cenários de teste unitários, integração e E2E
+  - **Impacto no sistema**: Como a implementação afetará outras partes do sistema
+  - **Riscos identificados**: Possíveis problemas ou complicações
+  - **Documentação necessária**: Atualizações em diário, ADRs ou outras documentações
+
 ## Padrão para Architecture Decision Records (ADRs)
 
 ### Template Padrão de ADR
