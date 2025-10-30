@@ -44,16 +44,16 @@ Este documento mantém o Product Backlog priorizado, estruturado em Épicos → 
 
 #### US-001: Login de Administrador
 
-**Status:** Em Andamento  
+**Status:** ✅ Concluído  
 **Como:** Administrador do sistema  
 **Quero:** Fazer login no portal administrativo  
 **Para:** Acessar funcionalidades de gestão de forma segura  
 **Critérios de Aceitação:**
 
-- Página de login acessível em /admin/login
-- Autenticação com usuário/senha válidos
-- Redirecionamento para dashboard após login
-- Mensagem de erro para credenciais inválidas
+- ✅ Página de login acessível em /admin/login
+- ✅ Autenticação com usuário/senha válidos
+- ✅ Redirecionamento para dashboard após login
+- ✅ Mensagem de erro para credenciais inválidas
 
 **Tarefas Associadas:** TASK-001, TASK-002, TASK-003  
 
@@ -63,8 +63,15 @@ Este documento mantém o Product Backlog priorizado, estruturado em Épicos → 
 **Como:** Administrador logado  
 **Quero:** Fazer logout do sistema  
 **Para:** Encerrar sessão de forma segura  
-**Critérios de Aceitação:** Pendente  
-**Tarefas Associadas:** Pendente  
+**Critérios de Aceitação:**
+
+- Botão/link de logout visível no dashboard
+- Logout encerra sessão completamente
+- Redirecionamento automático para página de login
+- Tentativa de acesso direto ao dashboard redireciona para login
+- Mensagem de confirmação opcional
+
+**Tarefas Associadas:** TASK-004, TASK-005, TASK-006  
 
 ## Tarefas por História
 
@@ -121,16 +128,47 @@ Este documento mantém o Product Backlog priorizado, estruturado em Épicos → 
 - `TestLicenca.test_quando_criar_licenca_com_dados_validos_entao_deve_ser_criada_com_sucesso`
 - `TestLicenca.test_quando_criar_licenca_com_status_invalido_entao_deve_lancar_erro`
 
+## Tarefas por História
+
+### US-002 - Tarefas
+
+#### TASK-004: Implementar Backend de Logout
+
+**Status:** Planejado  
+**Descrição:** Criar rota GET/POST /admin/logout para encerrar sessão e redirecionar para login.  
+**Responsável:** Pendente  
+**Estimativa:** 1h  
+**Commits Relacionados:** Pendente  
+**Testes Unitários:** Pendente  
+
+#### TASK-005: Adicionar Interface de Logout no Dashboard
+
+**Status:** Planejado  
+**Descrição:** Criar botão/link de logout no template do dashboard (/admin/dashboard).  
+**Responsável:** Pendente  
+**Estimativa:** 30min  
+**Commits Relacionados:** Pendente  
+**Testes Unitários:** Pendente  
+
+#### TASK-006: Implementar Proteção de Rotas Após Logout
+
+**Status:** Planejado  
+**Descrição:** Garantir que rotas protegidas redirecionem para login quando usuário não autenticado.  
+**Responsável:** Pendente  
+**Estimativa:** 1h  
+**Commits Relacionados:** Pendente  
+**Testes Unitários:** Pendente
+
 ## Priorização
 
-1. US-001 (crítico para acesso)
-2. US-002 (segurança)
+1. US-002 (segurança crítica - completar autenticação)
+2. FEAT-002 (gestão de licenças - funcionalidade core)
 
 ## Métricas de Progresso
 
 - Épicos Concluídos: 0/1
 - Features Concluídas: 0/3
-- Histórias Concluídas: 0/2
-- Tarefas Concluídas: 3/3
+- Histórias Concluídas: 1/2
+- Tarefas Concluídas: 3/6
 
-Última Atualização: 29/10/2025
+Última Atualização: 30/10/2025
