@@ -24,7 +24,10 @@ def login(usuario: str = Form(...), senha: str = Form(...)):
     auth_service = AuthService()
     try:
         resultado = auth_service.login(usuario, senha)
-        return RedirectResponse(url="/admin/dashboard", status_code=302)
+        # Define cookie de sessão após login bem-sucedido
+        response = RedirectResponse(url="/admin/dashboard", status_code=302)
+        response.set_cookie(key="session", value="authenticated", httponly=True)
+        return response
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
 

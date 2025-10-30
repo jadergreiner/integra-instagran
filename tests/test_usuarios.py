@@ -48,3 +48,27 @@ class TestUsuarioAdmin:
         # Então
         assert response.status_code == 302  # Redirect
         assert response.headers["location"] == "/admin/dashboard"
+
+    def test_quando_acessar_dashboard_sem_sessao_entao_deve_redirecionar_para_login(self):
+        """TASK-006: Valida proteção de rotas - middleware deve redirecionar para login"""
+        # Dado
+        client = TestClient(app)
+
+        # Quando - acessar dashboard sem sessão
+        response = client.get("/admin/dashboard", follow_redirects=False)
+
+        # Então
+        assert response.status_code == 302  # Redirect para login
+        assert response.headers["location"] == "/admin/login"
+
+    def test_quando_acessar_rota_protegida_sem_autenticacao_entao_deve_redirecionar(self):
+        """TASK-006: Valida proteção de todas as rotas admin exceto login"""
+        # Dado
+        client = TestClient(app)
+        rotas_protegidas = ["/admin/usuarios", "/admin/licencas"]
+
+        # Quando e Então - todas as rotas protegidas devem redirecionar
+        for rota in rotas_protegidas:
+            response = client.get(rota, follow_redirects=False)
+            assert response.status_code == 302, f"Rota {rota} deve redirecionar"
+            assert response.headers["location"] == "/admin/login", f"Rota {rota} deve redirecionar para login"

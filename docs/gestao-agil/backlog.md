@@ -157,11 +157,11 @@ Este documento mantém o Product Backlog priorizado, estruturado em Épicos → 
 
 #### TASK-006: Implementar Proteção de Rotas Após Logout
 
-**Status:** Planejado  
+**Status:** Concluído  
 **Descrição:** Middleware para verificar cookies de sessão e redirecionar rotas protegidas para /admin/login.  
-**Responsável:** Pendente  
+**Responsável:** Copilot  
 **Estimativa:** 1h  
-**Commits Relacionados:** Pendente  
+**Commits Relacionados:** [Implementar middleware de autenticação], [Atualizar rota login com cookies], [Atualizar rota logout para limpar cookies]  
 **Testes Unitários:**
 
 - `TestUsuarioAdmin.test_quando_acessar_dashboard_sem_sessao_entao_deve_redirecionar_para_login`

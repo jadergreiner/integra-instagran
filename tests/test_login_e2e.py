@@ -71,16 +71,15 @@ class TestLoginE2E:
         expect(page_with_server).to_have_url("http://127.0.0.1:8000/admin/login")
         # Similar ao teste anterior, o erro é tratado no backend
 
-    def test_quando_acessar_dashboard_direto_entao_deve_carregar_pagina(self, page_with_server: Page):
-        """TASK-003: Valida acesso direto ao dashboard (sem autenticação real)"""
-        """Quando acessar dashboard direto, então deve carregar a página"""
+    def test_quando_acessar_dashboard_direto_entao_deve_redirecionar_para_login(self, page_with_server: Page):
+        """TASK-006: Valida proteção de rotas - dashboard deve redirecionar para login sem autenticação"""
         # Dado - nenhum
 
         # Quando
         page_with_server.goto("http://127.0.0.1:8000/admin/dashboard")
 
-        # Então
-        expect(page_with_server).to_have_title("Dashboard Administrativo")
-        expect(page_with_server.locator("h1")).to_contain_text("Dashboard Administrativo")
-        expect(page_with_server.locator("a[href='/admin/usuarios']")).to_be_visible()
-        expect(page_with_server.locator("a[href='/admin/licencas']")).to_be_visible()
+        # Então - deve redirecionar para página de login
+        expect(page_with_server).to_have_title("Login Administrador")
+        expect(page_with_server.locator("h2")).to_contain_text("Login do Administrador")
+        expect(page_with_server.locator("input[name='usuario']")).to_be_visible()
+        expect(page_with_server.locator("input[name='senha']")).to_be_visible()
