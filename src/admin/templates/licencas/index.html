@@ -41,6 +41,62 @@
             <a href="/admin/licencas/nova" class="btn btn-primary">+ Nova Licença</a>
         </div>
 
+        <!-- Filtros -->
+        <div class="filters" style="background: #f8f9fa; padding: 16px; border-radius: 4px; margin-bottom: 20px;">
+            <form method="GET" style="display: flex; gap: 16px; align-items: end; flex-wrap: wrap;">
+                <div>
+                    <label for="cliente_id" style="display: block; margin-bottom: 4px; font-weight: bold;">Cliente ID:</label>
+                    <input type="number" id="cliente_id" name="cliente_id" value="{{ filtros.cliente_id or '' }}"
+                           placeholder="Ex: 100" style="padding: 6px; border: 1px solid #ccc; border-radius: 4px; width: 100px;">
+                </div>
+
+                <div>
+                    <label for="status" style="display: block; margin-bottom: 4px; font-weight: bold;">Status:</label>
+                    <select id="status" name="status" style="padding: 6px; border: 1px solid #ccc; border-radius: 4px;">
+                        <option value="todos" {% if filtros.status == 'todos' or not filtros.status %}selected{% endif %}>Todos</option>
+                        <option value="ativa" {% if filtros.status == 'ativa' %}selected{% endif %}>Ativa</option>
+                        <option value="inativa" {% if filtros.status == 'inativa' %}selected{% endif %}>Inativa</option>
+                        <option value="expirada" {% if filtros.status == 'expirada' %}selected{% endif %}>Expirada</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="data_inicio" style="display: block; margin-bottom: 4px; font-weight: bold;">Validade de:</label>
+                    <input type="date" id="data_inicio" name="data_inicio" value="{{ filtros.data_inicio or '' }}"
+                           style="padding: 6px; border: 1px solid #ccc; border-radius: 4px;">
+                </div>
+
+                <div>
+                    <label for="data_fim" style="display: block; margin-bottom: 4px; font-weight: bold;">Até:</label>
+                    <input type="date" id="data_fim" name="data_fim" value="{{ filtros.data_fim or '' }}"
+                           style="padding: 6px; border: 1px solid #ccc; border-radius: 4px;">
+                </div>
+
+                <div>
+                    <label for="ordenar_por" style="display: block; margin-bottom: 4px; font-weight: bold;">Ordenar por:</label>
+                    <select id="ordenar_por" name="ordenar_por" style="padding: 6px; border: 1px solid #ccc; border-radius: 4px;">
+                        <option value="validade" {% if filtros.ordenar_por == 'validade' %}selected{% endif %}>Validade</option>
+                        <option value="cliente_id" {% if filtros.ordenar_por == 'cliente_id' %}selected{% endif %}>Cliente</option>
+                        <option value="status" {% if filtros.ordenar_por == 'status' %}selected{% endif %}>Status</option>
+                        <option value="criado_em" {% if filtros.ordenar_por == 'criado_em' %}selected{% endif %}>Data Criação</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="ordem" style="display: block; margin-bottom: 4px; font-weight: bold;">Ordem:</label>
+                    <select id="ordem" name="ordem" style="padding: 6px; border: 1px solid #ccc; border-radius: 4px;">
+                        <option value="desc" {% if filtros.ordem == 'desc' %}selected{% endif %}>Decrescente</option>
+                        <option value="asc" {% if filtros.ordem == 'asc' %}selected{% endif %}>Crescente</option>
+                    </select>
+                </div>
+
+                <div style="display: flex; gap: 8px;">
+                    <button type="submit" class="btn btn-primary" style="padding: 6px 12px;">Filtrar</button>
+                    <a href="/admin/licencas/" class="btn" style="background: #6c757d; color: white; padding: 6px 12px; text-decoration: none;">Limpar</a>
+                </div>
+            </form>
+        </div>
+
         {% if licencas %}
         <table>
             <thead>
@@ -71,6 +127,29 @@
                 {% endfor %}
             </tbody>
         </table>
+
+        <!-- Paginação -->
+        {% if paginacao.total_paginas > 1 %}
+        <div class="pagination" style="margin-top: 20px; text-align: center;">
+            <div style="display: inline-flex; gap: 8px; align-items: center;">
+                {% if paginacao.pagina_atual > 1 %}
+                <a href="?{% for key, value in request.query_params.items() %}{% if key != 'pagina' %}{{ key }}={{ value }}&{% endif %}{% endfor %}pagina={{ paginacao.pagina_atual - 1 }}"
+                   class="btn" style="background: #007bff; color: white; padding: 6px 12px; text-decoration: none;">← Anterior</a>
+                {% endif %}
+
+                <span style="padding: 6px 12px; color: #666;">
+                    Página {{ paginacao.pagina_atual }} de {{ paginacao.total_paginas }}
+                    ({{ paginacao.total_itens }} itens)
+                </span>
+
+                {% if paginacao.pagina_atual < paginacao.total_paginas %}
+                <a href="?{% for key, value in request.query_params.items() %}{% if key != 'pagina' %}{{ key }}={{ value }}&{% endif %}{% endfor %}pagina={{ paginacao.pagina_atual + 1 }}"
+                   class="btn" style="background: #007bff; color: white; padding: 6px 12px; text-decoration: none;">Próxima →</a>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+
         {% else %}
         <div class="empty">
             <h3>Nenhuma licença encontrada</h3>

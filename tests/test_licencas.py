@@ -100,3 +100,143 @@ class TestLicenca:
         # Então
         assert response.status_code == 400
         assert "Data de validade deve ser futura" in response.json()["detail"]
+
+
+class TestFiltrosLicencas:
+    """
+    Testes para funcionalidades de filtro e paginação de licenças
+    TASK-011: Implementar filtros e paginação para listagem de licenças
+    """
+
+    @pytest.fixture(autouse=True)
+    def setup_dados_teste(self, cleanup_data):
+        """Cria dados de teste para filtros"""
+        from src.admin.licencas import _save_licencas
+
+        licencas_teste = [
+            {
+                "id": 1,
+                "cliente_id": 100,
+                "status": "ativa",
+                "validade": (date.today() + timedelta(days=30)).isoformat(),
+                "criado_em": date.today().isoformat()
+            },
+            {
+                "id": 2,
+                "cliente_id": 100,
+                "status": "inativa",
+                "validade": (date.today() + timedelta(days=60)).isoformat(),
+                "criado_em": date.today().isoformat()
+            },
+            {
+                "id": 3,
+                "cliente_id": 200,
+                "status": "ativa",
+                "validade": (date.today() + timedelta(days=90)).isoformat(),
+                "criado_em": date.today().isoformat()
+            },
+            {
+                "id": 4,
+                "cliente_id": 200,
+                "status": "expirada",
+                "validade": (date.today() - timedelta(days=10)).isoformat(),
+                "criado_em": (date.today() - timedelta(days=40)).isoformat()
+            }
+        ]
+        _save_licencas(licencas_teste)
+
+    def test_quando_filtrar_por_cliente_id_entao_deve_retornar_apenas_licencas_do_cliente(self):
+        """TASK-011: Valida filtro por cliente_id"""
+        from src.admin.licencas import _filtrar_por_cliente
+
+        # Dado
+        licencas = [
+            {"id": 1, "cliente_id": 100, "status": "ativa"},
+            {"id": 2, "cliente_id": 100, "status": "inativa"},
+            {"id": 3, "cliente_id": 200, "status": "ativa"}
+        ]
+
+        # Quando
+        resultado = _filtrar_por_cliente(licencas, 100)
+
+        # Então
+        assert len(resultado) == 2
+        assert all(l["cliente_id"] == 100 for l in resultado)
+        assert resultado[0]["id"] == 1
+        assert resultado[1]["id"] == 2
+
+    def test_quando_filtrar_por_status_entao_deve_retornar_apenas_licencas_com_status_especifico(self):
+        """TASK-011: Valida filtro por status"""
+        from src.admin.licencas import _filtrar_por_status
+
+        # Dado
+        licencas = [
+            {"id": 1, "status": "ativa"},
+            {"id": 2, "status": "inativa"},
+            {"id": 3, "status": "ativa"}
+        ]
+
+        # Quando
+        resultado = _filtrar_por_status(licencas, "ativa")
+
+        # Então
+        assert len(resultado) == 2
+        assert all(l["status"] == "ativa" for l in resultado)
+
+    def test_quando_filtrar_por_periodo_validade_entao_deve_retornar_licencas_no_periodo(self):
+        """TASK-011: Valida filtro por período de validade"""
+        from src.admin.licencas import _filtrar_por_periodo_validade
+
+        # Dado
+        hoje = date.today()
+        licencas = [
+            {"id": 1, "validade": (hoje + timedelta(days=10)).isoformat()},
+            {"id": 2, "validade": (hoje + timedelta(days=50)).isoformat()},
+            {"id": 3, "validade": (hoje + timedelta(days=100)).isoformat()}
+        ]
+
+        # Quando
+        data_inicio = hoje + timedelta(days=20)
+        data_fim = hoje + timedelta(days=80)
+        resultado = _filtrar_por_periodo_validade(licencas, data_inicio, data_fim)
+
+        # Então
+        assert len(resultado) == 1
+        assert resultado[0]["id"] == 2
+
+    def test_quando_aplicar_paginacao_entao_deve_retornar_pagina_correta(self):
+        """TASK-011: Valida paginação de resultados"""
+        from src.admin.licencas import _aplicar_paginacao
+
+        # Dado
+        licencas = [{"id": i} for i in range(1, 11)]  # 10 licenças
+
+        # Quando
+        pagina, total_paginas, itens_pagina = _aplicar_paginacao(licencas, pagina=2, por_pagina=3)
+
+        # Então
+        assert len(pagina) == 3  # Página 2 com 3 itens
+        assert pagina[0]["id"] == 4  # IDs 4, 5, 6
+        assert pagina[1]["id"] == 5
+        assert pagina[2]["id"] == 6
+        assert total_paginas == 4  # ceil(10/3) = 4
+        assert itens_pagina == 3
+
+    def test_quando_filtrar_e_paginar_entao_deve_aplicar_ambos_corretamente(self):
+        """TASK-011: Valida combinação de filtros e paginação"""
+        from src.admin.licencas import _filtrar_por_status, _aplicar_paginacao
+
+        # Dado
+        licencas = [
+            {"id": i, "status": "ativa" if i % 2 == 0 else "inativa"}
+            for i in range(1, 11)  # 10 licenças: 5 ativas, 5 inativas
+        ]
+
+        # Quando
+        filtradas = _filtrar_por_status(licencas, "ativa")  # 5 ativas
+        pagina, total_paginas, itens_pagina = _aplicar_paginacao(filtradas, pagina=1, por_pagina=2)
+
+        # Então
+        assert len(pagina) == 2  # Primeira página com 2 itens
+        assert all(l["status"] == "ativa" for l in pagina)
+        assert total_paginas == 3  # ceil(5/2) = 3
