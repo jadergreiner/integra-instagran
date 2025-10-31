@@ -2,7 +2,7 @@
 from fastapi import APIRouter, HTTPException, Depends, Request, Form
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
-from src.admin.models import LicencaCreate, LicencaResponse
+from src.admin.models import LicencaCreate, LicencaResponse, LicencaStatusUpdate
 from src.core.auth import get_current_user
 from datetime import date
 import json
@@ -312,3 +312,54 @@ async def listar_licencas(
             "total_itens": len(licencas)
         }
     })
+
+
+@router.post("/{licenca_id}/status", response_model=LicencaResponse)
+def alterar_status_licenca(
+    licenca_id: int,
+    status_update: LicencaStatusUpdate,
+    current_user: dict = Depends(get_current_user)
+):
+    """
+    Altera o status de uma licença existente - TASK-013
+    """
+    # Carregar licenças
+    licencas = _load_licencas()
+    
+    # Encontrar licença
+    licenca = None
+    for l in licencas:
+        if l["id"] == licenca_id:
+            licenca = l
+            break
+    
+    if not licenca:
+        raise HTTPException(status_code=404, detail="Licença não encontrada")
+    
+    # Validar regras de negócio
+    if status_update.status == "expirada" and licenca["status"] == "expirada":
+        raise HTTPException(status_code=400, detail="Licença já está expirada")
+    
+    # Validar status válido
+    status_validos = ["ativa", "inativa", "expirada"]
+    if status_update.status not in status_validos:
+        raise HTTPException(status_code=400, detail="Status inválido")
+    
+    # Atualizar status
+    licenca["status"] = status_update.status
+    
+    # Log da mudança (simples - em produção seria mais robusto)
+    # TODO: Implementar sistema de logs mais completo
+    print(f"LOG: Status da licença {licenca_id} alterado para '{status_update.status}' por usuário {current_user.get('id', 'desconhecido')}")
+    
+    # Salvar
+    _save_licencas(licencas)
+    
+    # Retornar licença atualizada
+    return LicencaResponse(
+        id=licenca["id"],
+        cliente_id=licenca["cliente_id"],
+        status=licenca["status"],
+        validade=date.fromisoformat(licenca["validade"]),
+        criado_em=date.fromisoformat(licenca["criado_em"]) if licenca.get("criado_em") else None
+    )
