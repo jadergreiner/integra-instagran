@@ -4,7 +4,8 @@
 
 ### Atividades Realizadas
 
-- **US-005 iniciada**: Implementada funcionalidade completa de gestão de status de licenças seguindo TDD. Backend com endpoint POST `/admin/licencas/{id}/status` para mudança de status, validação de regras de negócio e logging. Frontend com botões de ação (Ativar/Desativar/Expirar) e JavaScript para chamadas AJAX. Testes unitários completos para todas as validações e cenários de erro.
+- **Consolidação de PRs**: Merge estratégico das branches concluídas (US-003, US-004, US-005) para develop, evitando conflitos futuros. Todas as funcionalidades do FEAT-002 (Gestão de Licenças) agora consolidadas na branch principal.
+- **US-005 concluída**: Implementada funcionalidade completa de gestão de status de licenças seguindo TDD. Backend com endpoint POST `/admin/licencas/{id}/status` para mudança de status, validação de regras de negócio e logging. Frontend com botões de ação (Ativar/Desativar/Expirar) e JavaScript para chamadas AJAX. Testes unitários completos para todas as validações e cenários de erro.
 - **Backend implementado**: Criado endpoint `alterar_status_licenca()` com validações (licença existe, status válido, não expirar já expirada). Modelo Pydantic `LicencaStatusUpdate` para validação de entrada. Logging simples de mudanças de status.
 - **Frontend atualizado**: Template `index.html` com botões de ação funcionais, confirmação modal para expiração crítica, e JavaScript assíncrono para chamadas à API. Interface responsiva mantendo padrão visual estabelecido.
 - **Testes unitários criados**: 6 testes TDD para mudança de status, validações e tratamento de erros, todos passando. Cobertura completa de cenários positivos e negativos.
@@ -115,4 +116,5 @@
  
  
  
+  
  
