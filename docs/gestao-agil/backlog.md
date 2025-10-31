@@ -109,17 +109,17 @@ Este documento mantém o Product Backlog priorizado, estruturado em Épicos → 
 
 #### US-005: Gerenciar Status da Licença
 
-**Status:** Em Andamento  
+**Status:** ✅ Concluído  
 **Como:** Administrador do sistema  
 **Quero:** Ativar, desativar ou expirar licenças existentes  
 **Para:** Controlar acesso dos clientes em tempo real  
 **Critérios de Aceitação:**
 
-- Botões de ação visíveis na listagem (Ativar/Desativar/Expirar)
-- Confirmação modal antes de mudança crítica (expirar)
-- Atualização imediata do status na interface
-- Validação de regras de negócio (não expirar licença já expirada)
-- Log de mudanças de status
+- ✅ Botões de ação visíveis na listagem (Ativar/Desativar/Expirar)
+- ✅ Confirmação modal antes de mudança crítica (expirar)
+- ✅ Atualização imediata do status na interface
+- ✅ Validação de regras de negócio (não expirar licença já expirada)
+- ✅ Log de mudanças de status
 
 **Tarefas Associadas:** TASK-013, TASK-014, TASK-015  
 
