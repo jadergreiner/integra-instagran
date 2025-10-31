@@ -1,4 +1,21 @@
 from pydantic import BaseModel, EmailStr, Field
+from datetime import date
+from typing import Optional
+
+
+class LicencaCreate(BaseModel):
+    """Modelo para criação de nova licença - TASK-007"""
+    cliente_id: int = Field(..., description="ID do cliente que receberá a licença")
+    validade: date = Field(..., description="Data de validade da licença (deve ser futura)")
+
+
+class LicencaResponse(BaseModel):
+    """Modelo para resposta de licença - TASK-007"""
+    id: int
+    cliente_id: int
+    status: str
+    validade: date
+    criado_em: Optional[date] = None
 
 
 class Licenca(BaseModel):

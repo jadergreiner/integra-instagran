@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Licenças - Admin</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f7f7f7; }
+        .container { max-width: 1000px; margin: 40px auto; background: #fff; padding: 32px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        h1 { text-align: center; margin-bottom: 24px; color: #333; }
+        .nav { margin-bottom: 24px; }
+        .nav a { color: #007bff; text-decoration: none; }
+        .nav a:hover { text-decoration: underline; }
+        .actions { margin-bottom: 24px; text-align: right; }
+        .btn { padding: 8px 16px; border: none; border-radius: 4px; font-size: 14px; cursor: pointer; text-decoration: none; display: inline-block; }
+        .btn-primary { background: #007bff; color: #fff; }
+        .btn-primary:hover { background: #0056b3; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
+        th { background-color: #f8f9fa; font-weight: bold; }
+        tr:hover { background-color: #f5f5f5; }
+        .status-ativa { color: #28a745; font-weight: bold; }
+        .status-inativa { color: #dc3545; font-weight: bold; }
+        .status-expirada { color: #6c757d; font-weight: bold; }
+        .success { color: #28a745; background: #d4edda; border: 1px solid #c3e6cb; padding: 8px; border-radius: 4px; margin-bottom: 16px; }
+        .empty { text-align: center; color: #6c757d; padding: 40px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="nav">
+            <a href="/admin/dashboard">← Voltar ao Dashboard</a>
+        </div>
+
+        <h1>Gerenciar Licenças</h1>
+
+        {% if success %}
+        <div class="success">{{ success }}</div>
+        {% endif %}
+
+        <div class="actions">
+            <a href="/admin/licencas/nova" class="btn btn-primary">+ Nova Licença</a>
+        </div>
+
+        {% if licencas %}
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Cliente</th>
+                    <th>Status</th>
+                    <th>Validade</th>
+                    <th>Criado em</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for licenca in licencas %}
+                <tr>
+                    <td>{{ licenca.id }}</td>
+                    <td>Cliente {{ licenca.cliente_id }}</td>
+                    <td class="status-{{ licenca.status|lower }}">{{ licenca.status|title }}</td>
+                    <td>{{ licenca.validade }}</td>
+                    <td>{{ licenca.criado_em }}</td>
+                    <td>
+                        <a href="/admin/licencas/{{ licenca.id }}/editar">Editar</a> |
+                        <a href="#" onclick="confirmarAcao('{{ licenca.id }}', 'ativar')">Ativar</a> |
+                        <a href="#" onclick="confirmarAcao('{{ licenca.id }}', 'desativar')">Desativar</a> |
+                        <a href="#" onclick="confirmarAcao('{{ licenca.id }}', 'expirar')">Expirar</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <div class="empty">
+            <h3>Nenhuma licença encontrada</h3>
+            <p>Comece criando a primeira licença do sistema.</p>
+            <a href="/admin/licencas/nova" class="btn btn-primary">Criar Primeira Licença</a>
+        </div>
+        {% endif %}
+    </div>
+
+    <script>
+        function confirmarAcao(licencaId, acao) {
+            const acoes = {
+                'ativar': 'ativar',
+                'desativar': 'desativar',
+                'expirar': 'EXPIRAR'
+            };
+
+            if (acao === 'expirar') {
+                if (!confirm(`Tem certeza que deseja EXPIRAR a licença ${licencaId}? Esta ação não pode ser desfeita.`)) {
+                    return;
+                }
+            }
+
+            // TODO: Implementar chamada para API de mudança de status
+            alert(`Ação ${acoes[acao]} para licença ${licencaId} - será implementada em breve`);
+        }
+    </script>
+</body>
+</html>

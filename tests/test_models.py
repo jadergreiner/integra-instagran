@@ -1,5 +1,6 @@
 import pytest
-from src.admin.models import Usuario, Licenca
+from src.admin.models import Usuario, Licenca, LicencaCreate, LicencaResponse
+from datetime import date
 
 
 class TestUsuario:
@@ -93,3 +94,30 @@ class TestLicenca:
         # Quando/Então
         with pytest.raises(ValueError):
             Licenca(**dados_invalidos)
+
+    def test_quando_criar_modelo_licenca_create_com_dados_validos_entao_deve_validar_sucesso(self):
+        """TASK-007: Valida criação bem-sucedida do modelo LicencaCreate"""
+        # Dado
+        dados = {
+            "cliente_id": 100,
+            "validade": date(2025, 12, 31)
+        }
+
+        # Quando
+        licenca_create = LicencaCreate(**dados)
+
+        # Então
+        assert licenca_create.cliente_id == 100
+        assert licenca_create.validade == date(2025, 12, 31)
+
+    def test_quando_criar_modelo_licenca_create_com_data_invalida_entao_deve_lancar_erro(self):
+        """TASK-007: Valida validação de data no modelo LicencaCreate"""
+        # Dado
+        dados_invalidos = {
+            "cliente_id": 100,
+            "validade": "data-invalida"  # Data deve ser objeto date
+        }
+
+        # Quando/Então
+        with pytest.raises(ValueError):
+            LicencaCreate(**dados_invalidos)

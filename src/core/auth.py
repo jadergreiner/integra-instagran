@@ -1,3 +1,5 @@
+from fastapi import HTTPException, Depends, Request
+
 class AuthService:
     def login(self, usuario: str, senha: str):
         # Simulação de autenticação hardcoded para TDD
@@ -13,3 +15,17 @@ class AuthService:
 
     def verificar_permissao(self):
         pass
+
+
+def get_current_user(request: Request):
+    """
+    Dependência FastAPI para verificar autenticação via cookies
+    TASK-008: Adicionada para proteger rotas administrativas
+    """
+    # Verificar se há cookie de sessão (simulação)
+    session_cookie = request.cookies.get("session")
+    if not session_cookie or session_cookie != "authenticated":
+        raise HTTPException(status_code=401, detail="Não autenticado")
+
+    # Retornar usuário simulado
+    return {"usuario": "admin", "permissao": "admin"}
