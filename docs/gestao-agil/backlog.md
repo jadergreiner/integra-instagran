@@ -109,7 +109,7 @@ Este documento mantém o Product Backlog priorizado, estruturado em Épicos → 
 
 #### US-005: Gerenciar Status da Licença
 
-**Status:** Planejado  
+**Status:** Em Andamento  
 **Como:** Administrador do sistema  
 **Quero:** Ativar, desativar ou expirar licenças existentes  
 **Para:** Controlar acesso dos clientes em tempo real  
