@@ -30,3 +30,8 @@ class Usuario(BaseModel):
     nome: str
     email: EmailStr  # Validação automática de email
     permissao: str
+
+
+class LicencaStatusUpdate(BaseModel):
+    """Modelo para atualização de status de licença - TASK-013"""
+    status: str = Field(..., description="Novo status da licença")

@@ -335,3 +335,143 @@ class TestFiltrosLicencasE2E:
         page_with_server.wait_for_timeout(1000)
         rows = page_with_server.locator("table tbody tr")
         expect(rows).to_have_count(4)  # Todas as licenças
+
+
+class TestGerenciarStatusLicencaE2E:
+    """
+    Testes E2E para gestão de status de licenças
+    TASK-014: Implementar interface para mudança de status
+    """
+
+    def test_quando_ativar_licenca_inativa_entao_deve_mudar_status_via_interface(self, page_with_server: Page):
+        """TASK-014: Valida ativação de licença via interface web"""
+        # Dado - fazer login e criar licença inativa
+        page_with_server.goto("http://127.0.0.1:8000/admin/login")
+        page_with_server.fill("input[name='usuario']", "admin")
+        page_with_server.fill("input[name='senha']", "123")
+        page_with_server.click("button[type='submit']")
+
+        # Criar licença via API primeiro (para ter controle do status)
+        import requests
+        response = requests.post(
+            "http://127.0.0.1:8000/admin/licencas/api",
+            json={"cliente_id": 999, "validade": (date.today() + timedelta(days=30)).isoformat()},
+            cookies={"session": "authenticated"}
+        )
+        licenca_id = response.json()["id"]
+
+        # Alterar para inativa via API
+        requests.post(
+            f"http://127.0.0.1:8000/admin/licencas/{licenca_id}/status",
+            json={"status": "inativa"},
+            cookies={"session": "authenticated"}
+        )
+
+        # Quando - clicar em "Ativar" na interface
+        page_with_server.goto("http://127.0.0.1:8000/admin/licencas/")
+        page_with_server.on("dialog", lambda dialog: dialog.accept())  # Aceitar alert
+        page_with_server.click(f"text=Ativar")
+
+        # Aguardar mudança
+        page_with_server.wait_for_timeout(1000)
+
+        # Então - status deve estar ativa
+        status_cell = page_with_server.locator(f"table tbody tr:has-text('{licenca_id}') td:nth-child(3)")
+        expect(status_cell).to_contain_text("Ativa")
+
+    def test_quando_desativar_licenca_ativa_entao_deve_mudar_status_via_interface(self, page_with_server: Page):
+        """TASK-014: Valida desativação de licença via interface web"""
+        # Dado - fazer login e criar licença ativa
+        page_with_server.goto("http://127.0.0.1:8000/admin/login")
+        page_with_server.fill("input[name='usuario']", "admin")
+        page_with_server.fill("input[name='senha']", "123")
+        page_with_server.click("button[type='submit']")
+
+        # Criar licença via API
+        import requests
+        response = requests.post(
+            "http://127.0.0.1:8000/admin/licencas/api",
+            json={"cliente_id": 888, "validade": (date.today() + timedelta(days=30)).isoformat()},
+            cookies={"session": "authenticated"}
+        )
+        licenca_id = response.json()["id"]
+
+        # Quando - clicar em "Desativar" na interface
+        page_with_server.goto("http://127.0.0.1:8000/admin/licencas/")
+        page_with_server.on("dialog", lambda dialog: dialog.accept())  # Aceitar alert
+        page_with_server.click(f"text=Desativar")
+
+        # Aguardar mudança
+        page_with_server.wait_for_timeout(1000)
+
+        # Então - status deve estar inativa
+        status_cell = page_with_server.locator(f"table tbody tr:has-text('{licenca_id}') td:nth-child(3)")
+        expect(status_cell).to_contain_text("Inativa")
+
+    def test_quando_expirar_licenca_ativa_entao_deve_mudar_status_via_interface(self, page_with_server: Page):
+        """TASK-014: Valida expiração de licença via interface web"""
+        # Dado - fazer login e criar licença ativa
+        page_with_server.goto("http://127.0.0.1:8000/admin/login")
+        page_with_server.fill("input[name='usuario']", "admin")
+        page_with_server.fill("input[name='senha']", "123")
+        page_with_server.click("button[type='submit']")
+
+        # Criar licença via API
+        import requests
+        response = requests.post(
+            "http://127.0.0.1:8000/admin/licencas/api",
+            json={"cliente_id": 777, "validade": (date.today() + timedelta(days=30)).isoformat()},
+            cookies={"session": "authenticated"}
+        )
+        licenca_id = response.json()["id"]
+
+        # Quando - clicar em "Expirar" na interface (com confirmação)
+        page_with_server.goto("http://127.0.0.1:8000/admin/licencas/")
+        
+        # Mock do confirm para aceitar
+        page_with_server.evaluate("""
+            window.confirm = function() { return true; }
+        """)
+        
+        page_with_server.click(f"text=Expirar")
+
+        # Aguardar mudança
+        page_with_server.wait_for_timeout(1000)
+
+        # Então - status deve estar expirada
+        status_cell = page_with_server.locator(f"table tbody tr:has-text('{licenca_id}') td:nth-child(3)")
+        expect(status_cell).to_contain_text("Expirada")
+
+    def test_quando_cancelar_expiracao_entao_nao_deve_mudar_status(self, page_with_server: Page):
+        """TASK-014: Valida cancelamento da expiração"""
+        # Dado - fazer login e criar licença ativa
+        page_with_server.goto("http://127.0.0.1:8000/admin/login")
+        page_with_server.fill("input[name='usuario']", "admin")
+        page_with_server.fill("input[name='senha']", "123")
+        page_with_server.click("button[type='submit']")
+
+        # Criar licença via API
+        import requests
+        response = requests.post(
+            "http://127.0.0.1:8000/admin/licencas/api",
+            json={"cliente_id": 666, "validade": (date.today() + timedelta(days=30)).isoformat()},
+            cookies={"session": "authenticated"}
+        )
+        licenca_id = response.json()["id"]
+
+        # Quando - clicar em "Expirar" mas cancelar confirmação
+        page_with_server.goto("http://127.0.0.1:8000/admin/licencas/")
+        
+        # Mock do confirm para cancelar
+        page_with_server.evaluate("""
+            window.confirm = function() { return false; }
+        """)
+        
+        page_with_server.click(f"text=Expirar")
+
+        # Aguardar
+        page_with_server.wait_for_timeout(1000)
+
+        # Então - status deve permanecer ativa
+        status_cell = page_with_server.locator(f"table tbody tr:has-text('{licenca_id}') td:nth-child(3)")
+        expect(status_cell).to_contain_text("Ativa")

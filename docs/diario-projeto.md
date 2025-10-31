@@ -4,19 +4,19 @@
 
 ### Atividades Realizadas
 
-- **US-004 iniciada**: Implementada funcionalidade completa de listagem e filtros de licenças. Backend com funções de filtro por cliente_id, status e período de validade, além de paginação. Frontend com formulário de filtros dinâmicos e controles de paginação. Testes unitários completos para todas as funções de filtro e paginação.
-- **Backend implementado**: Criadas funções `_filtrar_por_cliente()`, `_filtrar_por_status()`, `_filtrar_por_periodo_validade()`, `_aplicar_paginacao()` e `_aplicar_ordenacao()`. Endpoint GET `/admin/licencas/` atualizado para aceitar query parameters (cliente_id, status, data_inicio, data_fim, pagina, ordenar_por, ordem).
-- **Frontend atualizado**: Template `index.html` com formulário de filtros (cliente, status, período, ordenação) e controles de paginação. Interface responsiva mantendo padrão visual estabelecido.
-- **Testes unitários criados**: 5 testes TDD para funções de filtro e paginação, todos passando. Validação de filtros individuais, combinação de filtros e paginação.
-- **Testes E2E parciais**: 3 testes E2E passando (listagem básica, filtro por cliente, filtro por status). Infraestrutura estabelecida para testes completos.
-- **Qualidade mantida**: Todos os testes unitários passando (8/8), código seguindo padrões estabelecidos, filtros funcionando corretamente.
-- **Documentação atualizada**: Backlog marcado US-004 como "Em Desenvolvimento", diário atualizado com progresso detalhado.
+- **US-005 iniciada**: Implementada funcionalidade completa de gestão de status de licenças seguindo TDD. Backend com endpoint POST `/admin/licencas/{id}/status` para mudança de status, validação de regras de negócio e logging. Frontend com botões de ação (Ativar/Desativar/Expirar) e JavaScript para chamadas AJAX. Testes unitários completos para todas as validações e cenários de erro.
+- **Backend implementado**: Criado endpoint `alterar_status_licenca()` com validações (licença existe, status válido, não expirar já expirada). Modelo Pydantic `LicencaStatusUpdate` para validação de entrada. Logging simples de mudanças de status.
+- **Frontend atualizado**: Template `index.html` com botões de ação funcionais, confirmação modal para expiração crítica, e JavaScript assíncrono para chamadas à API. Interface responsiva mantendo padrão visual estabelecido.
+- **Testes unitários criados**: 6 testes TDD para mudança de status, validações e tratamento de erros, todos passando. Cobertura completa de cenários positivos e negativos.
+- **Testes E2E criados**: 4 testes E2E para ações via interface web (ativar, desativar, expirar, cancelar expiração). Infraestrutura preparada para execução.
+- **Qualidade mantida**: Todos os testes unitários passando (14/14), código seguindo padrões estabelecidos, validações funcionando corretamente.
+- **Documentação atualizada**: Backlog marcado US-005 como "Em Andamento", diário atualizado com progresso detalhado.
 
 ### Próximas Ações
 
-- Finalizar testes E2E restantes para cobertura completa dos filtros
-- Criar pull request para merge da US-004
-- Iniciar US-005 (Gerenciar Status da Licença) ou refinar próximos épicos
+- Executar testes E2E para validar interface completa
+- Criar pull request para merge da US-005
+- Planejar próximos épicos ou refinar US-006 (Editar Licença)
 
 ## 30/10/2025
 
@@ -113,5 +113,6 @@
  
  
  
-  
+ 
+ 
  

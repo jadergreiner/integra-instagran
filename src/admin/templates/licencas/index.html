@@ -160,10 +160,10 @@
     </div>
 
     <script>
-        function confirmarAcao(licencaId, acao) {
+        async function confirmarAcao(licencaId, acao) {
             const acoes = {
-                'ativar': 'ativar',
-                'desativar': 'desativar',
+                'ativar': 'Ativar',
+                'desativar': 'Desativar',
                 'expirar': 'EXPIRAR'
             };
 
@@ -173,8 +173,25 @@
                 }
             }
 
-            // TODO: Implementar chamada para API de mudança de status
-            alert(`Ação ${acoes[acao]} para licença ${licencaId} - será implementada em breve`);
+            try {
+                const response = await fetch(`/admin/licencas/${licencaId}/status`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ status: acao === 'ativar' ? 'ativa' : acao === 'desativar' ? 'inativa' : 'expirada' })
+                });
+
+                if (response.ok) {
+                    alert(`Licença ${licencaId} ${acoes[acao]} com sucesso!`);
+                    location.reload(); // Recarregar página para mostrar mudança
+                } else {
+                    const error = await response.json();
+                    alert(`Erro ao ${acoes[acao].toLowerCase()} licença: ${error.detail}`);
+                }
+            } catch (error) {
+                alert(`Erro de conexão: ${error.message}`);
+            }
         }
     </script>
 </body>

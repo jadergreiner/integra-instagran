@@ -240,3 +240,159 @@ class TestFiltrosLicencas:
         assert len(pagina) == 2  # Primeira página com 2 itens
         assert all(l["status"] == "ativa" for l in pagina)
         assert total_paginas == 3  # ceil(5/2) = 3
+
+
+class TestGerenciarStatusLicenca:
+    """
+    Testes para gestão de status de licenças
+    TASK-013: Implementar endpoints para mudança de status
+    """
+
+    def test_quando_ativar_licenca_inativa_entao_deve_alterar_status_para_ativa(self, client, auth_headers):
+        """TASK-013: Valida ativação de licença inativa"""
+        # Dado - Criar licença inativa
+        dados_licenca = {
+            "cliente_id": 100,
+            "validade": (date.today() + timedelta(days=30)).isoformat()
+        }
+        client.post("/admin/licencas/api", json=dados_licenca, headers=auth_headers)
+        
+        # Alterar status para inativa manualmente
+        with open("data/licencas.json", 'r+') as f:
+            licencas = json.load(f)
+            licencas[0]["status"] = "inativa"
+            f.seek(0)
+            json.dump(licencas, f)
+            f.truncate()
+        
+        # Quando - Ativar licença
+        response = client.post(
+            f"/admin/licencas/{licencas[0]['id']}/status",
+            json={"status": "ativa"},
+            headers=auth_headers
+        )
+
+        # Então
+        assert response.status_code == 200
+        data = response.json()
+        assert data["status"] == "ativa"
+        
+        # Verificar persistência
+        with open("data/licencas.json", 'r') as f:
+            licencas = json.load(f)
+            assert licencas[0]["status"] == "ativa"
+
+    def test_quando_desativar_licenca_ativa_entao_deve_alterar_status_para_inativa(self, client, auth_headers):
+        """TASK-013: Valida desativação de licença ativa"""
+        # Dado - Criar licença ativa
+        dados_licenca = {
+            "cliente_id": 100,
+            "validade": (date.today() + timedelta(days=30)).isoformat()
+        }
+        client.post("/admin/licencas/api", json=dados_licenca, headers=auth_headers)
+        
+        with open("data/licencas.json", 'r') as f:
+            licencas = json.load(f)
+            licenca_id = licencas[0]["id"]
+
+        # Quando - Desativar licença
+        response = client.post(
+            f"/admin/licencas/{licenca_id}/status",
+            json={"status": "inativa"},
+            headers=auth_headers
+        )
+
+        # Então
+        assert response.status_code == 200
+        data = response.json()
+        assert data["status"] == "inativa"
+
+    def test_quando_expirar_licenca_ativa_entao_deve_alterar_status_para_expirada(self, client, auth_headers):
+        """TASK-013: Valida expiração de licença ativa"""
+        # Dado - Criar licença ativa
+        dados_licenca = {
+            "cliente_id": 100,
+            "validade": (date.today() + timedelta(days=30)).isoformat()
+        }
+        client.post("/admin/licencas/api", json=dados_licenca, headers=auth_headers)
+        
+        with open("data/licencas.json", 'r') as f:
+            licencas = json.load(f)
+            licenca_id = licencas[0]["id"]
+
+        # Quando - Expirar licença
+        response = client.post(
+            f"/admin/licencas/{licenca_id}/status",
+            json={"status": "expirada"},
+            headers=auth_headers
+        )
+
+        # Então
+        assert response.status_code == 200
+        data = response.json()
+        assert data["status"] == "expirada"
+
+    def test_quando_tentar_expirar_licenca_ja_expirada_entao_deve_lancar_erro(self, client, auth_headers):
+        """TASK-013: Valida erro ao tentar expirar licença já expirada"""
+        # Dado - Criar licença e alterar para expirada
+        dados_licenca = {
+            "cliente_id": 100,
+            "validade": (date.today() + timedelta(days=30)).isoformat()
+        }
+        client.post("/admin/licencas/api", json=dados_licenca, headers=auth_headers)
+        
+        with open("data/licencas.json", 'r+') as f:
+            licencas = json.load(f)
+            licencas[0]["status"] = "expirada"
+            f.seek(0)
+            json.dump(licencas, f)
+            f.truncate()
+            licenca_id = licencas[0]["id"]
+
+        # Quando - Tentar expirar novamente
+        response = client.post(
+            f"/admin/licencas/{licenca_id}/status",
+            json={"status": "expirada"},
+            headers=auth_headers
+        )
+
+        # Então
+        assert response.status_code == 400
+        assert "já está expirada" in response.json()["detail"]
+
+    def test_quando_alterar_status_licenca_inexistente_entao_deve_lancar_erro(self, client, auth_headers):
+        """TASK-013: Valida erro ao tentar alterar status de licença inexistente"""
+        # Quando
+        response = client.post(
+            "/admin/licencas/999/status",
+            json={"status": "ativa"},
+            headers=auth_headers
+        )
+
+        # Então
+        assert response.status_code == 404
+        assert "Licença não encontrada" in response.json()["detail"]
+
+    def test_quando_alterar_status_com_valor_invalido_entao_deve_lancar_erro(self, client, auth_headers):
+        """TASK-013: Valida erro ao tentar alterar para status inválido"""
+        # Dado - Criar licença
+        dados_licenca = {
+            "cliente_id": 100,
+            "validade": (date.today() + timedelta(days=30)).isoformat()
+        }
+        client.post("/admin/licencas/api", json=dados_licenca, headers=auth_headers)
+        
+        with open("data/licencas.json", 'r') as f:
+            licencas = json.load(f)
+            licenca_id = licencas[0]["id"]
+
+        # Quando - Status inválido
+        response = client.post(
+            f"/admin/licencas/{licenca_id}/status",
+            json={"status": "invalido"},
+            headers=auth_headers
+        )
+
+        # Então
+        assert response.status_code == 400
+        assert "Status inválido" in response.json()["detail"]
