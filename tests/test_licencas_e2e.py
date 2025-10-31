@@ -204,3 +204,134 @@ class TestLicencaE2E:
         else:
             # Form foi enviado mas teve erro de validação
             expect(page_with_server.locator(".alert-danger")).to_be_visible()
+
+
+class TestFiltrosLicencasE2E:
+    """Testes E2E para funcionalidade de filtros e paginação de licenças (US-004)"""
+
+    @pytest.fixture(autouse=True)
+    def setup_dados_teste(self, page_with_server: Page):
+        """Cria dados de teste para os testes E2E"""
+        # Fazer login
+        page_with_server.goto("http://127.0.0.1:8000/admin/login")
+        page_with_server.fill("input[name='usuario']", "admin")
+        page_with_server.fill("input[name='senha']", "123")
+        page_with_server.click("button[type='submit']")
+
+        # Criar algumas licenças de teste
+        licencas_teste = [
+            {"cliente_id": 100, "validade": (date.today() + timedelta(days=30)).strftime("%Y-%m-%d")},
+            {"cliente_id": 100, "validade": (date.today() + timedelta(days=60)).strftime("%Y-%m-%d")},
+            {"cliente_id": 200, "validade": (date.today() + timedelta(days=90)).strftime("%Y-%m-%d")},
+            {"cliente_id": 200, "validade": (date.today() - timedelta(days=10)).strftime("%Y-%m-%d")},  # Expirada
+        ]
+
+        for licenca in licencas_teste:
+            page_with_server.goto("http://127.0.0.1:8000/admin/licencas/nova")
+            page_with_server.fill("input[name='cliente_id']", str(licenca["cliente_id"]))
+            page_with_server.fill("input[name='validade']", licenca["validade"])
+            page_with_server.click("button[type='submit']")
+            page_with_server.wait_for_timeout(1000)  # Aguardar processamento
+
+    def test_quando_listar_licencas_sem_filtros_entao_deve_mostrar_todas(self, page_with_server: Page):
+        """TASK-011: Valida listagem completa de licenças"""
+        # Quando
+        page_with_server.goto("http://127.0.0.1:8000/admin/licencas/")
+
+        # Então
+        expect(page_with_server).to_have_title("Licenças - Admin")
+        expect(page_with_server.locator("h1")).to_contain_text("Gerenciar Licenças")
+
+        # Verificar se há filtros visíveis
+        expect(page_with_server.locator(".filters")).to_be_visible()
+        expect(page_with_server.locator("#cliente_id")).to_be_visible()
+        expect(page_with_server.locator("#status")).to_be_visible()
+
+        # Verificar tabela com licenças (deve ter pelo menos as criadas no setup)
+        rows = page_with_server.locator("table tbody tr")
+        count = rows.count()
+        assert count > 0, f"Esperava pelo menos 1 licença, mas encontrou {count}"
+
+    def test_quando_filtrar_por_cliente_entao_deve_mostrar_apenas_licencas_do_cliente(self, page_with_server: Page):
+        """TASK-011: Valida filtro por cliente_id"""
+        # Quando
+        page_with_server.goto("http://127.0.0.1:8000/admin/licencas/?cliente_id=100")
+
+        # Então
+        rows = page_with_server.locator("table tbody tr")
+        expect(rows).to_have_count(2)  # 2 licenças do cliente 100
+
+        # Verificar que todas as linhas mostram cliente 100
+        cliente_cells = page_with_server.locator("table tbody tr td:nth-child(2)")
+        for i in range(2):
+            expect(cliente_cells.nth(i)).to_contain_text("Cliente 100")
+
+    def test_quando_filtrar_por_status_ativa_entao_deve_mostrar_apenas_ativas(self, page_with_server: Page):
+        """TASK-011: Valida filtro por status"""
+        # Quando
+        page_with_server.goto("http://127.0.0.1:8000/admin/licencas/?status=ativa")
+
+        # Então
+        rows = page_with_server.locator("table tbody tr")
+        expect(rows).to_have_count(3)  # 3 licenças ativas (1 expirada)
+
+        # Verificar status de todas as linhas
+        status_cells = page_with_server.locator("table tbody tr td:nth-child(3)")
+        for i in range(3):
+            expect(status_cells.nth(i)).to_contain_text("Ativa")
+
+    def test_quando_filtrar_por_periodo_validade_entao_deve_mostrar_licencas_no_periodo(self, page_with_server: Page):
+        """TASK-011: Valida filtro por período de validade"""
+        data_inicio = (date.today() + timedelta(days=40)).strftime("%Y-%m-%d")
+        data_fim = (date.today() + timedelta(days=80)).strftime("%Y-%m-%d")
+
+        # Quando
+        page_with_server.goto(f"http://127.0.0.1:8000/admin/licencas/?data_inicio={data_inicio}&data_fim={data_fim}")
+
+        # Então
+        rows = page_with_server.locator("table tbody tr")
+        expect(rows).to_have_count(1)  # Apenas 1 licença no período (60 dias)
+
+    def test_quando_filtrar_por_status_expirada_entao_deve_mostrar_apenas_expiradas(self, page_with_server: Page):
+        """TASK-011: Valida filtro por status expirada"""
+        # Quando
+        page_with_server.goto("http://127.0.0.1:8000/admin/licencas/?status=expirada")
+
+        # Então
+        rows = page_with_server.locator("table tbody tr")
+        expect(rows).to_have_count(1)  # 1 licença expirada
+
+        status_cell = page_with_server.locator("table tbody tr td:nth-child(3)")
+        expect(status_cell).to_contain_text("Expirada")
+
+    def test_quando_aplicar_multiplos_filtros_entao_deve_combinar_corretamente(self, page_with_server: Page):
+        """TASK-011: Valida combinação de filtros"""
+        # Quando - filtrar cliente 100 + status ativa
+        page_with_server.goto("http://127.0.0.1:8000/admin/licencas/?cliente_id=100&status=ativa")
+
+        # Então
+        rows = page_with_server.locator("table tbody tr")
+        expect(rows).to_have_count(2)  # 2 licenças ativas do cliente 100
+
+    def test_quando_pagina_nao_existe_entao_deve_mostrar_pagina_1(self, page_with_server: Page):
+        """TASK-011: Valida paginação com página inválida"""
+        # Quando - tentar página inexistente
+        page_with_server.goto("http://127.0.0.1:8000/admin/licencas/?pagina=999")
+
+        # Então - deve mostrar primeira página
+        pagination_text = page_with_server.locator(".pagination").text_content()
+        assert "Página 1" in pagination_text
+
+    def test_quando_limpar_filtros_entao_deve_mostrar_todas_licencas(self, page_with_server: Page):
+        """TASK-011: Valida botão limpar filtros"""
+        # Dado - aplicar filtro
+        page_with_server.goto("http://127.0.0.1:8000/admin/licencas/?cliente_id=100")
+        expect(page_with_server.locator("table tbody tr")).to_have_count(2)
+
+        # Quando - clicar em limpar
+        page_with_server.click("text=Limpar")
+
+        # Então - deve mostrar todas as licenças
+        page_with_server.wait_for_timeout(1000)
+        rows = page_with_server.locator("table tbody tr")
+        expect(rows).to_have_count(4)  # Todas as licenças

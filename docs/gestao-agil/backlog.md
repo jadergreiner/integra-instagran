@@ -93,7 +93,7 @@ Este documento mantém o Product Backlog priorizado, estruturado em Épicos → 
 
 #### US-004: Listar e Filtrar Licenças
 
-**Status:** Planejado  
+**Status:** ✅ Concluído  
 **Como:** Administrador do sistema  
 **Quero:** Visualizar todas as licenças com opções de filtro  
 **Para:** Gerenciar licenças ativamente  
@@ -105,7 +105,7 @@ Este documento mantém o Product Backlog priorizado, estruturado em Épicos → 
 - Links para editar/detalhes em cada linha
 - Interface responsiva e paginada
 
-**Tarefas Associadas:** TASK-010, TASK-011, TASK-012  
+**Tarefas Associadas:** TASK-011  
 
 #### US-005: Gerenciar Status da Licença
 

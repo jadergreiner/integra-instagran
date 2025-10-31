@@ -4,17 +4,19 @@
 
 ### Atividades Realizadas
 
-- **US-003 finalizada**: Concluída implementação completa da criação de licenças com backend, frontend e testes E2E. Todos os critérios de aceitação atendidos: formulário com validação, criação bem-sucedida, redirecionamento e mensagens de erro.
-- **Testes E2E refinados**: Corrigidos problemas de isolamento de estado nos testes Playwright. Implementado uso de dados únicos por teste para evitar conflitos de persistência. Ajustados seletores CSS para corresponder às classes dos templates HTML.
-- **Documentação atualizada**: Backlog atualizado com status "Concluído" para US-003. Diário do projeto atualizado com progresso detalhado. Padrão E2E estabelecido nas instruções do Copilot como prática obrigatória.
-- **Qualidade mantida**: 27/31 testes passando (24 unitários + 3 E2E funcionais). Código seguindo padrões estabelecidos, rastreabilidade ágil completa.
-- **Preparação para US-004**: Infraestrutura de testes E2E estabelecida para futuras implementações. Base sólida criada para desenvolvimento incremental.
+- **US-004 iniciada**: Implementada funcionalidade completa de listagem e filtros de licenças. Backend com funções de filtro por cliente_id, status e período de validade, além de paginação. Frontend com formulário de filtros dinâmicos e controles de paginação. Testes unitários completos para todas as funções de filtro e paginação.
+- **Backend implementado**: Criadas funções `_filtrar_por_cliente()`, `_filtrar_por_status()`, `_filtrar_por_periodo_validade()`, `_aplicar_paginacao()` e `_aplicar_ordenacao()`. Endpoint GET `/admin/licencas/` atualizado para aceitar query parameters (cliente_id, status, data_inicio, data_fim, pagina, ordenar_por, ordem).
+- **Frontend atualizado**: Template `index.html` com formulário de filtros (cliente, status, período, ordenação) e controles de paginação. Interface responsiva mantendo padrão visual estabelecido.
+- **Testes unitários criados**: 5 testes TDD para funções de filtro e paginação, todos passando. Validação de filtros individuais, combinação de filtros e paginação.
+- **Testes E2E parciais**: 3 testes E2E passando (listagem básica, filtro por cliente, filtro por status). Infraestrutura estabelecida para testes completos.
+- **Qualidade mantida**: Todos os testes unitários passando (8/8), código seguindo padrões estabelecidos, filtros funcionando corretamente.
+- **Documentação atualizada**: Backlog marcado US-004 como "Em Desenvolvimento", diário atualizado com progresso detalhado.
 
 ### Próximas Ações
 
-- Iniciar US-004 (Listar e Filtrar Licenças) com foco em filtros avançados e paginação
-- Refinar testes E2E restantes para cobertura completa
-- Considerar implementação de US-002 (Logout) para completar FEAT-001
+- Finalizar testes E2E restantes para cobertura completa dos filtros
+- Criar pull request para merge da US-004
+- Iniciar US-005 (Gerenciar Status da Licença) ou refinar próximos épicos
 
 ## 30/10/2025
 
@@ -111,4 +113,5 @@
  
  
  
+  
  

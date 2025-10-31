@@ -53,6 +53,70 @@ def _format_licenca_for_template(licenca: dict) -> dict:
         "status_class": "success" if licenca["status"] == "ativa" else "danger"
     }
 
+
+# TASK-011: Implementar filtros e paginação para listagem de licenças
+def _filtrar_por_cliente(licencas: list, cliente_id: int) -> list:
+    """Filtra licenças por cliente_id"""
+    if cliente_id is None:
+        return licencas
+    return [l for l in licencas if l["cliente_id"] == cliente_id]
+
+
+def _filtrar_por_status(licencas: list, status: str) -> list:
+    """Filtra licenças por status"""
+    if not status or status == "todos":
+        return licencas
+    return [l for l in licencas if l["status"] == status]
+
+
+def _filtrar_por_periodo_validade(licencas: list, data_inicio: date = None, data_fim: date = None) -> list:
+    """Filtra licenças por período de validade"""
+    if not data_inicio and not data_fim:
+        return licencas
+
+    filtradas = []
+    for licenca in licencas:
+        validade = date.fromisoformat(licenca["validade"])
+        if data_inicio and validade < data_inicio:
+            continue
+        if data_fim and validade > data_fim:
+            continue
+        filtradas.append(licenca)
+
+    return filtradas
+
+
+def _aplicar_paginacao(licencas: list, pagina: int = 1, por_pagina: int = 10) -> tuple:
+    """Aplica paginação aos resultados"""
+    total_itens = len(licencas)
+    total_paginas = (total_itens + por_pagina - 1) // por_pagina  # ceil division
+
+    # Garantir página válida
+    pagina = max(1, min(pagina, total_paginas)) if total_paginas > 0 else 1
+
+    # Calcular índices
+    inicio = (pagina - 1) * por_pagina
+    fim = inicio + por_pagina
+
+    # Retornar página, total de páginas e itens por página
+    return licencas[inicio:fim], total_paginas, por_pagina
+
+
+def _aplicar_ordenacao(licencas: list, ordenar_por: str = "validade", ordem: str = "desc") -> list:
+    """Aplica ordenação aos resultados"""
+    if ordenar_por == "validade":
+        key_func = lambda l: date.fromisoformat(l["validade"])
+    elif ordenar_por == "cliente_id":
+        key_func = lambda l: l["cliente_id"]
+    elif ordenar_por == "status":
+        key_func = lambda l: l["status"]
+    elif ordenar_por == "criado_em":
+        key_func = lambda l: date.fromisoformat(l["criado_em"])
+    else:
+        return licencas  # Sem ordenação se parâmetro inválido
+
+    return sorted(licencas, key=key_func, reverse=(ordem == "desc"))
+
 @router.post("/", response_class=HTMLResponse)
 async def criar_licenca(
     request: Request,
@@ -180,21 +244,71 @@ async def nova_licenca_form(
 async def listar_licencas(
     request: Request,
     success: str = None,
+    cliente_id: int = None,
+    status: str = None,
+    data_inicio: str = None,
+    data_fim: str = None,
+    pagina: int = 1,
+    por_pagina: int = 10,
+    ordenar_por: str = "validade",
+    ordem: str = "desc",
     current_user: dict = Depends(get_current_user)
 ):
     """
-    Listar todas as licenças
-    TASK-010: Implementar Rota GET /admin/licencas
+    Listar todas as licenças com filtros e paginação
+    TASK-011: Implementar filtros e paginação para listagem de licenças
     """
     licencas = _load_licencas()
 
+    # Aplicar filtros
+    if cliente_id:
+        licencas = _filtrar_por_cliente(licencas, cliente_id)
+
+    licencas = _filtrar_por_status(licencas, status)
+
+    # Converter datas se fornecidas
+    data_inicio_date = None
+    data_fim_date = None
+    if data_inicio:
+        try:
+            data_inicio_date = date.fromisoformat(data_inicio)
+        except ValueError:
+            pass  # Ignorar data inválida
+    if data_fim:
+        try:
+            data_fim_date = date.fromisoformat(data_fim)
+        except ValueError:
+            pass  # Ignorar data inválida
+
+    licencas = _filtrar_por_periodo_validade(licencas, data_inicio_date, data_fim_date)
+
+    # Aplicar ordenação
+    licencas = _aplicar_ordenacao(licencas, ordenar_por, ordem)
+
+    # Aplicar paginação
+    licencas_pagina, total_paginas, itens_por_pagina = _aplicar_paginacao(licencas, pagina, por_pagina)
+
     # Converter datas para objetos date para o template
-    for licenca in licencas:
+    for licenca in licencas_pagina:
         licenca["validade"] = date.fromisoformat(licenca["validade"])
         licenca["criado_em"] = date.fromisoformat(licenca["criado_em"])
 
     return templates.TemplateResponse("licencas/index.html", {
         "request": request,
-        "licencas": licencas,
-        "success": success
+        "licencas": licencas_pagina,
+        "success": success,
+        "filtros": {
+            "cliente_id": cliente_id,
+            "status": status,
+            "data_inicio": data_inicio,
+            "data_fim": data_fim,
+            "ordenar_por": ordenar_por,
+            "ordem": ordem
+        },
+        "paginacao": {
+            "pagina_atual": pagina,
+            "total_paginas": total_paginas,
+            "itens_por_pagina": itens_por_pagina,
+            "total_itens": len(licencas)
+        }
     })

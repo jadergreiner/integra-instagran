@@ -33,7 +33,7 @@ Multi-tenant FastAPI web application for social media analytics. Portal administ
 - **Models**: Pydantic with `Field()` constraints, `EmailStr` validation
 - **Routes**: Form data with `Form(...)` parameters, HTML responses
 - **Imports**: Relative imports within `src/` package
-- **Naming**: Portuguese for tests, English for code
+- **Naming**: Portuguese for tests, Portuguese for code
 
 ## Key Files & Commands
 - **Run Server**: `uvicorn src.main:app --reload`
