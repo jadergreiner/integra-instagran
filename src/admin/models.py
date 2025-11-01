@@ -35,3 +35,19 @@ class Usuario(BaseModel):
 class LicencaStatusUpdate(BaseModel):
     """Modelo para atualização de status de licença - TASK-013"""
     status: str = Field(..., description="Novo status da licença")
+
+
+class UsuarioCreate(BaseModel):
+    """Modelo para criação de novo usuário administrativo - TASK-017"""
+    nome: str = Field(..., min_length=2, max_length=100, description="Nome completo do usuário")
+    email: EmailStr = Field(..., description="Email único do usuário")
+    senha: str = Field(..., min_length=8, description="Senha forte (mínimo 8 caracteres)")
+
+
+class UsuarioResponse(BaseModel):
+    """Modelo para resposta de usuário - TASK-017"""
+    id: int
+    nome: str
+    email: EmailStr
+    permissao: str
+    criado_em: Optional[str] = None

@@ -49,6 +49,7 @@ def run_e2e_tests():
         result = subprocess.run([
             sys.executable, "-m", "pytest",
             "tests/test_login_e2e.py",
+            "tests/test_criar_usuario_e2e.py",
             "-v",
             "--browser", "chromium"
         ], cwd=os.getcwd())

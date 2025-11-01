@@ -1,0 +1,82 @@
+[
+  {
+    "id": 1,
+    "nome": "João Silva",
+    "email": "joao.silva@exemplo.com",
+    "senha_hash": "$pbkdf2-sha256$29000$mJNSKmXsnbMWQugdA4CQUg$dAvx5X/wV3Ka6lX387L9Oz0JX2uZ.VeGCHJ3KfjzB7M",
+    "permissao": "admin",
+    "criado_em": "2025-11-01T10:23:24.556686"
+  },
+  {
+    "id": 2,
+    "nome": "João Silva",
+    "email": "joao.silva1762003479@exemplo.com",
+    "senha_hash": "$pbkdf2-sha256$29000$TynFWEspJaQ0RiglxJiT8g$JihmQem8rUpxkF8K6Y2Usod/v2GbvH9hh8Y6ke/NfIc",
+    "permissao": "admin",
+    "criado_em": "2025-11-01T10:24:39.219064"
+  },
+  {
+    "id": 3,
+    "nome": "João Silva",
+    "email": "joao.silva1762003483@exemplo.com",
+    "senha_hash": "$pbkdf2-sha256$29000$wDiHUCqF8P5fC4HQuhfCmA$Te7ibZ/bLGbIICzF.s.u/pqpWjhLGyCOLj9ARE5ybBE",
+    "permissao": "admin",
+    "criado_em": "2025-11-01T10:24:43.327311"
+  },
+  {
+    "id": 4,
+    "nome": "João Silva",
+    "email": "joao.silva1762003581@exemplo.com",
+    "senha_hash": "$pbkdf2-sha256$29000$PUeolRJCKEWIsbbWeu997w$fnh5AuImwkwR0s1neHuEoUjt7bSIriU/PCP60Van.hQ",
+    "permissao": "admin",
+    "criado_em": "2025-11-01T10:26:21.755150"
+  },
+  {
+    "id": 5,
+    "nome": "João Silva",
+    "email": "joao.silva1762003609@exemplo.com",
+    "senha_hash": "$pbkdf2-sha256$29000$39u7l9J6r1WKMcYYQ6i1Vg$S2SfYLvkGBp2f.NXkL5YpDp3oo1tD6TkANNl1BYgWw4",
+    "permissao": "admin",
+    "criado_em": "2025-11-01T10:26:49.522675"
+  },
+  {
+    "id": 6,
+    "nome": "João Silva",
+    "email": "joao.silva1762003658@exemplo.com",
+    "senha_hash": "$pbkdf2-sha256$29000$TynFmFNKqRWitPZey9kbow$PiFybeyTsVKWTsgD0H3a8emSOAizrrRDNlA9nIak1.A",
+    "permissao": "admin",
+    "criado_em": "2025-11-01T10:27:38.071616"
+  },
+  {
+    "id": 7,
+    "nome": "João Silva",
+    "email": "joao.silva1762003917@exemplo.com",
+    "senha_hash": "$pbkdf2-sha256$29000$tDam1Lp37t2bk5JyrpUyZg$Uid0foNEsJW3P1TEdLQNrXQhOdEjNo4eH51vZf2kO.0",
+    "permissao": "admin",
+    "criado_em": "2025-11-01T10:31:57.763563"
+  },
+  {
+    "id": 8,
+    "nome": "João Silva",
+    "email": "joao.silva1762003935@exemplo.com",
+    "senha_hash": "$pbkdf2-sha256$29000$NwaAsPa.lxLiPEfovZcSYg$ocBJlzFpliy37ickTYSwRyH5/gqVBprxUsT.IAAbuxM",
+    "permissao": "admin",
+    "criado_em": "2025-11-01T10:32:15.201774"
+  },
+  {
+    "id": 9,
+    "nome": "João Silva",
+    "email": "joao.silva1762003939@exemplo.com",
+    "senha_hash": "$pbkdf2-sha256$29000$53zP.d9bq9VaK6VUCgHAWA$fUuWny..quwSwPN/KsJ7JUcFTAw6bVQGXkyMu0hEHak",
+    "permissao": "admin",
+    "criado_em": "2025-11-01T10:32:19.150537"
+  },
+  {
+    "id": 10,
+    "nome": "João Silva",
+    "email": "joao.silva1762004071@exemplo.com",
+    "senha_hash": "$pbkdf2-sha256$29000$jjHG.N87J4RQynnPGcM4Jw$qArzy7fPK5rJy7tFd.I2AzI0fu7MSq1FLwSKtlMmRVk",
+    "permissao": "admin",
+    "criado_em": "2025-11-01T10:34:31.474439"
+  }
+]
