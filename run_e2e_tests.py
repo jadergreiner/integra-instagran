@@ -32,14 +32,21 @@ def run_e2e_tests():
 
     # Aguarda o servidor iniciar
     print("⏳ Aguardando servidor iniciar...")
-    time.sleep(5)
+    time.sleep(10)  # Aumentado para 10 segundos
 
     try:
         # Verifica se o servidor está respondendo
         import requests
-        response = requests.get("http://127.0.0.1:8000/admin/login", timeout=5)
+        print("🔍 Verificando se o servidor está respondendo...")
+        response = requests.get("http://127.0.0.1:8000/admin/login", timeout=10)
+        print(f"📊 Status da resposta: {response.status_code}")
         if response.status_code != 200:
             print("❌ Servidor não iniciou corretamente")
+            # Mostra stderr do servidor
+            stderr_output = server_process.stderr.read().decode('utf-8', errors='ignore')
+            if stderr_output:
+                print("📋 Erro do servidor:")
+                print(stderr_output)
             return 1
 
         print("✅ Servidor iniciado com sucesso")
@@ -50,6 +57,7 @@ def run_e2e_tests():
             sys.executable, "-m", "pytest",
             "tests/test_login_e2e.py",
             "tests/test_criar_usuario_e2e.py",
+            "tests/test_usuarios_e2e.py",
             "-v",
             "--browser", "chromium"
         ], cwd=os.getcwd())

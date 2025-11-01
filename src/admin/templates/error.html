@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}Erro {{ error_code }} - Integra Instagran{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-danger text-white">
+                    <h3 class="mb-0">Erro {{ error_code }}</h3>
+                </div>
+                <div class="card-body">
+                    <p class="text-danger">{{ error_message }}</p>
+                    <a href="/admin/dashboard" class="btn btn-primary">Voltar ao Dashboard</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

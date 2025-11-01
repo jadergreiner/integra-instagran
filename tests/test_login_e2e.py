@@ -19,7 +19,7 @@ class TestLoginE2E:
 
         # Então
         expect(page_with_server).to_have_title("Login Administrador")
-        expect(page_with_server.locator("h2")).to_contain_text("Login do Administrador")
+        expect(page_with_server.locator("h3")).to_contain_text("Login do Administrador")
         expect(page_with_server.locator("input[name='usuario']")).to_be_visible()
         expect(page_with_server.locator("input[name='senha']")).to_be_visible()
         expect(page_with_server.locator("button[type='submit']")).to_contain_text("Entrar")
@@ -42,21 +42,18 @@ class TestLoginE2E:
 
     def test_quando_fazer_login_com_credenciais_invalidas_entao_deve_mostrar_erro(self, page_with_server: Page):
         """TASK-003: Valida tratamento de erro em login inválido (teste e2e)"""
-        """Quando fazer login com credenciais inválidas, então deve retornar erro HTTP"""
+        """Quando fazer login com credenciais inválidas, então deve mostrar erro na página"""
         # Dado
         page_with_server.goto("http://127.0.0.1:8000/admin/login")
 
-        # Quando - intercepta a requisição POST
-        with page_with_server.expect_response("**/admin/usuarios/login") as response_info:
-            page_with_server.fill("input[name='usuario']", "admin")
-            page_with_server.fill("input[name='senha']", "senha_errada")
-            page_with_server.click("button[type='submit']")
+        # Quando
+        page_with_server.fill("input[name='usuario']", "admin")
+        page_with_server.fill("input[name='senha']", "senha_errada")
+        page_with_server.click("button[type='submit']")
 
-        # Então
-        response = response_info.value
-        assert response.status == 400
-        # Como é erro HTTP, o browser pode ficar na página de login ou ir para a URL da API
-        # O importante é que o POST falhou com erro 400
+        # Então - deve permanecer na página de login com mensagem de erro
+        expect(page_with_server).to_have_title("Login Administrador")
+        expect(page_with_server.locator(".alert-danger")).to_contain_text("Credenciais inválidas")
 
     def test_quando_deixar_campos_vazios_entao_deve_mostrar_erro(self, page_with_server: Page):
         """TASK-003: Valida validação de campos obrigatórios na interface"""
@@ -80,6 +77,6 @@ class TestLoginE2E:
 
         # Então - deve redirecionar para página de login
         expect(page_with_server).to_have_title("Login Administrador")
-        expect(page_with_server.locator("h2")).to_contain_text("Login do Administrador")
+        expect(page_with_server.locator("h3")).to_contain_text("Login do Administrador")
         expect(page_with_server.locator("input[name='usuario']")).to_be_visible()
         expect(page_with_server.locator("input[name='senha']")).to_be_visible()

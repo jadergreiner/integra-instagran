@@ -1,5 +1,62 @@
 # integra-instagran
 
+## 📖 Documentação
+
+[![Documentação Interativa](https://img.shields.io/badge/Documentação-GitHub%20Pages-blue?logo=github)](https://jadergreiner.github.io/integra-instagran/)
+[![Status Documentação](https://img.shields.io/badge/Status-Configurando-green)](https://github.com/jadergreiner/integra-instagran/actions)
+
+A documentação completa está sendo configurada com **GitHub Pages** usando Docsify para interface interativa.
+
+### 📚 Conteúdo da Documentação
+
+- **Visão Geral**: Objetivos e arquitetura do sistema
+- **Desenvolvimento**: Guias de instalação, configuração e uso
+- **Arquitetura**: Diagramas e decisões técnicas (ADRs)
+- **Data Lineage**: Mapeamento completo de dados e fluxos
+- **Gestão Ágil**: Backlog, user stories e progresso
+- **APIs**: Endpoints, modelos e validações
+
+### 🚀 Status do Deploy
+
+**✅ Repositório Público**: GitHub Pages agora disponível!
+
+**Próximos Passos:**
+1. ✅ Selecionar "GitHub Actions" como source
+2. 🔄 Executar workflow de deploy
+3. 📖 Acessar documentação em https://jadergreiner.github.io/integra-instagran/
+
+O workflow será executado automaticamente no próximo push para `main`, ou você pode executá-lo manualmente.
+
+**Opção 1: Documentação Local**
+```bash
+# Instalar Docsify (se necessário)
+npm install -g docsify-cli
+
+# Executar servidor local
+cd docs
+docsify serve
+# Acesse: http://localhost:3000
+```
+
+**Opção 2: Arquivos Diretos no GitHub**
+- [📖 README da Documentação](https://github.com/jadergreiner/integra-instagran/blob/main/docs/README.md)
+- [🎯 Data Lineage & Mapping](https://github.com/jadergreiner/integra-instagran/blob/main/docs/06-data-lineage-mapping.md)
+- [📊 Backlog do Projeto](https://github.com/jadergreiner/github.com/jadergreiner/integra-instagran/blob/main/docs/gestao-agil/backlog.md)
+- [📝 Diário de Desenvolvimento](https://github.com/jadergreiner/integra-instagran/blob/main/docs/diario-projeto.md)
+
+### 🔧 Configuração GitHub Pages
+
+O workflow está configurado para:
+- ✅ Deploy automático no push para `main`
+- ✅ Interface interativa com Docsify
+- ✅ Navegação lateral organizada
+- ✅ Funcionalidade de busca
+- ✅ Tema responsivo (dark/light mode)
+
+**URL Final:** `https://jadergreiner.github.io/integra-instagran/`
+
+---
+
 ## Visão Geral
 
 Solução analítica de dados para mídias sociais, voltada para empreendedores, influenciadores e empresas que desejam escalar sua atuação digital. O sistema é multi-tenant, com portais administrativos e de clientes, e preparado para migração fácil para cloud (AWS).
