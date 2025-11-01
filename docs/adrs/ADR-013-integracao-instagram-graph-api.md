@@ -36,10 +36,46 @@ Implementar integração completa com Instagram Graph API seguindo arquitetura m
 - `instagram_manage_comments`: Gestão de comentários
 
 ### Dados Prioritários para Extração
-1. **Audiência**: Idade, gênero, localização por cidade
-2. **Conteúdo**: Alcance, impressões, engajamento por post
+1. **Audiência**: Idade, gênero, localização por cidade (seguidores alcançados)
+2. **Conteúdo**: Alcance, impressões, engajamento (likes, comentários, compartilhamentos) por post
 3. **Comentários**: Texto integral para análise de sentimento
-4. **Performance**: Crescimento seguidores, cliques no bio
+4. **Performance**: Crescimento seguidores, visualizações de perfil, cliques no bio
+
+### Endpoints Específicos (Baseado na Documentação Oficial)
+- **GET /<INSTAGRAM_USER_ID>/insights**: Métricas da conta profissional
+  - Métricas: impressions, reach, profile_views
+  - Período: day, week, month
+- **GET /<INSTAGRAM_MEDIA_ID>/insights**: Métricas da mídia
+  - Métricas: engagement, impressions, reach, saved, video_views
+  - Período: lifetime, day, week, month
+
+### Formato de Resposta da API
+```json
+{
+  "data": [
+    {
+      "name": "impressions",
+      "period": "day",
+      "values": [
+        {
+          "value": 32,
+          "end_time": "2018-01-11T08:00:00+0000"
+        }
+      ],
+      "title": "Impressions",
+      "description": "Total number of times the Business Account's media objects have been viewed",
+      "id": "instagram_business_account_id/insights/impressions/day"
+    }
+  ]
+}
+```
+
+### Limitações Técnicas (Documentação Oficial)
+- **Dados históricos**: User Metrics armazenados por até 90 dias
+- **Limite de seguidores**: Algumas métricas indisponíveis para contas <100 seguidores
+- **Contas suportadas**: Apenas Instagram Business e Creator Accounts
+- **Dados de anúncios**: Métricas agregadas não incluem dados de anúncios
+- **Disponibilidade**: API retorna array vazio se dados não existirem (não 0)
 
 ### Estratégia de Implementação
 1. **Fase 1**: Infraestrutura base (cliente API, autenticação)
@@ -90,18 +126,37 @@ Implementar integração completa com Instagram Graph API seguindo arquitetura m
 ```python
 httpx>=0.25.0          # Cliente HTTP assíncrono
 pydantic>=2.0.0        # Validação de dados API
-tenacity>=8.0.0        # Retry logic
-python-dotenv>=1.0.0   # Gestão de secrets
+tenacity>=8.0.0        # Retry logic com backoff exponencial
+python-dotenv>=1.0.0   # Gestão segura de secrets
 ```
 
-### Estrutura de Código
+### Estrutura de Código (Baseado na Documentação)
 ```
 src/core/
 ├── instagram/
 │   ├── client.py       # Cliente API principal
 │   ├── models.py       # Modelos Pydantic para responses
-│   ├── auth.py         # Gestão de tokens
-│   └── rate_limiter.py # Controle de requisições
+│   ├── auth.py         # Gestão de tokens e autenticação
+│   ├── rate_limiter.py # Controle de rate limiting
+│   └── endpoints.py    # Definições de endpoints da API
+```
+
+### URLs Base da API (Documentação Oficial)
+- **Graph API**: `https://graph.facebook.com/v18.0/`
+- **Instagram Basic Display**: `https://graph.instagram.com/`
+
+### Exemplo de Request (Documentação Oficial)
+```bash
+# Métricas da conta
+GET https://graph.facebook.com/v18.0/{instagram_account_id}/insights
+    ?metric=impressions,reach,profile_views
+    &period=day
+    &access_token={access_token}
+
+# Métricas da mídia
+GET https://graph.facebook.com/v18.0/{media_id}/insights
+    ?metric=engagement,impressions,reach
+    &access_token={access_token}
 ```
 
 ### Variáveis de Ambiente
