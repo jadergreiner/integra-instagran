@@ -1,93 +1,247 @@
-from fastapi import APIRouter, HTTPException, Form, Depends, Request
-from fastapi.responses import HTMLResponse, RedirectResponse
+from fastapi import APIRouter, HTTPException, Form, Request
+from fastapi.responses import RedirectResponse, HTMLResponse
 from fastapi.templating import Jinja2Templates
-from src.core.auth import AuthService, require_auth
-from src.admin.models import UsuarioCreate, UsuarioResponse
-from datetime import datetime
-import json
-import os
+from typing import List, Optional
+from src.admin.usuario_service import UsuarioService
+from src.admin.models import UsuarioCreate, UsuarioUpdate, UsuarioResponse
 
 router = APIRouter()
 templates = Jinja2Templates(directory="src/admin/templates")
+usuario_service = UsuarioService()
 
-USUARIOS_FILE = "data/usuarios.json"
 
-def carregar_usuarios():
-    """Carrega usuários do arquivo JSON"""
-    if not os.path.exists(USUARIOS_FILE):
-        return []
-    with open(USUARIOS_FILE, 'r', encoding='utf-8') as f:
-        return json.load(f)
+@router.get("/login", response_class=HTMLResponse)
+def login_page(request: Request):
+    """Página de login administrativo"""
+    return templates.TemplateResponse("login.html", {"request": request})
 
-def salvar_usuarios(usuarios):
-    """Salva usuários no arquivo JSON"""
-    os.makedirs(os.path.dirname(USUARIOS_FILE), exist_ok=True)
-    with open(USUARIOS_FILE, 'w', encoding='utf-8') as f:
-        json.dump(usuarios, f, indent=2, ensure_ascii=False)
 
 @router.post("/login")
-def login(usuario: str = Form(...), senha: str = Form(...)):
-    """Login de usuário administrativo - TASK-007"""
-    if not usuario or not senha:
-        raise HTTPException(status_code=400, detail="Usuário e senha são obrigatórios")
-
-    auth_service = AuthService()
+def login_post(
+    request: Request,
+    usuario: str = Form(...),
+    senha: str = Form(...)
+):
+    """Processa login administrativo"""
     try:
-        resultado = auth_service.login(usuario, senha)
-        # Define cookie de sessão após login bem-sucedido
-        response = RedirectResponse(url="/admin/dashboard", status_code=302)
-        response.set_cookie(key="session", value="authenticated", httponly=True)
-        return response
-    except ValueError as e:
-        raise HTTPException(status_code=400, detail=str(e))
+        # Tentar autenticar
+        usuario_autenticado = usuario_service.autenticar_usuario(usuario, senha)
+
+        if usuario_autenticado:
+            # Login bem-sucedido - definir cookie de sessão
+            response = RedirectResponse(url="/admin/dashboard", status_code=302)
+            response.set_cookie(key="session", value="authenticated", httponly=True)
+            return response
+        else:
+            # Credenciais inválidas - mostrar erro na página de login
+            return templates.TemplateResponse(
+                "login.html",
+                {"request": request, "error": "Credenciais inválidas"}
+            )
+
+    except Exception as e:
+        # Erro geral - mostrar erro na página de login
+        return templates.TemplateResponse(
+            "login.html",
+            {"request": request, "error": str(e)}
+        )
+
 
 @router.get("/criar", response_class=HTMLResponse)
-def get_criar_usuario(request: Request, auth=Depends(require_auth)):
-    """Página de criação de usuário - TASK-018"""
-    return templates.TemplateResponse(request, "criar_usuario.html")
+def criar_usuario_page(request: Request):
+    """Página para criar novo usuário administrativo"""
+    return templates.TemplateResponse("usuario_form.html", {"request": request, "action": "criar"})
 
-@router.post("/criar")
-def post_criar_usuario(
+
+@router.get("/", response_class=HTMLResponse)
+def listar_usuarios_page(request: Request, status: Optional[str] = None):
+    """Página para listar usuários administrativos - TASK-010"""
+    try:
+        usuarios = usuario_service.listar_usuarios(status_filtro=status)
+        return templates.TemplateResponse(
+            "usuarios.html",
+            {
+                "request": request,
+                "usuarios": usuarios,
+                "filtro_status": status
+            }
+        )
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Erro ao listar usuários: {str(e)}")
+
+
+@router.get("/api/", response_model=List[UsuarioResponse])
+def listar_usuarios_api(status: Optional[str] = None):
+    """API para listar usuários administrativos - TASK-010"""
+    try:
+        return usuario_service.listar_usuarios(status_filtro=status)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Erro ao listar usuários: {str(e)}")
+
+
+@router.get("/novo", response_class=HTMLResponse)
+def criar_usuario_page(request: Request):
+    """Página para criar novo usuário administrativo - TASK-010"""
+    return templates.TemplateResponse("usuario_form.html", {"request": request, "modo": "criar"})
+
+
+@router.post("/novo")
+def criar_usuario_post(
+    request: Request,
     nome: str = Form(...),
     email: str = Form(...),
     senha: str = Form(...),
-    _=Depends(require_auth)
+    confirmar_senha: str = Form(...)
 ):
-    """Cria novo usuário administrativo - TASK-017"""
-    # Validar dados com Pydantic
+    """Cria novo usuário administrativo - TASK-010"""
     try:
+        # Validações básicas
+        if not nome or not email or not senha:
+            return templates.TemplateResponse(
+                "usuario_form.html",
+                {
+                    "request": request,
+                    "modo": "criar",
+                    "erro": "Todos os campos são obrigatórios"
+                }
+            )
+
+        if senha != confirmar_senha:
+            return templates.TemplateResponse(
+                "usuario_form.html",
+                {
+                    "request": request,
+                    "modo": "criar",
+                    "erro": "Senhas não conferem"
+                }
+            )
+
+        if len(senha) < 8:
+            return templates.TemplateResponse(
+                "usuario_form.html",
+                {
+                    "request": request,
+                    "modo": "criar",
+                    "erro": "Senha deve ter pelo menos 8 caracteres"
+                }
+            )
+
+        # Cria usuário
         usuario_data = UsuarioCreate(nome=nome, email=email, senha=senha)
+        novo_usuario = usuario_service.criar_usuario(usuario_data)
+
+        return RedirectResponse(
+            url="/admin/usuarios/?success=usuario_criado",
+            status_code=302
+        )
+
+    except ValueError as e:
+        return templates.TemplateResponse(
+            "usuario_form.html",
+            {
+                "request": request,
+                "modo": "criar",
+                "erro": str(e)
+            }
+        )
     except Exception as e:
-        raise HTTPException(status_code=422, detail=str(e))
+        return templates.TemplateResponse(
+            "usuario_form.html",
+            {
+                "request": request,
+                "modo": "criar",
+                "erro": f"Erro interno: {str(e)}"
+            }
+        )
 
-    # Carregar usuários existentes
-    usuarios = carregar_usuarios()
 
-    # Verificar se email já existe
-    for usuario in usuarios:
-        if usuario["email"] == email:
-            raise HTTPException(status_code=400, detail="Email já cadastrado")
+@router.get("/{usuario_id}/editar", response_class=HTMLResponse)
+def editar_usuario_page(request: Request, usuario_id: int):
+    """Página para editar usuário administrativo - TASK-010"""
+    try:
+        usuario = usuario_service.obter_usuario_por_id(usuario_id)
+        if not usuario:
+            raise HTTPException(status_code=404, detail="Usuário não encontrado")
 
-    # Criar novo usuário
-    novo_usuario = {
-        "id": len(usuarios) + 1,
-        "nome": nome,
-        "email": email,
-        "senha_hash": AuthService.hash_password(senha),  # Hash da senha
-        "permissao": "admin",
-        "criado_em": datetime.now().isoformat()
-    }
-    usuarios.append(novo_usuario)
-    salvar_usuarios(usuarios)
+        return templates.TemplateResponse(
+            "usuario_form.html",
+            {
+                "request": request,
+                "modo": "editar",
+                "usuario": usuario
+            }
+        )
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Erro ao carregar usuário: {str(e)}")
 
-    # Redirecionar para lista de usuários
-    return RedirectResponse(url="/admin/usuarios/", status_code=302)
 
-@router.get("/", response_class=HTMLResponse)
-def listar_usuarios(request: Request, auth=Depends(require_auth)):
-    """Lista todos os usuários administrativos - TASK-019"""
-    usuarios = carregar_usuarios()
-    return templates.TemplateResponse(request, "listar_usuarios.html", {
-        "request": request,
-        "usuarios": usuarios
-    })
+@router.post("/{usuario_id}/editar")
+def editar_usuario_post(
+    request: Request,
+    usuario_id: int,
+    nome: str = Form(...),
+    email: str = Form(...),
+    senha: str = Form(""),
+    status: str = Form(...),
+    alterar_senha: str = Form("off")
+):
+    """Atualiza usuário administrativo - TASK-010"""
+    try:
+        # Busca usuário atual
+        usuario_atual = usuario_service.obter_usuario_por_id(usuario_id)
+        if not usuario_atual:
+            raise HTTPException(status_code=404, detail="Usuário não encontrado")
+
+        # Prepara dados de atualização
+        updates = UsuarioUpdate(
+            nome=nome if nome != usuario_atual.nome else None,
+            email=email if email != usuario_atual.email else None,
+            status=status if status != usuario_atual.status else None
+        )
+
+        # Só atualiza senha se solicitada e fornecida
+        if alterar_senha == "on" and senha:
+            if len(senha) < 8:
+                return templates.TemplateResponse(
+                    "usuario_form.html",
+                    {
+                        "request": request,
+                        "modo": "editar",
+                        "usuario": usuario_atual,
+                        "erro": "Nova senha deve ter pelo menos 8 caracteres"
+                    }
+                )
+            updates.senha = senha
+
+        # Aplica atualizações
+        usuario_atualizado = usuario_service.atualizar_usuario(usuario_id, updates)
+
+        return RedirectResponse(
+            url="/admin/usuarios/?success=usuario_atualizado",
+            status_code=302
+        )
+
+    except ValueError as e:
+        usuario_atual = usuario_service.obter_usuario_por_id(usuario_id)
+        return templates.TemplateResponse(
+            "usuario_form.html",
+            {
+                "request": request,
+                "modo": "editar",
+                "usuario": usuario_atual,
+                "erro": str(e)
+            }
+        )
+    except Exception as e:
+        usuario_atual = usuario_service.obter_usuario_por_id(usuario_id)
+        return templates.TemplateResponse(
+            "usuario_form.html",
+            {
+                "request": request,
+                "modo": "editar",
+                "usuario": usuario_atual,
+                "erro": f"Erro interno: {str(e)}"
+            }
+        )
