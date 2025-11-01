@@ -187,3 +187,110 @@ class TestEditarLicencaAdmin:
         # Então
         assert response.status_code == 404
         assert "Licença não encontrada" in response.json()["detail"]
+
+
+class TestCriarUsuarioAdmin:
+    """
+    Testes para criação de novos usuários administrativos
+    TASK-020: Criar testes unitários para criação de usuário
+    """
+
+    def test_quando_post_criar_usuario_com_dados_validos_entao_deve_criar_e_redirecionar(self):
+        """TASK-017: Valida criação bem-sucedida de usuário"""
+        # Dado
+        client = TestClient(app)
+        # Fazer login primeiro
+        client.post("/admin/usuarios/login", data={"usuario": "admin", "senha": "123"})
+
+        import time
+        email_unico = f"joao.silva{int(time.time())}@exemplo.com"
+        
+        dados_usuario = {
+            "nome": "João Silva",
+            "email": email_unico,
+            "senha": "senhaForte123!"
+        }
+
+        # Quando
+        response = client.post("/admin/usuarios/criar", data=dados_usuario, follow_redirects=False)
+
+        # Então
+        assert response.status_code == 302  # Redirect após criação
+        assert response.headers["location"] == "/admin/usuarios/"
+
+    def test_quando_post_criar_usuario_com_email_duplicado_entao_deve_mostrar_erro(self):
+        """TASK-017: Valida validação de email único"""
+        # Dado
+        client = TestClient(app)
+        # Fazer login primeiro
+        client.post("/admin/usuarios/login", data={"usuario": "admin", "senha": "123"})
+
+        # Criar primeiro usuário
+        dados_usuario1 = {
+            "nome": "João Silva",
+            "email": "joao.silva@exemplo.com",
+            "senha": "senhaForte123!"
+        }
+        client.post("/admin/usuarios/criar", data=dados_usuario1)
+
+        # Tentar criar segundo usuário com mesmo email
+        dados_usuario2 = {
+            "nome": "Maria Silva",
+            "email": "joao.silva@exemplo.com",  # Mesmo email
+            "senha": "outraSenha123!"
+        }
+
+        # Quando
+        response = client.post("/admin/usuarios/criar", data=dados_usuario2)
+
+        # Então
+        assert response.status_code == 400
+        assert "Email já cadastrado" in response.json()["detail"]
+
+    def test_quando_post_criar_usuario_com_senha_fraca_entao_deve_mostrar_erro(self):
+        """TASK-017: Valida senha forte obrigatória"""
+        # Dado
+        client = TestClient(app)
+        # Fazer login primeiro
+        client.post("/admin/usuarios/login", data={"usuario": "admin", "senha": "123"})
+
+        dados_usuario = {
+            "nome": "João Silva",
+            "email": "joao.silva@exemplo.com",
+            "senha": "123"  # Senha muito fraca
+        }
+
+        # Quando
+        response = client.post("/admin/usuarios/criar", data=dados_usuario)
+
+        # Então
+        assert response.status_code == 422  # Validation error
+
+    def test_quando_get_criar_usuario_sem_login_entao_deve_redirecionar(self):
+        """TASK-017: Valida proteção de rota"""
+        # Dado
+        client = TestClient(app)
+
+        # Quando
+        response = client.get("/admin/usuarios/criar", follow_redirects=False)
+
+        # Então
+        assert response.status_code == 302
+        assert response.headers["location"] == "/admin/login"
+
+    def test_quando_get_criar_usuario_logado_entao_deve_mostrar_formulario(self):
+        """TASK-018: Valida carregamento do template de criação"""
+        # Dado
+        client = TestClient(app)
+        # Fazer login primeiro
+        client.post("/admin/usuarios/login", data={"usuario": "admin", "senha": "123"})
+
+        # Quando
+        response = client.get("/admin/usuarios/criar")
+
+        # Então
+        assert response.status_code == 200
+        assert "Novo Usuário Administrativo" in response.text
+        assert 'name="nome"' in response.text
+        assert 'name="email"' in response.text
+        assert 'name="senha"' in response.text
