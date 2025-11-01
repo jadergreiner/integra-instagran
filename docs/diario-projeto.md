@@ -1,6 +1,84 @@
 # Diário do Projeto
 - integra-instagran
 
+## 01/11/2025
+
+- Dia de Finalização da US-008 e Deploy da Documentação
+
+### 🎯 Resumo Executivo do Dia
+
+**Dia de conclusão da US-008 (Criar Usuário Admin) e deploy bem-sucedido da documentação no GitHub Pages**. Implementação completa da funcionalidade de criação de usuários administrativos com testes E2E, resolução de problemas de deploy e configuração final do ambiente de documentação web. **US-008 100% concluída e documentação acessível publicamente**.
+
+### 📊 Métricas do Dia
+
+- **US Concluída**: US-008 (Criar Usuário Admin)
+- **Testes Criados**: 4 novos testes (unitários + E2E)
+- **Arquivos Modificados**: 12 arquivos (models, templates, rotas, testes)
+- **Deploy Status**: GitHub Pages funcionando
+- **Documentação**: Status atualizado e acessível
+
+### 🏗️ Atividades Realizadas
+
+#### 1. **Finalização da US-008 - Criar Usuário Admin**
+- **Funcionalidade**: Sistema completo de criação de usuários administrativos
+- **Validações**: Email único, senha forte, campos obrigatórios
+- **Interface**: Formulário HTML com feedback visual
+- **Redirecionamento**: Após criação, redirecionar para listagem
+- **Persistência**: Dados salvos em JSON com criptografia bcrypt
+
+#### 2. **Testes E2E Implementados**
+- **Arquivo**: `tests/test_criar_usuario_e2e.py`
+- **Cenários**: Criação válida, validações de erro, redirecionamento
+- **Framework**: Playwright para automação web
+- **Cobertura**: Fluxo completo usuário-admin
+
+#### 3. **Resolução GitHub Pages**
+- **Problema**: Repositório privado bloqueando Pages
+- **Solução**: Migração para público + configuração ambiente
+- **Workflow**: Deploy automático configurado
+- **URL**: `https://jadergreiner.github.io/integra-instagran/`
+
+#### 4. **Atualização da Documentação**
+- **Status**: Badges atualizados no README
+- **Guia**: `GITHUB_PAGES_FIX.md` criado com soluções
+- **Diário**: Registro completo das atividades
+
+### 📈 Melhorias Implementadas
+
+#### **Funcionalidade Criar Usuário**
+- ✅ Formulário com validações client/server
+- ✅ Feedback visual de erros/sucesso
+- ✅ Redirecionamento automático
+- ✅ Persistência segura dos dados
+
+#### **Testes Automatizados**
+- ✅ Testes unitários com pytest
+- ✅ Testes E2E com Playwright
+- ✅ Cobertura de cenários positivos/negativos
+- ✅ Validações de interface
+
+#### **Documentação Web**
+- ✅ GitHub Pages configurado
+- ✅ Deploy automático funcionando
+- ✅ Interface interativa com Docsify
+- ✅ Acesso público à documentação
+
+### 🔄 Próximos Passos
+
+- **EPIC-002**: Iniciar desenvolvimento do portal cliente
+- **US-009**: Implementar autenticação cliente
+- **Infraestrutura**: Preparar para migração AWS
+- **Qualidade**: Manter cobertura de testes > 80%
+
+### 📝 Observações Técnicas
+
+- **Framework**: FastAPI + Jinja2 + Playwright
+- **Persistência**: JSON file (planejado PostgreSQL)
+- **Segurança**: bcrypt para senhas, validações Pydantic
+- **Deploy**: GitHub Actions + Pages
+
+---
+
 ## 05/11/2025
 
 - Dia de Documentação e Configuração GitHub Pages
