@@ -39,11 +39,11 @@ def create_app():
     
     @app.get("/admin/login")
     def login_page(request: Request):
-        return templates.TemplateResponse("login.html", {"request": request})
+        return templates.TemplateResponse(request, "login.html")
     
     @app.get("/admin/dashboard")
     def dashboard(request: Request):
-        return templates.TemplateResponse("dashboard.html", {"request": request})
+        return templates.TemplateResponse(request, "dashboard.html")
     
     @app.get("/admin/logout")
     def logout(request: Request):
@@ -51,7 +51,7 @@ def create_app():
         auth_service = AuthService()
         auth_service.logout()
         # Limpa cookie de sessão
-        response = templates.TemplateResponse("login.html", {"request": request})
+        response = templates.TemplateResponse(request, "login.html")
         response.delete_cookie(key="session")
         return response
     

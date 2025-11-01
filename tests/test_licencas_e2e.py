@@ -475,3 +475,133 @@ class TestGerenciarStatusLicencaE2E:
         # Então - status deve permanecer ativa
         status_cell = page_with_server.locator(f"table tbody tr:has-text('{licenca_id}') td:nth-child(3)")
         expect(status_cell).to_contain_text("Ativa")
+
+
+# TASK-016: Criar Testes E2E para US-006 (Editar Licença)
+class TestEditarLicencaE2E:
+    """Testes E2E para funcionalidade de edição de licenças (US-006)"""
+
+    def test_quando_acessar_formulario_editar_licenca_entao_deve_carregar_formulario_preenchido(
+        self, page_with_server: Page
+    ):
+        """Valida que o formulário de edição carrega com dados pré-preenchidos"""
+        # Dado - fazer login e criar licença
+        page_with_server.goto("http://127.0.0.1:8000/admin/login")
+        page_with_server.fill("input[name='usuario']", "admin")
+        page_with_server.fill("input[name='senha']", "123")
+        page_with_server.click("button[type='submit']")
+
+        # Criar licença via API
+        import requests
+        data_futura = (date.today() + timedelta(days=30)).isoformat()
+        response = requests.post(
+            "http://127.0.0.1:8000/admin/licencas/api",
+            json={"cliente_id": 777, "validade": data_futura},
+            cookies={"session": "authenticated"}
+        )
+        licenca_id = response.json()["id"]
+
+        # Quando - acessar formulário de edição
+        page_with_server.goto(f"http://127.0.0.1:8000/admin/licencas/{licenca_id}/editar")
+
+        # Então
+        expect(page_with_server).to_have_title("Editar Licença - Admin")
+        expect(page_with_server.locator("h1")).to_contain_text("Editar Licença")
+
+        # Verificar dados pré-preenchidos
+        cliente_input = page_with_server.locator("#cliente_id")
+        expect(cliente_input).to_have_value("777")
+
+        validade_input = page_with_server.locator("#validade")
+        expect(validade_input).to_have_value(data_futura)
+
+        # Verificar informações da licença (simplificado)
+        expect(page_with_server.locator("strong:has-text('ID da Licença:')")).to_be_visible()
+        expect(page_with_server.locator("strong:has-text('Status:')")).to_be_visible()
+
+    def test_quando_editar_licenca_com_dados_validos_entao_deve_atualizar_e_redirecionar(
+        self, page_with_server: Page
+    ):
+        """Valida edição bem-sucedida de licença via interface web"""
+        # Dado - fazer login e criar licença
+        page_with_server.goto("http://127.0.0.1:8000/admin/login")
+        page_with_server.fill("input[name='usuario']", "admin")
+        page_with_server.fill("input[name='senha']", "123")
+        page_with_server.click("button[type='submit']")
+
+        # Criar licença via API
+        import requests
+        response = requests.post(
+            "http://127.0.0.1:8000/admin/licencas/api",
+            json={"cliente_id": 888, "validade": (date.today() + timedelta(days=30)).isoformat()},
+            cookies={"session": "authenticated"}
+        )
+        licenca_id = response.json()["id"]
+
+        # Novos dados para edição
+        novo_cliente_id = 999
+        nova_validade = (date.today() + timedelta(days=60)).strftime("%Y-%m-%d")
+
+        # Quando - editar licença
+        page_with_server.goto(f"http://127.0.0.1:8000/admin/licencas/{licenca_id}/editar")
+        page_with_server.fill("input[name='cliente_id']", str(novo_cliente_id))
+        page_with_server.fill("input[name='validade']", nova_validade)
+        page_with_server.click("button[type='submit']")
+
+        # Então - deve redirecionar para listagem com mensagem de sucesso
+        expect(page_with_server).to_have_url(re.compile(r"/admin/licencas/\?success=.+"))
+        expect(page_with_server.locator("body")).to_contain_text(f"Licença {licenca_id} atualizada com sucesso")
+
+        # Verificar se dados foram atualizados na listagem
+        page_with_server.goto("http://127.0.0.1:8000/admin/licencas/")
+        cliente_cell = page_with_server.locator(f"table tbody tr:has-text('{licenca_id}') td:nth-child(2)")
+        expect(cliente_cell).to_contain_text(str(novo_cliente_id))
+
+    def test_quando_editar_licenca_com_data_invalida_entao_deve_mostrar_erro(
+        self, page_with_server: Page
+    ):
+        """Valida validação de datas na edição via interface web"""
+        # Dado - fazer login e criar licença
+        page_with_server.goto("http://127.0.0.1:8000/admin/login")
+        page_with_server.fill("input[name='usuario']", "admin")
+        page_with_server.fill("input[name='senha']", "123")
+        page_with_server.click("button[type='submit']")
+
+        # Criar licença via API
+        import requests
+        response = requests.post(
+            "http://127.0.0.1:8000/admin/licencas/api",
+            json={"cliente_id": 111, "validade": (date.today() + timedelta(days=30)).isoformat()},
+            cookies={"session": "authenticated"}
+        )
+        licenca_id = response.json()["id"]
+
+        # Quando - tentar editar com data passada
+        page_with_server.goto(f"http://127.0.0.1:8000/admin/licencas/{licenca_id}/editar")
+        page_with_server.fill("input[name='cliente_id']", "111")
+        page_with_server.fill("input[name='validade']", "2020-01-01")  # Data passada
+        page_with_server.click("button[type='submit']")
+
+        # Então - deve mostrar erro e manter formulário
+        expect(page_with_server).to_have_url(re.compile(r"/admin/licencas/\d+/editar"))
+        expect(page_with_server.locator(".error")).to_contain_text("Data de validade deve ser futura")
+
+        # Verificar que dados originais permanecem
+        cliente_input = page_with_server.locator("#cliente_id")
+        expect(cliente_input).to_have_value("111")
+
+    def test_quando_editar_licenca_inexistente_entao_deve_mostrar_erro_404(
+        self, page_with_server: Page
+    ):
+        """Valida tratamento de licença inexistente na edição"""
+        # Dado - fazer login
+        page_with_server.goto("http://127.0.0.1:8000/admin/login")
+        page_with_server.fill("input[name='usuario']", "admin")
+        page_with_server.fill("input[name='senha']", "123")
+        page_with_server.click("button[type='submit']")
+
+        # Quando - tentar editar licença inexistente
+        page_with_server.goto("http://127.0.0.1:8000/admin/licencas/99999/editar")
+
+        # Então - deve mostrar erro 404
+        expect(page_with_server.locator("body")).to_contain_text("Licença não encontrada")

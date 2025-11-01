@@ -7,6 +7,7 @@ from src.core.auth import get_current_user
 from datetime import date
 import json
 import os
+from src.core.settings import hoje_brasilia
 
 router = APIRouter()
 
@@ -44,12 +45,13 @@ def _validate_cliente_exists(cliente_id: int):
 
 def _format_licenca_for_template(licenca: dict) -> dict:
     """Formata licença para template HTML"""
+    from datetime import date
     return {
         "id": licenca["id"],
         "cliente_id": licenca["cliente_id"],
         "status": licenca["status"],
         "validade": licenca["validade"],
-        "criado_em": licenca["criado_em"],
+        "criado_em": date.fromisoformat(licenca["criado_em"]) if licenca.get("criado_em") else None,
         "status_class": "success" if licenca["status"] == "ativa" else "danger"
     }
 
@@ -136,15 +138,13 @@ async def criar_licenca(
         try:
             validade_date = date.fromisoformat(validade)
         except ValueError:
-            return templates.TemplateResponse("licencas/nova.html", {
-                "request": request,
+            return templates.TemplateResponse(request, "licencas/nova.html", {
                 "error": "Data de validade inválida. Use o formato YYYY-MM-DD."
             })
 
         # Validar data futura
-        if validade_date <= date.today():
-            return templates.TemplateResponse("licencas/nova.html", {
-                "request": request,
+        if validade_date <= hoje_brasilia():
+            return templates.TemplateResponse(request, "licencas/nova.html", {
                 "error": "Data de validade deve ser futura."
             })
 
@@ -157,7 +157,7 @@ async def criar_licenca(
             "cliente_id": cliente_id,
             "status": "ativa",  # Status inicial sempre ativa
             "validade": validade,
-            "criado_em": date.today().isoformat()
+            "criado_em": hoje_brasilia().isoformat()
         }
 
         # Adicionar à lista
@@ -173,13 +173,11 @@ async def criar_licenca(
         )
 
     except HTTPException as e:
-        return templates.TemplateResponse("licencas/nova.html", {
-            "request": request,
+        return templates.TemplateResponse(request, "licencas/nova.html", {
             "error": e.detail
         })
     except Exception as e:
-        return templates.TemplateResponse("licencas/nova.html", {
-            "request": request,
+        return templates.TemplateResponse(request, "licencas/nova.html", {
             "error": f"Erro interno: {str(e)}"
         })
 
@@ -196,7 +194,7 @@ async def criar_licenca_api(
     _validate_cliente_exists(licenca_data.cliente_id)
 
     # Validar data futura
-    if licenca_data.validade <= date.today():
+    if licenca_data.validade <= hoje_brasilia():
         raise HTTPException(
             status_code=400,
             detail="Data de validade deve ser futura"
@@ -211,7 +209,7 @@ async def criar_licenca_api(
         "cliente_id": licenca_data.cliente_id,
         "status": "ativa",  # Status inicial sempre ativa
         "validade": licenca_data.validade.isoformat(),
-        "criado_em": date.today().isoformat()
+        "criado_em": hoje_brasilia().isoformat()
     }
 
     # Adicionar à lista
@@ -238,7 +236,7 @@ async def nova_licenca_form(
     Exibir formulário para criação de nova licença
     TASK-009: Criar Template de Formulário de Licença
     """
-    return templates.TemplateResponse("licencas/nova.html", {"request": request})
+    return templates.TemplateResponse(request, "licencas/nova.html")
 
 @router.get("/", response_class=HTMLResponse)
 async def listar_licencas(
@@ -293,8 +291,7 @@ async def listar_licencas(
         licenca["validade"] = date.fromisoformat(licenca["validade"])
         licenca["criado_em"] = date.fromisoformat(licenca["criado_em"])
 
-    return templates.TemplateResponse("licencas/index.html", {
-        "request": request,
+    return templates.TemplateResponse(request, "licencas/index.html", {
         "licencas": licencas_pagina,
         "success": success,
         "filtros": {
@@ -363,3 +360,126 @@ def alterar_status_licenca(
         validade=date.fromisoformat(licenca["validade"]),
         criado_em=date.fromisoformat(licenca["criado_em"]) if licenca.get("criado_em") else None
     )
+
+@router.get("/{licenca_id}/editar", response_class=HTMLResponse)
+async def editar_licenca_form(
+    request: Request,
+    licenca_id: int,
+    current_user: dict = Depends(get_current_user)
+):
+    """
+    Exibir formulário para edição de licença existente
+    TASK-016: Implementar formulário de edição de licença
+    """
+    # Carregar licenças
+    licencas = _load_licencas()
+
+    # Encontrar licença
+    licenca = None
+    for l in licencas:
+        if l["id"] == licenca_id:
+            licenca = l
+            break
+
+    if not licenca:
+        raise HTTPException(status_code=404, detail="Licença não encontrada")
+
+    # Formatar para template
+    licenca_formatada = _format_licenca_for_template(licenca)
+    licenca_formatada["validade"] = date.fromisoformat(licenca["validade"])
+
+    return templates.TemplateResponse(request, "licencas/editar.html", {
+        "licenca": licenca_formatada
+    })
+
+
+@router.post("/{licenca_id}/editar", response_class=HTMLResponse)
+async def editar_licenca(
+    request: Request,
+    licenca_id: int,
+    cliente_id: int = Form(...),
+    validade: str = Form(...),
+    current_user: dict = Depends(get_current_user)
+):
+    """
+    Atualizar dados de uma licença existente
+    TASK-017: Implementar endpoint para edição de licenças
+    """
+    try:
+        # Carregar licenças
+        licencas = _load_licencas()
+
+        # Encontrar licença
+        licenca = None
+        for l in licencas:
+            if l["id"] == licenca_id:
+                licenca = l
+                break
+
+        if not licenca:
+            raise HTTPException(status_code=404, detail="Licença não encontrada")
+
+        # Validar cliente
+        _validate_cliente_exists(cliente_id)
+
+        # Converter e validar data
+        try:
+            validade_date = date.fromisoformat(validade)
+        except ValueError:
+            # Recarregar dados da licença para o template
+            licenca_formatada = _format_licenca_for_template(licenca)
+            licenca_formatada["validade"] = date.fromisoformat(licenca["validade"])
+            return templates.TemplateResponse(request, "licencas/editar.html", {
+                "licenca": licenca_formatada,
+                "error": "Data de validade inválida. Use o formato YYYY-MM-DD."
+            })
+
+        # Validar data futura
+        if validade_date <= hoje_brasilia():
+            # Recarregar dados da licença para o template
+            licenca_formatada = _format_licenca_for_template(licenca)
+            licenca_formatada["validade"] = date.fromisoformat(licenca["validade"])
+            return templates.TemplateResponse(request, "licencas/editar.html", {
+                "licenca": licenca_formatada,
+                "error": "Data de validade deve ser futura."
+            })
+
+        # Atualizar dados da licença
+        licenca["cliente_id"] = cliente_id
+        licenca["validade"] = validade
+
+        # Salvar
+        _save_licencas(licencas)
+
+        # Redirecionar para listagem com mensagem de sucesso
+        return RedirectResponse(
+            url="/admin/licencas/?success=" + f"Licença {licenca_id} atualizada com sucesso!",
+            status_code=303
+        )
+
+    except HTTPException as e:
+        # Recarregar dados da licença para o template
+        licencas = _load_licencas()
+        licenca = next((l for l in licencas if l["id"] == licenca_id), None)
+        if licenca:
+            licenca_formatada = _format_licenca_for_template(licenca)
+            licenca_formatada["validade"] = date.fromisoformat(licenca["validade"])
+            return templates.TemplateResponse(request, "licencas/editar.html", {
+                "licenca": licenca_formatada,
+                "error": e.detail
+            })
+        else:
+            raise e
+    except Exception as e:
+        # Recarregar dados da licença para o template
+        licencas = _load_licencas()
+        licenca = next((l for l in licencas if l["id"] == licenca_id), None)
+        if licenca:
+            licenca_formatada = _format_licenca_for_template(licenca)
+            licenca_formatada["validade"] = date.fromisoformat(licenca["validade"])
+            return templates.TemplateResponse(request, "licencas/editar.html", {
+                "licenca": licenca_formatada,
+                "error": f"Erro interno: {str(e)}"
+            })
+        else:
+            raise HTTPException(status_code=500, detail=f"Erro interno: {str(e)}")
