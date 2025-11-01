@@ -3,7 +3,7 @@
 ## 📖 Documentação
 
 [![Documentação Interativa](https://img.shields.io/badge/Documentação-GitHub%20Pages-blue?logo=github)](https://jadergreiner.github.io/integra-instagran/)
-[![Status Documentação](https://img.shields.io/badge/Status-Configurando-green)](https://github.com/jadergreiner/integra-instagran/actions)
+[![Status Documentação](https://img.shields.io/badge/Status-Configurar%20Ambiente-yellow)](GITHUB_PAGES_FIX.md)
 
 A documentação completa está sendo configurada com **GitHub Pages** usando Docsify para interface interativa.
 
@@ -18,14 +18,15 @@ A documentação completa está sendo configurada com **GitHub Pages** usando Do
 
 ### 🚀 Status do Deploy
 
-**✅ Repositório Público**: GitHub Pages agora disponível!
+**⚠️ Proteção de Ambiente Ativa**: O ambiente `github-pages` está bloqueando o deploy devido a regras de proteção.
 
-**Próximos Passos:**
-1. ✅ Selecionar "GitHub Actions" como source
-2. 🔄 Executar workflow de deploy
-3. 📖 Acessar documentação em https://jadergreiner.github.io/integra-instagran/
+**Solução Necessária:**
+1. Vá para **Settings** → **Environments** → **github-pages**
+2. Configure **Deployment branches** para permitir `main` e `feature/**`
+3. Desmarque restrições se necessário
+4. Execute o workflow novamente
 
-O workflow será executado automaticamente no próximo push para `main`, ou você pode executá-lo manualmente.
+[📖 Ver Guia Completo de Resolução](GITHUB_PAGES_FIX.md)
 
 **Opção 1: Documentação Local**
 ```bash

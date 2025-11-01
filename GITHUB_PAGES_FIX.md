@@ -22,9 +22,24 @@ Você recebeu a mensagem: **"There isn't a GitHub Pages site here"** ao acessar 
 - O workflow só executa em push para `main`
 - O primeiro deploy pode levar alguns minutos
 
-### 4. **Configuração Pendente**
+### 4. **Regras de Proteção do Ambiente**
 
-- Branch source precisa ser definida como `gh-pages` ou GitHub Actions
+- O ambiente `github-pages` tem regras de proteção que limitam quais branches podem fazer deploy
+- Por padrão, só permite deploy da branch `main`
+- Para workflow manual (`workflow_dispatch`), pode ser necessário configurar permissões
+
+### 5. **Configuração do Ambiente**
+
+Se o erro for sobre "environment protection rules":
+
+1. Vá para **Settings** → **Environments**
+2. Clique em **github-pages**
+3. Em **Deployment branches**:
+   - Selecione **"All branches"** OU
+   - Adicione `feature/**` e `main` às branches permitidas
+4. Em **Deployment protection rules**:
+   - Desmarque "Restrict deployments to specific branches" se quiser permitir workflow_dispatch
+5. Salve as configurações
 
 ## ✅ Solução Passo-a-Passo
 
@@ -97,7 +112,9 @@ Para manter privado, use serviços alternativos:
 - ✅ **Arquivos Preparados**: `docs/` com estrutura completa
 - ✅ **Repositório Público**: GitHub Pages habilitado
 - ✅ **Source Configurado**: GitHub Actions selecionado
-- 🔄 **Deploy Pendente**: Aguardando execução do workflow
+- ✅ **Push para Main**: Executado
+- ❌ **Proteção de Ambiente**: Regras bloqueando deploy da feature branch
+- 🔄 **Solução**: Configurar regras do ambiente github-pages
 
 ## 🕐 Tempo Estimado
 
