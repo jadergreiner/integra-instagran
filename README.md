@@ -16,17 +16,43 @@ A documentação completa está sendo configurada com **GitHub Pages** usando Do
 - **Gestão Ágil**: Backlog, user stories e progresso
 - **APIs**: Endpoints, modelos e validações
 
+## 🧪 Testes Locais
+
+Para executar testes locais e desenvolvimento:
+
+### 🚀 Início Rápido
+```bash
+# Instalar dependências
+pip install -r requirements.txt
+
+# Iniciar servidor
+uvicorn src.main:app --reload
+
+# Acessar: http://127.0.0.1:8000/admin/login
+# Usuário: admin | Senha: 123
+```
+
+### 📖 Guia Completo de Testes
+[📋 Ver Guia de Testes Locais](GUIA_TESTES_LOCAIS.md) - Inclui:
+- Inicialização do servidor
+- Roteiro de testes manuais
+- Troubleshooting
+- Comandos úteis
+
+### 🧪 Executar Testes Automatizados
+```bash
+# Testes unitários
+pytest tests/ -v
+
+# Testes E2E (com navegador)
+python run_e2e_tests.py
+```
+
 ### 🚀 Status do Deploy
 
-**⚠️ Proteção de Ambiente Ativa**: O ambiente `github-pages` está bloqueando o deploy devido a regras de proteção.
+**✅ GitHub Pages Funcionando**: Documentação disponível em [https://jadergreiner.github.io/integra-instagran/](https://jadergreiner.github.io/integra-instagran/)
 
-**Solução Necessária:**
-1. Vá para **Settings** → **Environments** → **github-pages**
-2. Configure **Deployment branches** para permitir `main` e `feature/**`
-3. Desmarque restrições se necessário
-4. Execute o workflow novamente
-
-[📖 Ver Guia Completo de Resolução](GITHUB_PAGES_FIX.md)
+O deploy automático está configurado e funcionando corretamente.
 
 **Opção 1: Documentação Local**
 ```bash
