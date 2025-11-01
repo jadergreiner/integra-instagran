@@ -13,6 +13,10 @@ class LicencaCreate(BaseModel):
     valor: Optional[float] = Field(None, description="Valor da licença (preparado para futuro)")
     auto_renovacao: Optional[bool] = Field(None, description="Renovação automática (preparado para futuro)")
 
+    # Campos preparados especificamente para PIX (pagamento principal)
+    chave_pix: Optional[str] = Field(None, description="Chave PIX do cliente (preparado para futuro)")
+    qr_code_pix: Optional[str] = Field(None, description="QR Code PIX gerado (preparado para futuro)")
+
 
 class LicencaResponse(BaseModel):
     """Modelo para resposta de licença - TASK-007"""
@@ -28,6 +32,11 @@ class LicencaResponse(BaseModel):
     ultimo_pagamento: Optional[date] = None
     status_pagamento: Optional[str] = None  # pago, pendente, vencido
     auto_renovacao: Optional[bool] = None
+
+    # Campos preparados especificamente para PIX
+    chave_pix: Optional[str] = None
+    qr_code_pix: Optional[str] = None
+    transacao_pix: Optional[str] = None  # ID da transação PIX
 
 
 class Licenca(BaseModel):

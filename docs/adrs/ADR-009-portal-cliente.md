@@ -112,7 +112,7 @@ class ClientIsolationMiddleware:
 - **OAuth Integration**: Planejamento para login social (Google, Facebook)
 - **Dashboards compartilhados**: Templates criados pelo admin, personalizáveis por cliente
 - **Licença Integration**: Validação automática de licença ativa para acesso
-- **Gestão Financeira**: Campos preparados para assinatura mensal (tipo_cobranca, valor, auto_renovacao)
+- **Gestão Financeira**: Campos preparados para assinatura mensal (tipo_cobranca, valor, auto_renovacao, PIX)
 
 ## Métricas de Sucesso
 

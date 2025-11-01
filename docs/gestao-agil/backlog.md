@@ -37,7 +37,7 @@ Este documento mantém o Product Backlog priorizado, estruturado em Épicos → 
 **Descrição:** CRUD completo para licenças (criar, ativar, expirar, listar).  
 **Histórias Associadas:** US-003, US-004, US-005, US-006  
 **Duração Estimada:** 1-2 Sprints  
-**Nota:** Preparado para gestão financeira futura (assinatura mensal) com campos opcionais  
+**Nota:** Preparado para gestão financeira futura (assinatura mensal) com campos opcionais, incluindo suporte específico para PIX  
 
 #### FEAT-003: Gestão de Usuários
 
