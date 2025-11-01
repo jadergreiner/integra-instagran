@@ -1,28 +1,37 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <title>Login Administrador</title>
-    <style>
-        body { font-family: Arial, sans-serif; background: #f7f7f7; }
-        .login-container { max-width: 400px; margin: 80px auto; background: #fff; padding: 32px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
-        h2 { text-align: center; margin-bottom: 24px; }
-        label { display: block; margin-bottom: 8px; }
-        input[type="text"], input[type="password"] { width: 100%; padding: 8px; margin-bottom: 16px; border: 1px solid #ccc; border-radius: 4px; }
-        button { width: 100%; padding: 10px; background: #007bff; color: #fff; border: none; border-radius: 4px; font-size: 16px; cursor: pointer; }
-        button:hover { background: #0056b3; }
-    </style>
-</head>
-<body>
-    <div class="login-container">
-        <h2>Login do Administrador</h2>
-        <form method="POST" action="/admin/usuarios/login">
-            <label for="usuario">Usuário</label>
-            <input type="text" id="usuario" name="usuario" required>
-            <label for="senha">Senha</label>
-            <input type="password" id="senha" name="senha" required>
-            <button type="submit">Entrar</button>
-        </form>
+{% extends "base.html" %}
+
+{% block title %}Login Administrador{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="text-center">Login do Administrador</h3>
+                </div>
+                <div class="card-body">
+                    {% if error %}
+                    <div class="alert alert-danger">
+                        {{ error }}
+                    </div>
+                    {% endif %}
+                    <form method="POST" action="/admin/usuarios/login">
+                        <div class="mb-3">
+                            <label for="usuario" class="form-label">Usuário</label>
+                            <input type="text" class="form-control" id="usuario" name="usuario" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="senha" class="form-label">Senha</label>
+                            <input type="password" class="form-control" id="senha" name="senha" required>
+                        </div>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary">Entrar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
-</body>
-</html>
+</div>
+{% endblock %}

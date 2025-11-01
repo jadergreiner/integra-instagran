@@ -7,5 +7,10 @@ Cada ADR documenta uma decisão relevante, alternativas consideradas e justifica
 
 ## Exemplos
 
-- [0001-decisoes-iniciais.md](0001-decisoes-iniciais.md)
-- [0002-escolha-do-framework-web.md](0002-escolha-do-framework-web.md)
+- [ADR-001-decisoes-iniciais.md](ADR-001-decisoes-iniciais.md)
+- [ADR-002-escolha-framework-web.md](ADR-002-escolha-framework-web.md)
+- [ADR-003-implementacao-pagina-login.md](ADR-003-implementacao-pagina-login.md)
+- [ADR-004-implementacao-backend-login.md](ADR-004-implementacao-backend-login.md)
+- [ADR-005-workflow-git-correcao.md](ADR-005-workflow-git-correcao.md)
+- [ADR-006-testes-e2e-playwright.md](ADR-006-testes-e2e-playwright.md)
+- [ADR-007-middleware-autenticacao.md](ADR-007-middleware-autenticacao.md)

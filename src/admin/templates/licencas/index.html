@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Licenças - Admin</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f7f7f7; }
+        .container { max-width: 1000px; margin: 40px auto; background: #fff; padding: 32px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        h1 { text-align: center; margin-bottom: 24px; color: #333; }
+        .nav { margin-bottom: 24px; }
+        .nav a { color: #007bff; text-decoration: none; }
+        .nav a:hover { text-decoration: underline; }
+        .actions { margin-bottom: 24px; text-align: right; }
+        .btn { padding: 8px 16px; border: none; border-radius: 4px; font-size: 14px; cursor: pointer; text-decoration: none; display: inline-block; }
+        .btn-primary { background: #007bff; color: #fff; }
+        .btn-primary:hover { background: #0056b3; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
+        th { background-color: #f8f9fa; font-weight: bold; }
+        tr:hover { background-color: #f5f5f5; }
+        .status-ativa { color: #28a745; font-weight: bold; }
+        .status-inativa { color: #dc3545; font-weight: bold; }
+        .status-expirada { color: #6c757d; font-weight: bold; }
+        .success { color: #28a745; background: #d4edda; border: 1px solid #c3e6cb; padding: 8px; border-radius: 4px; margin-bottom: 16px; }
+        .empty { text-align: center; color: #6c757d; padding: 40px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="nav">
+            <a href="/admin/dashboard">← Voltar ao Dashboard</a>
+        </div>
+
+        <h1>Gerenciar Licenças</h1>
+
+        {% if success %}
+        <div class="success">{{ success }}</div>
+        {% endif %}
+
+        <div class="actions">
+            <a href="/admin/licencas/nova" class="btn btn-primary">+ Nova Licença</a>
+        </div>
+
+        <!-- Filtros -->
+        <div class="filters" style="background: #f8f9fa; padding: 16px; border-radius: 4px; margin-bottom: 20px;">
+            <form method="GET" style="display: flex; gap: 16px; align-items: end; flex-wrap: wrap;">
+                <div>
+                    <label for="cliente_id" style="display: block; margin-bottom: 4px; font-weight: bold;">Cliente ID:</label>
+                    <input type="number" id="cliente_id" name="cliente_id" value="{{ filtros.cliente_id or '' }}"
+                           placeholder="Ex: 100" style="padding: 6px; border: 1px solid #ccc; border-radius: 4px; width: 100px;">
+                </div>
+
+                <div>
+                    <label for="status" style="display: block; margin-bottom: 4px; font-weight: bold;">Status:</label>
+                    <select id="status" name="status" style="padding: 6px; border: 1px solid #ccc; border-radius: 4px;">
+                        <option value="todos" {% if filtros.status == 'todos' or not filtros.status %}selected{% endif %}>Todos</option>
+                        <option value="ativa" {% if filtros.status == 'ativa' %}selected{% endif %}>Ativa</option>
+                        <option value="inativa" {% if filtros.status == 'inativa' %}selected{% endif %}>Inativa</option>
+                        <option value="expirada" {% if filtros.status == 'expirada' %}selected{% endif %}>Expirada</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="data_inicio" style="display: block; margin-bottom: 4px; font-weight: bold;">Validade de:</label>
+                    <input type="date" id="data_inicio" name="data_inicio" value="{{ filtros.data_inicio or '' }}"
+                           style="padding: 6px; border: 1px solid #ccc; border-radius: 4px;">
+                </div>
+
+                <div>
+                    <label for="data_fim" style="display: block; margin-bottom: 4px; font-weight: bold;">Até:</label>
+                    <input type="date" id="data_fim" name="data_fim" value="{{ filtros.data_fim or '' }}"
+                           style="padding: 6px; border: 1px solid #ccc; border-radius: 4px;">
+                </div>
+
+                <div>
+                    <label for="ordenar_por" style="display: block; margin-bottom: 4px; font-weight: bold;">Ordenar por:</label>
+                    <select id="ordenar_por" name="ordenar_por" style="padding: 6px; border: 1px solid #ccc; border-radius: 4px;">
+                        <option value="validade" {% if filtros.ordenar_por == 'validade' %}selected{% endif %}>Validade</option>
+                        <option value="cliente_id" {% if filtros.ordenar_por == 'cliente_id' %}selected{% endif %}>Cliente</option>
+                        <option value="status" {% if filtros.ordenar_por == 'status' %}selected{% endif %}>Status</option>
+                        <option value="criado_em" {% if filtros.ordenar_por == 'criado_em' %}selected{% endif %}>Data Criação</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="ordem" style="display: block; margin-bottom: 4px; font-weight: bold;">Ordem:</label>
+                    <select id="ordem" name="ordem" style="padding: 6px; border: 1px solid #ccc; border-radius: 4px;">
+                        <option value="desc" {% if filtros.ordem == 'desc' %}selected{% endif %}>Decrescente</option>
+                        <option value="asc" {% if filtros.ordem == 'asc' %}selected{% endif %}>Crescente</option>
+                    </select>
+                </div>
+
+                <div style="display: flex; gap: 8px;">
+                    <button type="submit" class="btn btn-primary" style="padding: 6px 12px;">Filtrar</button>
+                    <a href="/admin/licencas/" class="btn" style="background: #6c757d; color: white; padding: 6px 12px; text-decoration: none;">Limpar</a>
+                </div>
+            </form>
+        </div>
+
+        {% if licencas %}
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Cliente</th>
+                    <th>Status</th>
+                    <th>Validade</th>
+                    <th>Criado em</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for licenca in licencas %}
+                <tr>
+                    <td>{{ licenca.id }}</td>
+                    <td>Cliente {{ licenca.cliente_id }}</td>
+                    <td class="status-{{ licenca.status|lower }}">{{ licenca.status|title }}</td>
+                    <td>{{ licenca.validade }}</td>
+                    <td>{{ licenca.criado_em }}</td>
+                    <td>
+                        <a href="/admin/licencas/{{ licenca.id }}/editar">Editar</a> |
+                        <a href="#" onclick="confirmarAcao('{{ licenca.id }}', 'ativar')">Ativar</a> |
+                        <a href="#" onclick="confirmarAcao('{{ licenca.id }}', 'desativar')">Desativar</a> |
+                        <a href="#" onclick="confirmarAcao('{{ licenca.id }}', 'expirar')">Expirar</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- Paginação -->
+        {% if paginacao.total_paginas > 1 %}
+        <div class="pagination" style="margin-top: 20px; text-align: center;">
+            <div style="display: inline-flex; gap: 8px; align-items: center;">
+                {% if paginacao.pagina_atual > 1 %}
+                <a href="?{% for key, value in request.query_params.items() %}{% if key != 'pagina' %}{{ key }}={{ value }}&{% endif %}{% endfor %}pagina={{ paginacao.pagina_atual - 1 }}"
+                   class="btn" style="background: #007bff; color: white; padding: 6px 12px; text-decoration: none;">← Anterior</a>
+                {% endif %}
+
+                <span style="padding: 6px 12px; color: #666;">
+                    Página {{ paginacao.pagina_atual }} de {{ paginacao.total_paginas }}
+                    ({{ paginacao.total_itens }} itens)
+                </span>
+
+                {% if paginacao.pagina_atual < paginacao.total_paginas %}
+                <a href="?{% for key, value in request.query_params.items() %}{% if key != 'pagina' %}{{ key }}={{ value }}&{% endif %}{% endfor %}pagina={{ paginacao.pagina_atual + 1 }}"
+                   class="btn" style="background: #007bff; color: white; padding: 6px 12px; text-decoration: none;">Próxima →</a>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+
+        {% else %}
+        <div class="empty">
+            <h3>Nenhuma licença encontrada</h3>
+            <p>Comece criando a primeira licença do sistema.</p>
+            <a href="/admin/licencas/nova" class="btn btn-primary">Criar Primeira Licença</a>
+        </div>
+        {% endif %}
+    </div>
+
+    <script>
+        async function confirmarAcao(licencaId, acao) {
+            const acoes = {
+                'ativar': 'Ativar',
+                'desativar': 'Desativar',
+                'expirar': 'EXPIRAR'
+            };
+
+            if (acao === 'expirar') {
+                if (!confirm(`Tem certeza que deseja EXPIRAR a licença ${licencaId}? Esta ação não pode ser desfeita.`)) {
+                    return;
+                }
+            }
+
+            try {
+                const response = await fetch(`/admin/licencas/${licencaId}/status`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ status: acao === 'ativar' ? 'ativa' : acao === 'desativar' ? 'inativa' : 'expirada' })
+                });
+
+                if (response.ok) {
+                    alert(`Licença ${licencaId} ${acoes[acao]} com sucesso!`);
+                    location.reload(); // Recarregar página para mostrar mudança
+                } else {
+                    const error = await response.json();
+                    alert(`Erro ao ${acoes[acao].toLowerCase()} licença: ${error.detail}`);
+                }
+            } catch (error) {
+                alert(`Erro de conexão: ${error.message}`);
+            }
+        }
+    </script>
+</body>
+</html>

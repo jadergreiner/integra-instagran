@@ -1,27 +1,76 @@
+# integra-instagran - AI Agent Instructions
+
+## Project Overview
+Multi-tenant FastAPI web application for social media analytics. Portal administrativo for license management + client portals for data insights. Cloud-ready (AWS migration planned).
+
+## Architecture Patterns
+- **Modular Structure**: `src/main.py` (FastAPI app), `src/admin/` (business logic), `src/core/` (shared services)
+- **Data Persistence**: JSON file storage (`data/licencas.json`) - no database yet
+- **Authentication**: Cookie-based sessions via middleware, hardcoded credentials (`admin`/`123`)
+- **API Design**: Router-based with Pydantic models, HTML responses with Jinja2 templates
+- **Multi-tenant**: Logical data segregation by `cliente_id`, isolated API credentials per client
+
+## Development Workflow
+### TDD Process
+1. Write test first: `pytest tests/test_*.py -v`
+2. Implement code with `# TASK-XXX: Description` comments
+3. Update `docs/diario-projeto.md` daily
+4. Create ADR in `docs/adrs/` for architectural decisions
+5. **Implement E2E tests**: Create Playwright tests in `tests/test_*_e2e.py` for all user-facing features
+
+### Git Workflow
+- `feature/*` branches from `develop`
+- Merge to `develop` after tests pass
+- `release` branch for final packages → `main`
+
+### Testing Patterns
+- **Unit Tests**: Portuguese names, case-when structure (`dado_quando_entao`)
+- **E2E Tests**: Playwright for UI flows (`run_e2e_tests.py`)
+- **Coverage**: `pytest --cov=src tests/`
+
+## Code Conventions
+- **Traceability**: `# TASK-XXX: Brief description` on all new code
+- **Models**: Pydantic with `Field()` constraints, `EmailStr` validation
+- **Routes**: Form data with `Form(...)` parameters, HTML responses
+- **Imports**: Relative imports within `src/` package
+- **Naming**: Portuguese for tests, Portuguese for code
+
+## Key Files & Commands
+- **Run Server**: `uvicorn src.main:app --reload`
+- **Run Tests**: `pytest tests/` or `pytest tests/test_file.py -v`
+- **Install Deps**: `pip install -r requirements.txt`
+- **Login URL**: `http://127.0.0.1:8000/admin/login`
+
+## Integration Points
+- **External APIs**: Social media platforms (Instagram, etc.) - credentials isolated per client
+- **Cloud Migration**: AWS-ready with environment variables, Docker-friendly structure
+- **Security**: Client-specific API keys, secure credential storage planned
+
+## Quality Gates
+- All tests pass before merge
+- ADR required for architectural changes
+- Daily diary updates in `docs/diario-projeto.md`
+- Backlog approval required (`docs/gestao-agil/backlog.md`)
+
+## Common Patterns
+- **New Feature**: Register in backlog → Create ADR → TDD implementation → Update docs
+- **Models**: `class ModelName(BaseModel):  # TASK-XXX`
+- **Routes**: `@router.post("/", response_class=HTMLResponse)`
+- **Validation**: `cliente_id: int = Form(...)` with business logic checks
+
 ## Documentação e Markdown
 
 - Sempre valide e corrija a formatação Markdown em toda documentação do projeto.
 - Adicione linhas em branco entre títulos, listas e blocos de código.
 - Especifique a linguagem nos blocos de código quando aplicável.
 - Utilize ferramentas de lint para Markdown (ex: markdownlint) para garantir legibilidade e compatibilidade.
-- A branch `release` é protegida e utilizada para publicação das versões finais.
 
-- A branch `release` faz merge para a branch `main`.
-- A branch `main` é protegida e recebe apenas pacotes de release.
-- A branch `develop` é protegida e deve receber apenas merges aprovados após testes.
-
-- A branch `develop` acumula pacotes e gera o pacote de release.
-- A branch `release` é protegida e utilizada para publicação das versões finais.
-- Sempre inicie o desenvolvimento a partir de uma branch do tipo `feature`.
-
-- Nomeie as branches de desenvolvimento como `feature/*`, conforme a entrega.
-- Após rodar os testes, faça o merge da branch de feature para a branch `develop`.
-- A branch `develop` é protegida e deve receber apenas merges aprovados após testes.
 ## Workflow de Git
 
 - Sempre inicie o desenvolvimento a partir de uma branch do tipo `feature`.
 - Sempre fazer checkout na branch feature correspondente ao que está sendo desenvolvido.
 - Mantenha uma gestão das DOCS por features (atualize documentação na branch feature e merge para develop/main).
+
 ## Testes Unitários
 
 - Adote TDD (Test Driven Development) como prática padrão.
@@ -70,6 +119,109 @@ Essa estrutura garante que a equipe esteja sempre conectada à estratégia de al
 6. **Documentação**: Atualizar diário, ADRs mencionando códigos da gestão ágil.
 7. **Premissa**: Nada se desenvolve sem registro e aprovação na gestão ágil.
 
+### Processo de Refinamento de Tasks
+- **Antes de iniciar uma nova task**: Sempre pergunte ao usuário se deseja refinar e revisar a task.
+- **Quando o usuário responder sim**: Repasse a task completa e pergunte sobre pontos específicos que podem ser refinados, revisados e reorganizados:
+  - **Requisitos funcionais**: Especificações detalhadas do que deve ser implementado
+  - **Critérios de aceitação**: Condições claras para considerar a task concluída
+  - **Dependências**: Outras tasks ou recursos necessários
+  - **Estimativa de esforço**: Tempo estimado para conclusão
+  - **Testes necessários**: Cenários de teste unitários, integração e E2E
+  - **Impacto no sistema**: Como a implementação afetará outras partes do sistema
+  - **Riscos identificados**: Possíveis problemas ou complicações
+  - **Documentação necessária**: Atualizações em diário, ADRs ou outras documentações
+
+## Padrão para Architecture Decision Records (ADRs)
+
+### Template Padrão de ADR
+
+Todos os ADRs devem seguir esta estrutura padronizada para consistência e clareza:
+
+```markdown
+# ADR-XXX: Título Descritivo da Decisão
+
+## Status
+
+[ ] Proposto | [ ] Em Análise | [x] Aprovado | [ ] Rejeitado | [ ] Superseded | [ ] Deprecated
+
+## Contexto
+
+[Descrição clara do problema/contexto que motivou a decisão. Incluir dados, requisitos e restrições relevantes.]
+
+## Decisão
+
+[Decisão tomada de forma clara e objetiva. Incluir detalhes técnicos quando necessário.]
+
+### [Subseções específicas da decisão, se aplicável]
+
+[Detalhes técnicos, configurações, implementações específicas]
+
+## Alternativas Consideradas
+
+- **[Alternativa 1]**: [Descrição + prós/contras]
+- **[Alternativa 2]**: [Descrição + prós/contras]
+- **[Alternativa N]**: [Descrição + prós/contras]
+
+## Consequências
+
+### Positivas
+
+- [Benefício 1]
+- [Benefício 2]
+
+### Negativas
+
+- [Desvantagem 1]
+- [Desvantagem 2]
+
+### Riscos
+
+- [Risco identificado e plano de mitigação]
+
+## Implementação
+
+[Detalhes de como a decisão será implementada, se aplicável]
+
+## Métricas de Sucesso
+
+[Como medir se a decisão foi bem-sucedida, se aplicável]
+
+## Próximos Passos
+
+[Próximas ações necessárias para implementar a decisão]
+
+## Data
+
+[Data da decisão - formato DD/MM/YYYY]
+
+## Responsável
+
+[Nome do responsável pela decisão - normalmente "Copilot" para decisões técnicas]
+```
+
+### Regras de Nomenclatura e Numeração
+
+- **Formato**: `ADR-XXX-descricao-curta.md` (ex: `ADR-005-testes-e2e-playwright.md`)
+- **Numeração**: Sequencial, começando do 001
+- **Localização**: `docs/adrs/`
+- **Idioma**: Português brasileiro
+
+### Quando Criar um ADR
+
+- Mudanças arquiteturais significativas
+- Escolha de tecnologias/frameworks
+- Decisões de design que impactam múltiplos componentes
+- Mudanças que afetam a escalabilidade ou performance
+- Introdução de novas dependências ou padrões
+- Correções de decisões anteriores
+
+### Processo de Aprovação
+
+1. **Rascunho**: Status "Proposto" ou "Em Análise"
+2. **Revisão**: Discutir com equipe/stakeholders
+3. **Aprovação**: Status "Aprovado" + implementação
+4. **Superseded**: Quando substituído por nova decisão
+
 ## Estrutura do Projeto Atual
 
 - `src/`: Código fonte
@@ -96,11 +248,21 @@ Essa estrutura garante que a equipe esteja sempre conectada à estratégia de al
 - Valide emails com `EmailStr`.
 - Use `Field` para restrições (ex: `min_length`).
 - Exemplo: `email: EmailStr`, `status: str = Field(min_length=1)`.
+
 ## Qualidade e Padronização de Código
 
 - Todo o código Python deve seguir o padrão [PEP8](https://peps.python.org/pep-0008/).
 - Utilize ferramentas de lint (ex: flake8, pylint) para garantir conformidade e qualidade.
 - Recomenda-se configurar o lint no ambiente de desenvolvimento e no pipeline de CI/CD.
+
+## Rastreabilidade Ágil e Documentação de Código
+
+- **Sempre referencie a TASK de origem**: Todo código novo deve incluir comentário indicando qual TASK do backlog ágil está sendo implementada.
+- **Formato padrão**: Use comentários como `# TASK-XXX: Descrição breve` no início de classes, funções ou módulos.
+- **Exemplo**: Para uma classe de modelo: `class LicencaCreate(BaseModel):  # TASK-007: Criar Modelo Pydantic para Licença`
+- **Propósito**: Manter rastreabilidade bidirecional entre backlog ágil e código implementado.
+- **Aplicação**: Válido para classes, funções, métodos, testes unitários e qualquer artefato de código.
+
 ## Padrões de Integração e Princípios de Projeto
 
 - Integração com APIs deve ser feita de forma segura e escalável.
@@ -115,12 +277,14 @@ Essa estrutura garante que a equipe esteja sempre conectada à estratégia de al
   - Entregue valor cedo e frequentemente.
 4. **Data-Driven Design**
   - Decisões baseadas em dados, não em suposições.
+
 ## Tecnologias e Diretrizes de Desenvolvimento
 
 - Linguagem preferencial: Python
 - Aplicações inicialmente web; escolha do framework web sob melhor julgamento do agente (ex: Django, FastAPI, Flask)
 - Estruture o projeto para facilitar futura migração para ambiente cloud (AWS), evitando dependências locais rígidas e priorizando padrões portáveis (ex: variáveis de ambiente, Docker, arquivos de configuração separados)
 - Inicialmente, a aplicação será hospedada localmente, mas mantenha práticas que permitam escalar e migrar facilmente para nuvem
+
 ## Arquitetura e Requisitos Principais
 
 - O sistema será Multi Tenant, permitindo que múltiplos clientes utilizem a mesma infraestrutura com total segregação de dados e configurações.
@@ -132,46 +296,6 @@ Agentes AI devem considerar:
 - Segregação de dados por cliente (isolamento lógico)
 - Fluxos para provisionamento, ativação e expiração de licenças
 - Interfaces administrativas e de autoatendimento
-<!--
-  Arquivo gerado automaticamente para agentes de codificação AI.
-  Objetivo: fornecer um resumo imediatamente acionável deste repositório para ajudar um agente AI a ser produtivo.
-  Observação: Este repositório não possui arquivos de código ou configuração detectáveis no workspace analisado.
-  Se encontrar seções vazias abaixo, adicione ou indique arquivos do projeto (README, package.json, pyproject.toml, src/, etc.) para que eu possa expandir este arquivo com exemplos concretos.
--->
-
-
-# Instruções Copilot — integra-instagran
-
-## Contexto do Projeto
-
-O objetivo deste projeto é desenvolver uma solução analítica de dados para mídias sociais, voltada para empreendedores, influenciadores, empresas e outros perfis que buscam escalar sua atuação digital.
-
-O produto será oferecido em escala, com processos de dados robustos e automação, entregando uma camada analítica capaz de gerar dados e insights valiosos sobre os clientes dos nossos clientes.
-
-Agentes AI devem priorizar:
-- Robustez e automação no processamento de dados de redes sociais
-- Geração de insights acionáveis e relatórios analíticos
-- Escalabilidade e flexibilidade para diferentes perfis de usuários
-- Seguir TDD e padrões de qualidade estabelecidos
-
-## Estrutura Atual do Projeto
-
-- **Caminho do repositório**: c:\repo\integra-instagran
-- **Arquivos principais**:
-  - `README.md`: Visão geral e instruções de execução
-  - `requirements.txt`: Dependências Python (fastapi, uvicorn, pydantic[email], pytest)
-  - `src/main.py`: Aplicação FastAPI com rotas e templates
-  - `src/admin/`: Modelos (Usuario, Licenca), routers, templates HTML
-  - `src/core/`: Serviços (AuthService, Settings, Database)
-  - `tests/`: Testes unitários com pytest
-  - `docs/`: Documentação completa, ADRs, diário do projeto
-
-## Comandos de Desenvolvimento
-
-- **Instalar dependências**: `pip install -r requirements.txt`
-- **Executar servidor local**: `uvicorn src.main:app --reload`
-- **Executar testes**: `pytest tests/` ou `pytest tests/test_arquivo.py -v`
-- **Acessar aplicação**: `http://127.0.0.1:8000/admin/login` (página de login)
 
 ## Checklist Atualizado para Agentes
 

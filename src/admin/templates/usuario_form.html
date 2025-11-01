@@ -1,0 +1,151 @@
+{% extends "base.html" %}
+
+{% block title %}
+    {% if modo == 'criar' %}Novo Usuário Administrativo{% else %}Editar Usuário{% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="mb-0">
+                        {% if modo == 'criar' %}
+                            <i class="fas fa-user-plus"></i> Novo Usuário Administrativo
+                        {% else %}
+                            <i class="fas fa-user-edit"></i> Editar Usuário: {{ usuario.nome }}
+                        {% endif %}
+                    </h2>
+                </div>
+                <div class="card-body">
+                    {% if erro %}
+                    <div class="alert alert-danger" role="alert">
+                        <i class="fas fa-exclamation-triangle"></i> {{ erro }}
+                    </div>
+                    {% endif %}
+
+                    <form method="post" novalidate>
+                        <div class="mb-3">
+                            <label for="nome" class="form-label">Nome Completo *</label>
+                            <input type="text" class="form-control" id="nome" name="nome"
+                                   value="{{ usuario.nome if usuario else '' }}" required minlength="2" maxlength="100">
+                            <div class="form-text">Nome completo do usuário administrativo.</div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email *</label>
+                            <input type="email" class="form-control" id="email" name="email"
+                                   value="{{ usuario.email if usuario else '' }}" required>
+                            <div class="form-text">Email único para acesso ao sistema.</div>
+                        </div>
+
+                        {% if modo == 'criar' %}
+                        <div class="mb-3">
+                            <label for="senha" class="form-label">Senha *</label>
+                            <input type="password" class="form-control" id="senha" name="senha" required minlength="8">
+                            <div class="form-text">Mínimo 8 caracteres. Use letras, números e símbolos.</div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="confirmar_senha" class="form-label">Confirmar Senha *</label>
+                            <input type="password" class="form-control" id="confirmar_senha" name="confirmar_senha" required minlength="8">
+                            <div class="form-text">Digite a senha novamente para confirmação.</div>
+                        </div>
+                        {% endif %}
+
+                        {% if modo == 'editar' %}
+                        <div class="mb-3">
+                            <label for="status" class="form-label">Status *</label>
+                            <select class="form-select" id="status" name="status" required>
+                                <option value="ativo" {% if usuario.status == 'ativo' %}selected{% endif %}>Ativo</option>
+                                <option value="inativo" {% if usuario.status == 'inativo' %}selected{% endif %}>Inativo</option>
+                            </select>
+                            <div class="form-text">Usuários inativos não podem fazer login.</div>
+                        </div>
+
+                        <div class="mb-3">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="alterar_senha" name="alterar_senha">
+                                <label class="form-check-label" for="alterar_senha">
+                                    Alterar senha
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="mb-3" id="senha_section" style="display: none;">
+                            <label for="senha" class="form-label">Nova Senha</label>
+                            <input type="password" class="form-control" id="senha" name="senha" minlength="8">
+                            <div class="form-text">Deixe em branco para manter a senha atual.</div>
+                        </div>
+                        {% endif %}
+
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i>
+                                {% if modo == 'criar' %}Criar Usuário{% else %}Salvar Alterações{% endif %}
+                            </button>
+                            <a href="/admin/usuarios/" class="btn btn-secondary">
+                                <i class="fas fa-times"></i> Cancelar
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Toggle senha section quando checkbox é marcado
+document.getElementById('alterar_senha')?.addEventListener('change', function() {
+    const senhaSection = document.getElementById('senha_section');
+    const senhaInput = document.getElementById('senha');
+
+    if (this.checked) {
+        senhaSection.style.display = 'block';
+        senhaInput.required = true;
+    } else {
+        senhaSection.style.display = 'none';
+        senhaInput.required = false;
+        senhaInput.value = '';
+    }
+});
+
+// Validação básica no frontend
+document.querySelector('form').addEventListener('submit', function(e) {
+    const nome = document.getElementById('nome').value.trim();
+    const email = document.getElementById('email').value.trim();
+
+    if (nome.length < 2) {
+        alert('Nome deve ter pelo menos 2 caracteres.');
+        e.preventDefault();
+        return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        alert('Email inválido.');
+        e.preventDefault();
+        return;
+    }
+
+    {% if modo == 'criar' %}
+    const senha = document.getElementById('senha').value;
+    const confirmarSenha = document.getElementById('confirmar_senha').value;
+
+    if (senha.length < 8) {
+        alert('Senha deve ter pelo menos 8 caracteres.');
+        e.preventDefault();
+        return;
+    }
+
+    if (senha !== confirmarSenha) {
+        alert('Senhas não conferem.');
+        e.preventDefault();
+        return;
+    }
+    {% endif %}
+});
+</script>
+{% endblock %}
