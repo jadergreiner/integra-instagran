@@ -99,26 +99,30 @@ O sistema já vem com dados de teste em `data/usuarios.json`:
 
 #### Cenário: Login com Credenciais Válidas
 1. Acessar: http://127.0.0.1:8000/admin/login
-2. Preencher:
-   - Email: `admin`
+2. **Verificar**: Página centralizada com título "Portal Administrativo"
+3. **Verificar**: Subtítulo "Sistema integra-instagran"
+4. Preencher:
+   - Usuário: `admin`
    - Senha: `123`
-3. Clicar "Entrar"
-4. **Esperado**: Redirecionamento para dashboard
-5. **URL Final**: http://127.0.0.1:8000/admin/dashboard
+5. Clicar "Entrar no Sistema"
+6. **Esperado**: Redirecionamento para dashboard
+7. **URL Final**: http://127.0.0.1:8000/admin/dashboard
 
 #### Cenário: Login com Credenciais Inválidas
 1. Acessar: http://127.0.0.1:8000/admin/login
 2. Preencher:
-   - Email: `admin`
+   - Usuário: `admin`
    - Senha: `senha_errada`
-3. Clicar "Entrar"
-4. **Esperado**: Mensagem de erro "Credenciais inválidas"
-5. **Permanecer**: Na página de login
+3. Clicar "Entrar no Sistema"
+4. **Esperado**: Mensagem de erro "Credenciais inválidas" (com ícone de aviso)
+5. **Verificar**: Alerta vermelho com botão de fechar
+6. **Permanecer**: Na página de login
 
 #### Cenário: Acesso Direto sem Login
 1. Acessar: http://127.0.0.1:8000/admin/dashboard
 2. **Esperado**: Redirecionamento para login
-3. **URL Final**: http://127.0.0.1:8000/admin/login
+3. **Verificar**: Página de login centralizada carregada
+4. **URL Final**: http://127.0.0.1:8000/admin/login
 
 ### 👥 Teste 2: Gestão de Usuários
 
