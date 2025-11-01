@@ -78,5 +78,13 @@
     "senha_hash": "$pbkdf2-sha256$29000$jjHG.N87J4RQynnPGcM4Jw$qArzy7fPK5rJy7tFd.I2AzI0fu7MSq1FLwSKtlMmRVk",
     "permissao": "admin",
     "criado_em": "2025-11-01T10:34:31.474439"
+  },
+  {
+    "id": 11,
+    "nome": "João Silva",
+    "email": "joao.silva1762004199@exemplo.com",
+    "senha_hash": "$pbkdf2-sha256$29000$OuccA8BYq1VqjXGudW7NWQ$xIkt2l/7xiQBjZ7Wl/Od16h.x8BfMs7BbTWQVwJlEyE",
+    "permissao": "admin",
+    "criado_em": "2025-11-01T10:36:39.705530"
   }
 ]
