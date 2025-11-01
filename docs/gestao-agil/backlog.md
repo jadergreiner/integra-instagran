@@ -25,7 +25,36 @@ Este documento mantém o Product Backlog priorizado, estruturado em Épicos → 
 **Status:** Planejado  
 **Descrição:** Sistema completo de analytics para clientes visualizarem dados de suas redes sociais, com comparações inteligentes e sugestões de conteúdo.  
 **Valor de Negócio:** Diferencial competitivo com insights acionáveis, aumentando retenção e satisfação dos clientes.  
+**Duração Estimada:** 8-12 Sprints  
+**Sub-Épicos:** EPIC-003.1 (Instagram), EPIC-003.2 (Facebook), EPIC-003.3 (Analytics Avançados), EPIC-003.4 (Dashboards e Relatórios)
+
+#### EPIC-003.1: Analytics Instagram
+
+**Status:** Planejado  
+**Descrição:** Integração completa com Instagram Graph API para coleta e análise de dados de perfis empresariais.  
+**Valor de Negócio:** Insights visuais e de engajamento para otimização de conteúdo Instagram.  
+**Duração Estimada:** 3-4 Sprints  
+
+#### EPIC-003.2: Analytics Facebook
+
+**Status:** Planejado  
+**Descrição:** Integração com Facebook Graph API para análise de páginas e anúncios corporativos.  
+**Valor de Negócio:** Métricas de performance de anúncios e engajamento orgânico no Facebook.  
+**Duração Estimada:** 2-3 Sprints  
+
+#### EPIC-003.3: Analytics Avançados e Comparativos
+
+**Status:** Planejado  
+**Descrição:** Sistema de comparações inteligentes entre perfis, benchmarks setoriais e análise preditiva.  
+**Valor de Negócio:** Insights estratégicos para posicionamento competitivo e tomada de decisões.  
 **Duração Estimada:** 4-5 Sprints  
+
+#### EPIC-003.4: Dashboards e Relatórios Executivos
+
+**Status:** Planejado  
+**Descrição:** Interface unificada para visualização de dados, relatórios automatizados e exportações.  
+**Valor de Negócio:** Comunicação clara de resultados para stakeholders e equipes internas.  
+**Duração Estimada:** 2-3 Sprints  
 
 ## Features por Épico
 
@@ -115,21 +144,60 @@ Este documento mantém o Product Backlog priorizado, estruturado em Épicos → 
 
 ## Features por Épico - EPIC-003
 
-### EPIC-003 - Features
+### EPIC-003.1 (Instagram) - Features
 
-#### FEAT-012: Análise de Engajamento
+#### FEAT-012: Análise de Engajamento Instagram
 
 **Status:** Planejado  
-**Descrição:** Métricas detalhadas de likes, comentários, compartilhamentos e taxa de engajamento por post.  
+**Descrição:** Métricas detalhadas de likes, comentários, compartilhamentos e taxa de engajamento por post no Instagram.  
 **Histórias Associadas:** US-026 (planejado)  
 **Duração Estimada:** 1 Sprint  
 
-#### FEAT-013: Análise de Perfil
+#### FEAT-013: Análise de Perfil Instagram
 
 **Status:** Planejado  
-**Descrição:** Score geral do perfil, pontos fortes/fracos e recomendações de otimização.  
+**Descrição:** Score geral do perfil Instagram, pontos fortes/fracos e recomendações de otimização.  
 **Histórias Associadas:** US-027 (planejado)  
 **Duração Estimada:** 1 Sprint  
+
+#### FEAT-019: Análise de Seguidores Instagram
+
+**Status:** Planejado  
+**Descrição:** Demografia dos seguidores Instagram, crescimento de audiência e engajamento por segmento.  
+**Histórias Associadas:** US-030 (planejado)  
+**Duração Estimada:** 1 Sprint  
+
+#### FEAT-020: Gestão de Comentários Instagram
+
+**Status:** Planejado  
+**Descrição:** Sistema de análise de sentimento e resposta automática a comentários no Instagram.  
+**Histórias Associadas:** US-033 (planejado)  
+**Duração Estimada:** 1 Sprint  
+
+### EPIC-003.2 (Facebook) - Features
+
+#### FEAT-021: Analytics de Página Facebook
+
+**Status:** Planejado  
+**Descrição:** Métricas de engajamento e crescimento de páginas corporativas no Facebook.  
+**Histórias Associadas:** US-034 (planejado)  
+**Duração Estimada:** 1 Sprint  
+
+#### FEAT-022: Analytics de Anúncios Facebook
+
+**Status:** Planejado  
+**Descrição:** Performance de campanhas publicitárias, ROI e otimização de anúncios.  
+**Histórias Associadas:** US-035 (planejado)  
+**Duração Estimada:** 1 Sprint  
+
+#### FEAT-023: Análise de Público Facebook
+
+**Status:** Planejado  
+**Descrição:** Demografia e comportamento do público alcançado pelas páginas e anúncios.  
+**Histórias Associadas:** US-036 (planejado)  
+**Duração Estimada:** 1 Sprint  
+
+### EPIC-003.3 (Analytics Avançados) - Features
 
 #### FEAT-014: Comparação Regional
 
@@ -145,12 +213,21 @@ Este documento mantém o Product Backlog priorizado, estruturado em Épicos → 
 **Histórias Associadas:** US-029 (planejado)  
 **Duração Estimada:** 1 Sprint  
 
-#### FEAT-016: Análise de Seguidores
+#### FEAT-024: Análise Preditiva de Performance
 
 **Status:** Planejado  
-**Descrição:** Demografia dos seguidores, crescimento de audiência e engajamento por segmento.  
-**Histórias Associadas:** US-030 (planejado)  
+**Descrição:** Previsões de engajamento e crescimento baseadas em dados históricos e tendências.  
+**Histórias Associadas:** US-037 (planejado)  
+**Duração Estimada:** 2 Sprints  
+
+#### FEAT-025: Benchmarking Inteligente
+
+**Status:** Planejado  
+**Descrição:** Comparações automatizadas com concorrentes e melhores práticas do setor.  
+**Histórias Associadas:** US-038 (planejado)  
 **Duração Estimada:** 1 Sprint  
+
+### EPIC-003.4 (Dashboards e Relatórios) - Features
 
 #### FEAT-017: Dashboard de Métricas Gerais
 
@@ -164,6 +241,20 @@ Este documento mantém o Product Backlog priorizado, estruturado em Épicos → 
 **Status:** Planejado  
 **Descrição:** Recomendações de conteúdo baseadas em dados e calendário otimizado.  
 **Histórias Associadas:** US-032 (planejado)  
+**Duração Estimada:** 1 Sprint  
+
+#### FEAT-026: Relatórios Executivos Automatizados
+
+**Status:** Planejado  
+**Descrição:** Geração automática de relatórios em PDF/PPT para stakeholders.  
+**Histórias Associadas:** US-039 (planejado)  
+**Duração Estimada:** 1 Sprint  
+
+#### FEAT-027: Alertas e Notificações Inteligentes
+
+**Status:** Planejado  
+**Descrição:** Sistema de alertas para quedas de engajamento, crises de reputação e oportunidades.  
+**Histórias Associadas:** US-040 (planejado)  
 **Duração Estimada:** 1 Sprint
 
 ## Tarefas Técnicas - EPIC-003

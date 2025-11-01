@@ -45,14 +45,17 @@ class TestInstagramAPIClient:
         """Testa request bem-sucedida"""
         mock_response = {"data": {"id": "123", "username": "test"}}
 
-        with patch.object(client, "_client") as mock_client:
-            mock_client.get.return_value = AsyncMock()
-            mock_client.get.return_value.json.return_value = mock_response
+        with patch("httpx.AsyncClient") as mock_async_client:
+            mock_client_instance = AsyncMock()
+            mock_response_obj = AsyncMock()
+            mock_response_obj.json.return_value = mock_response
+            mock_client_instance.get.return_value = mock_response_obj
+            mock_async_client.return_value = mock_client_instance
 
             result = await client._make_request("/test")
 
             assert result == mock_response
-            mock_client.get.assert_called_once()
+            mock_client_instance.get.assert_called_once()
 
     @pytest.mark.asyncio
     async def test_make_request_api_error(self, client):
@@ -65,13 +68,15 @@ class TestInstagramAPIClient:
             }
         }
 
-        with patch.object(client, "_client") as mock_client:
+        with patch("httpx.AsyncClient") as mock_async_client:
+            mock_client_instance = AsyncMock()
             mock_response = AsyncMock()
             mock_response.json.return_value = error_response
-            mock_client.get.return_value = mock_response
-            mock_client.get.return_value.raise_for_status.side_effect = httpx.HTTPStatusError(
+            mock_response.raise_for_status.side_effect = httpx.HTTPStatusError(
                 "Bad Request", request=None, response=mock_response
             )
+            mock_client_instance.get.return_value = mock_response
+            mock_async_client.return_value = mock_client_instance
 
             with pytest.raises(InstagramAPIError) as exc_info:
                 await client._make_request("/test")
