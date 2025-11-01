@@ -35,6 +35,7 @@
   - FEAT-008: Configurações do Cliente
   - **FEAT-009: Gestão de Usuários do Cliente (NOVO)**
   - **FEAT-010: Dashboards Compartilhados (NOVO)**
+  - **FEAT-011: Auto-cadastro e Onboarding Self-Service (NOVO - CRÍTICO)**
 
 #### 3. **Ajustes Baseados em Requisitos Específicos**
 
@@ -43,6 +44,7 @@
 - **Licença Integration**: Validação automática de licença ativa
 - **Dashboards Compartilhados**: Sistema de templates criados pelo admin
 - **Gestão Financeira**: Campos preparados para assinatura mensal (tipo_cobranca, valor, auto_renovacao, PIX)
+- **Auto-cadastro Self-Service**: Fluxo completo de onboarding independente com QR Code PIX
 
 #### 4. **Histórias de Usuário Detalhadas**
 - **US-010**: Login de Cliente (autenticação dedicada)

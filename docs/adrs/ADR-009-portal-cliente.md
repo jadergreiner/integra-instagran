@@ -21,13 +21,14 @@ Implementar o Portal do Cliente como um módulo separado (`src/client/`) com as 
 - **URLs segregadas**: `/client/*` para rotas do cliente vs `/admin/*` para admin
 
 ### Funcionalidades Core:
-1. **Autenticação de Cliente**: Login com credenciais específicas do cliente + OAuth futuro
-2. **Gestão Multi-usuário**: Cliente pode criar usuários para sua equipe
-3. **Dashboard do Cliente**: Visão geral dos dados e configurações
-4. **Gestão de APIs**: Configuração de credenciais para Instagram e outras plataformas
-5. **Dashboards Compartilhados**: Insights criados pelo admin e compartilhados
-6. **Relatórios**: Visualização de dados coletados
-7. **Configurações**: Personalização do cliente
+1. **Auto-cadastro Self-Service**: Cliente cria conta, gera licença e paga via PIX automaticamente ⭐ CRÍTICO
+2. **Autenticação de Cliente**: Login com credenciais específicas do cliente + OAuth futuro
+3. **Gestão Multi-usuário**: Cliente pode criar usuários para sua equipe
+4. **Dashboard do Cliente**: Visão geral dos dados e configurações
+5. **Gestão de APIs**: Configuração de credenciais para Instagram e outras plataformas
+6. **Dashboards Compartilhados**: Insights criados pelo admin e compartilhados
+7. **Relatórios**: Visualização de dados coletados
+8. **Configurações**: Personalização do cliente
 
 ### Isolamento de Dados:
 - **Middleware de cliente**: Injeta `cliente_id` em todas as requisições
@@ -113,6 +114,15 @@ class ClientIsolationMiddleware:
 - **Dashboards compartilhados**: Templates criados pelo admin, personalizáveis por cliente
 - **Licença Integration**: Validação automática de licença ativa para acesso
 - **Gestão Financeira**: Campos preparados para assinatura mensal (tipo_cobranca, valor, auto_renovacao, PIX)
+- **Auto-cadastro Self-Service**: Fluxo completo de onboarding independente
+
+### Fluxo de Auto-cadastro:
+1. **Acesso Público**: Cliente acessa `/cadastro` sem login
+2. **Dados Básicos**: Nome empresa, email, senha, chave PIX
+3. **Criação Automática**: Sistema cria cliente, usuário admin e licença
+4. **Geração PIX**: QR Code gerado automaticamente para pagamento
+5. **Confirmação**: Webhook ativa licença após pagamento PIX
+6. **Acesso Liberado**: Cliente redirecionado para dashboard funcional
 
 ## Métricas de Sucesso
 

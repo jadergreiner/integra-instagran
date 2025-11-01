@@ -50,6 +50,13 @@ Este documento mantém o Product Backlog priorizado, estruturado em Épicos → 
 
 ### EPIC-002 - Features
 
+#### FEAT-011: Auto-cadastro e Onboarding Self-Service
+
+**Status:** Planejado  
+**Descrição:** Sistema completo de auto-cadastro onde cliente cria conta, gera licença automaticamente e paga via PIX para ativar a plataforma por 30 dias.  
+**Histórias Associadas:** US-021, US-022, US-023 (planejado)  
+**Duração Estimada:** 2 Sprints  
+
 #### FEAT-004: Autenticação de Clientes
 
 **Status:** Planejado  
@@ -577,19 +584,20 @@ Este documento mantém o Product Backlog priorizado, estruturado em Épicos → 
 - Todas as features implementadas e testadas
 
 **EPIC-002 (Portal do Cliente):** 🔄 PRÓXIMO - Em Análise
-1. **FEAT-004**: Autenticação de Clientes (base necessária)
-2. **FEAT-009**: Gestão de Usuários do Cliente (multi-usuário)
-3. **FEAT-005**: Dashboard do Cliente (experiência inicial)
-4. **FEAT-006**: Gestão de APIs Externas (valor core)
-5. **FEAT-010**: Dashboards Compartilhados (insights admin)
-6. **FEAT-007**: Relatórios e Analytics (valor analítico)
-7. **FEAT-008**: Configurações do Cliente (complementar)
+1. **FEAT-011**: Auto-cadastro e Onboarding Self-Service ⭐ CRÍTICO (ponto de entrada)
+2. **FEAT-004**: Autenticação de Clientes (login pós-cadastro)
+3. **FEAT-009**: Gestão de Usuários do Cliente (multi-usuário)
+4. **FEAT-005**: Dashboard do Cliente (experiência inicial)
+5. **FEAT-006**: Gestão de APIs Externas (valor core)
+6. **FEAT-010**: Dashboards Compartilhados (insights admin)
+7. **FEAT-007**: Relatórios e Analytics (valor analítico)
+8. **FEAT-008**: Configurações do Cliente (complementar)
 
 ## Métricas de Progresso
 
 - Épicos Concluídos: 1/2 (EPIC-001 ✅)
-- Features Concluídas: 3/11 (FEAT-001, FEAT-002, FEAT-003 ✅)
-- Histórias Concluídas: 9/21 (US-001 até US-009 ✅)
+- Features Concluídas: 3/12 (FEAT-001, FEAT-002, FEAT-003 ✅)
+- Histórias Concluídas: 9/24 (US-001 até US-009 ✅)
 - Tarefas Concluídas: 8/24 (TASK-001 até TASK-008 ✅)
 
 Última Atualização: 01/11/2025
@@ -741,3 +749,52 @@ Este documento mantém o Product Backlog priorizado, estruturado em Épicos → 
 - Status de acompanhamento
 
 **Tarefas Associadas:** TASK-027 (planejado)
+
+#### US-021: Auto-cadastro de Novo Cliente
+
+**Status:** Planejado  
+**Como:** Potencial cliente interessado no produto  
+**Quero:** Me cadastrar sozinho no sistema  
+**Para:** Criar minha conta e começar a usar a plataforma  
+**Critérios de Aceitação:**
+
+- Página pública de cadastro (/cadastro) sem necessidade de login
+- Formulário com: nome empresa, email, senha, chave PIX
+- Validação de email único e senha forte
+- Criação automática de cliente e usuário admin
+- Geração automática de licença trial (7 dias) ou imediata com PIX
+- Redirecionamento para dashboard após cadastro/pagamento
+
+**Tarefas Associadas:** TASK-028 (planejado)
+
+#### US-022: Geração Automática de QR Code PIX
+
+**Status:** Planejado  
+**Como:** Cliente recém-cadastrado  
+**Quero:** Receber QR Code PIX para ativar minha licença  
+**Para:** Pagar e habilitar a plataforma por 30 dias  
+**Critérios de Aceitação:**
+
+- QR Code gerado automaticamente após cadastro
+- Valor padrão da assinatura mensal
+- Exibição clara do QR Code na tela
+- Instruções para pagamento via PIX
+- Status de pagamento atualizado em tempo real
+- Ativação automática da licença após confirmação
+
+**Tarefas Associadas:** TASK-029 (planejado)
+
+#### US-023: Ativação Automática Após Pagamento
+
+**Status:** Planejado  
+**Como:** Cliente que pagou via PIX  
+**Quero:** Ter minha licença ativada automaticamente  
+**Para:** Começar a usar a plataforma imediatamente  
+**Critérios de Aceitação:**
+
+- Webhook recebe confirmação de pagamento
+- Licença muda status para "ativa"
+- Cliente recebe confirmação visual
+- Acesso liberado ao dashboard completo
+- Email de boas-vindas enviado
+- Renovação automática preparada para próximo mês
