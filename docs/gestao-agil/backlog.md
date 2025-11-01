@@ -166,7 +166,103 @@ Este documento mantém o Product Backlog priorizado, estruturado em Épicos → 
 **Histórias Associadas:** US-032 (planejado)  
 **Duração Estimada:** 1 Sprint
 
-**Status:** ✅ Concluído  
+## Tarefas Técnicas - EPIC-003
+
+### Preparação para Integração Instagram
+
+#### TASK-033: Configurar Meta for Developers
+
+**Status:** Planejado  
+**Descrição:** Criar app no Meta for Developers e configurar Instagram Graph API  
+**Critérios:**
+
+- Conta de desenvolvedor Meta criada
+- App criado no portal Meta for Developers
+- Produto Instagram Graph API adicionado
+- Token de acesso de longa duração gerado
+- Permissões básicas solicitadas (instagram_basic, pages_show_list)
+
+#### TASK-034: Preparar Contas Empresariais
+
+**Status:** Planejado  
+**Descrição:** Garantir que todas as contas do grupo estejam configuradas como Business Accounts  
+**Critérios:**
+
+- Todas as 10+ contas convertidas para Business/Creator
+- Vinculação com Páginas do Facebook estabelecida
+- Centralização no Business Manager corporativo
+- Acesso de administrador confirmado para desenvolvedores
+
+#### TASK-035: Solicitar App Review Meta
+
+**Status:** Planejado  
+**Descrição:** Submeter app para revisão e obter permissões avançadas  
+**Critérios:**
+
+- Permissões instagram_manage_insights solicitada
+- Permissões instagram_manage_comments solicitada
+- Documentação técnica preparada para revisão
+- Processo de aprovação acompanhado
+
+#### TASK-036: Implementar Cliente Instagram API
+
+**Status:** Planejado  
+**Descrição:** Criar infraestrutura base para integração com Instagram Graph API  
+**Critérios:**
+
+- Cliente HTTP assíncrono implementado (httpx)
+- Gestão de autenticação e tokens
+- Rate limiting implementado
+- Error handling com retry logic
+- Logging detalhado para auditoria
+
+#### TASK-037: Criar Modelos de Dados Instagram
+
+**Status:** Planejado  
+**Descrição:** Definir modelos Pydantic para responses da API Instagram  
+**Critérios:**
+
+- Modelos para dados de perfil (InstagramAccount)
+- Modelos para métricas de insights (InstagramInsights)
+- Modelos para posts e mídia (InstagramMedia)
+- Modelos para comentários (InstagramComment)
+- Validação de dados obrigatórios
+
+#### TASK-038: Implementar Extração Dados Básicos
+
+**Status:** Planejado  
+**Descrição:** Implementar coleta de dados básicos do perfil Instagram  
+**Critérios:**
+
+- Endpoint para obter dados da conta
+- Persistência em JSON storage
+- Testes de conectividade com contas reais
+- Tratamento de erros de autenticação
+- Logs de execução bem-sucedida
+
+#### TASK-039: Implementar Coleta de Insights
+
+**Status:** Planejado  
+**Descrição:** Implementar extração de métricas de audiência e engajamento  
+**Critérios:**
+
+- Coleta de dados demográficos (idade, gênero, localização)
+- Métricas de alcance e impressões
+- Dados de engajamento por post
+- Agendamento automático de coletas
+- Armazenamento histórico de métricas
+
+#### TASK-040: Implementar Dashboard Básico Instagram
+
+**Status:** Planejado  
+**Descrição:** Criar visualização inicial dos dados coletados  
+**Critérios:**
+
+- Template HTML para dashboard Instagram
+- Gráficos básicos com Chart.js
+- Exibição de métricas principais
+- Interface responsiva para clientes
+- Filtros por período de análise  
 **Como:** Administrador master do sistema  
 **Quero:** Visualizar lista de todos os usuários administrativos  
 **Para:** Gerenciar acessos e permissões  
