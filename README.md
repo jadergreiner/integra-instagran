@@ -3,7 +3,7 @@
 ## 📖 Documentação
 
 [![Documentação Interativa](https://img.shields.io/badge/Documentação-GitHub%20Pages-blue?logo=github)](https://jadergreiner.github.io/integra-instagran/)
-[![Status Documentação](https://img.shields.io/badge/Status-Configurar%20Ambiente-yellow)](GITHUB_PAGES_FIX.md)
+[![Status Documentação](https://img.shields.io/badge/Status-Funcionando-brightgreen)](https://github.com/jadergreiner/integra-instagran/actions)
 
 A documentação completa está sendo configurada com **GitHub Pages** usando Docsify para interface interativa.
 
