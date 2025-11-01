@@ -8,10 +8,17 @@ Este documento mantém o Product Backlog priorizado, estruturado em Épicos → 
 
 ### EPIC-001: Implementar Portal Administrativo
 
-**Status:** Em Andamento  
+**Status:** ✅ Concluído  
 **Descrição:** Criar portal seguro para administradores gerenciarem licenças, usuários e configurações do sistema multi-tenant.  
 **Valor de Negócio:** Permite gestão centralizada e segura do produto.  
 **Duração Estimada:** Vários Sprints  
+
+### EPIC-002: Implementar Portal do Cliente
+
+**Status:** Em Análise  
+**Descrição:** Criar portal dedicado para clientes gerenciarem suas próprias configurações, dados e integrações com APIs externas.  
+**Valor de Negócio:** Permite auto-gestão dos clientes, reduzindo suporte e aumentando satisfação.  
+**Duração Estimada:** 3-4 Sprints  
 
 ## Features por Épico
 
@@ -38,7 +45,44 @@ Este documento mantém o Product Backlog priorizado, estruturado em Épicos → 
 **Histórias Associadas:** US-007 ✅, US-008 ✅, US-009 ✅  
 **Duração Estimada:** 1 Sprint  
 
-### FEAT-003 - Histórias (Em Definição)
+## Features por Épico - EPIC-002
+
+### EPIC-002 - Features
+
+#### FEAT-004: Autenticação de Clientes
+
+**Status:** Planejado  
+**Descrição:** Sistema de login/logout específico para clientes acessar o portal.  
+**Histórias Associadas:** US-010 (planejado)  
+**Duração Estimada:** 1 Sprint  
+
+#### FEAT-005: Dashboard do Cliente
+
+**Status:** Planejado  
+**Descrição:** Página inicial do cliente com visão geral dos dados e configurações.  
+**Histórias Associadas:** US-011 (planejado)  
+**Duração Estimada:** 1 Sprint  
+
+#### FEAT-006: Gestão de APIs Externas
+
+**Status:** Planejado  
+**Descrição:** Interface para configurar credenciais e conexões com Instagram e outras plataformas.  
+**Histórias Associadas:** US-012, US-013 (planejado)  
+**Duração Estimada:** 1 Sprint  
+
+#### FEAT-007: Relatórios e Analytics
+
+**Status:** Planejado  
+**Descrição:** Visualização de dados coletados das redes sociais com gráficos e métricas.  
+**Histórias Associadas:** US-014, US-015 (planejado)  
+**Duração Estimada:** 1 Sprint  
+
+#### FEAT-008: Configurações do Cliente
+
+**Status:** Planejado  
+**Descrição:** Área para personalizar configurações específicas do cliente.  
+**Histórias Associadas:** US-016 (planejado)  
+**Duração Estimada:** 0.5 Sprint
 
 #### US-007: Listar Usuários Administrativos
 
@@ -514,18 +558,105 @@ Este documento mantém o Product Backlog priorizado, estruturado em Épicos → 
 
 ## Priorização
 
-1. US-002 (segurança crítica - completar autenticação) ✅ **CONCLUÍDA**
-2. FEAT-002 (gestão de licenças - funcionalidade core) - **EM PLANEJAMENTO**
-   - US-003: Criar Nova Licença (próxima prioridade)
-   - US-004: Listar e Filtrar Licenças
-   - US-005: Gerenciar Status da Licença
-   - US-006: Editar Dados da Licença
+**EPIC-001 (Portal Administrativo):** ✅ CONCLUÍDO
+- Todas as features implementadas e testadas
+
+**EPIC-002 (Portal do Cliente):** 🔄 PRÓXIMO - Em Análise
+1. **FEAT-004**: Autenticação de Clientes (base necessária)
+2. **FEAT-005**: Dashboard do Cliente (experiência inicial)
+3. **FEAT-006**: Gestão de APIs Externas (valor core)
+4. **FEAT-007**: Relatórios e Analytics (valor analítico)
+5. **FEAT-008**: Configurações do Cliente (complementar)
 
 ## Métricas de Progresso
 
-- Épicos Concluídos: 0/1
-- Features Concluídas: 0/3
-- Histórias Concluídas: 2/6 (US-001, US-002 ✅)
+- Épicos Concluídos: 1/2 (EPIC-001 ✅)
+- Features Concluídas: 3/8 (FEAT-001, FEAT-002, FEAT-003 ✅)
+- Histórias Concluídas: 9/16 (US-001 até US-009 ✅)
 - Tarefas Concluídas: 8/24 (TASK-001 até TASK-008 ✅)
 
-Última Atualização: 30/10/2025
+Última Atualização: 01/11/2025
+
+## Histórias do Usuário - EPIC-002
+
+### FEAT-004 - Histórias
+
+#### US-010: Login de Cliente
+
+**Status:** Planejado  
+**Como:** Usuário cliente (não administrador)  
+**Quero:** Fazer login no portal do cliente  
+**Para:** Acessar minhas configurações e dados de forma segura  
+**Critérios de Aceitação:**
+
+- Página de login dedicada em /client/login
+- Autenticação com email/senha específicos do cliente
+- Validação de cliente ativo e licença válida
+- Redirecionamento para dashboard do cliente após login
+- Mensagem de erro para credenciais inválidas ou cliente inativo
+
+**Tarefas Associadas:** TASK-019 (planejado)
+
+#### US-011: Dashboard do Cliente
+
+**Status:** Planejado  
+**Como:** Cliente logado  
+**Quero:** Visualizar dashboard com visão geral dos meus dados  
+**Para:** Entender rapidamente o status das minhas integrações  
+**Critérios de Aceitação:**
+
+- Página inicial em /client/dashboard
+- Cards com status das APIs conectadas
+- Gráfico simples de dados recentes
+- Links rápidos para configurações
+- Informações do perfil do cliente
+
+**Tarefas Associadas:** TASK-020 (planejado)
+
+#### US-012: Configurar API do Instagram
+
+**Status:** Planejado  
+**Como:** Cliente logado  
+**Quero:** Configurar credenciais da API do Instagram  
+**Para:** Permitir coleta de dados da minha conta  
+**Critérios de Aceitação:**
+
+- Formulário para Access Token e Account ID
+- Validação de credenciais via API
+- Status de conexão (conectado/desconectado)
+- Teste de conectividade
+- Armazenamento seguro das credenciais
+
+**Tarefas Associadas:** TASK-021 (planejado)
+
+#### US-013: Visualizar Relatórios
+
+**Status:** Planejado  
+**Como:** Cliente logado  
+**Quero:** Ver relatórios dos dados coletados  
+**Para:** Analisar performance das minhas redes sociais  
+**Critérios de Aceitação:**
+
+- Página de relatórios em /client/reports
+- Gráficos de engajamento e seguidores
+- Filtros por período
+- Exportação em PDF/CSV
+- Dados atualizados em tempo real
+
+**Tarefas Associadas:** TASK-022 (planejado)
+
+#### US-014: Gerenciar Configurações
+
+**Status:** Planejado  
+**Como:** Cliente logado  
+**Quero:** Personalizar configurações do meu perfil  
+**Para:** Adaptar o sistema às minhas necessidades  
+**Critérios de Aceitação:**
+
+- Página de configurações em /client/settings
+- Edição de dados do perfil
+- Preferências de notificações
+- Troca de senha
+- Exclusão de conta (com confirmação)
+
+**Tarefas Associadas:** TASK-023 (planejado)

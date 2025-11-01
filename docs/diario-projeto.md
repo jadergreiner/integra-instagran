@@ -1,6 +1,94 @@
 # Diário do Projeto
 - integra-instagran
 
+## 01/11/2025 (Continuação)
+
+- Dia de Refinamento do EPIC-002 - Portal do Cliente
+
+### 🎯 Resumo Executivo do Dia
+
+**Dia dedicado ao refinamento arquitetural e planejamento do EPIC-002 (Portal do Cliente)**. Criado ADR-009 definindo arquitetura multi-tenant com isolamento completo por cliente. Estruturado backlog completo com 5 features e 5 histórias de usuário. **Base sólida estabelecida para desenvolvimento do portal cliente**.
+
+### 📊 Métricas do Dia
+
+- **ADR Criado**: ADR-009 (arquitetura portal cliente)
+- **Features Definidas**: 5 features (FEAT-004 a FEAT-008)
+- **Histórias Planejadas**: 5 histórias de usuário (US-010 a US-014)
+- **Arquitetura**: Isolamento multi-tenant definido
+- **Backlog**: EPIC-002 completamente estruturado
+
+### 🏗️ Atividades Realizadas
+
+#### 1. **Criação do ADR-009 - Portal do Cliente**
+- **Decisão Arquitetural**: Módulo dedicado `src/client/` com isolamento completo
+- **Isolamento de Dados**: Middleware que filtra por `cliente_id` automaticamente
+- **Autenticação**: Sistema separado para clientes (não confundir com admin)
+- **URLs**: `/client/*` segregadas de `/admin/*`
+
+#### 2. **Estruturação do Backlog - EPIC-002**
+- **Status**: EPIC-002 movido de "Planejado" para "Em Análise"
+- **Features Definidas**:
+  - FEAT-004: Autenticação de Clientes
+  - FEAT-005: Dashboard do Cliente
+  - FEAT-006: Gestão de APIs Externas
+  - FEAT-007: Relatórios e Analytics
+  - FEAT-008: Configurações do Cliente
+
+#### 3. **Histórias de Usuário Detalhadas**
+- **US-010**: Login de Cliente (autenticação dedicada)
+- **US-011**: Dashboard do Cliente (visão geral)
+- **US-012**: Configurar API do Instagram (credenciais)
+- **US-013**: Visualizar Relatórios (analytics)
+- **US-014**: Gerenciar Configurações (personalização)
+
+### 📈 Melhorias Arquiteturais
+
+#### **Isolamento Multi-tenant Robusto**
+- ✅ **Middleware de Cliente**: Injeção automática de `cliente_id`
+- ✅ **Queries Filtradas**: Todas as operações filtram por cliente
+- ✅ **Validações de Segurança**: Cliente só acessa seus dados
+- ✅ **URLs Segregadas**: Áreas admin e cliente separadas
+
+#### **Arquitetura Modular**
+- ✅ **Módulo Dedicado**: `src/client/` paralelo ao `src/admin/`
+- ✅ **Separação de Responsabilidades**: Cada módulo independente
+- ✅ **Reutilização**: Componentes core compartilhados
+- ✅ **Manutenibilidade**: Código organizado e testável
+
+### 🔄 Próximos Passos
+
+Com arquitetura definida e backlog estruturado:
+
+1. **EPIC-002**: Portal do Cliente
+   - Iniciar desenvolvimento da FEAT-004 (Autenticação)
+   - Implementar middleware de isolamento
+   - Criar estrutura base do módulo cliente
+
+2. **Qualidade e Segurança**:
+   - Testes de isolamento multi-tenant
+   - Validações de segurança
+   - Code review da arquitetura
+
+3. **Integração**:
+   - Conectar com sistema de licenças
+   - Validar acesso baseado em licença ativa
+
+### 💡 Lições Aprendidas
+
+1. **Planejamento Arquitetural**: ADR detalhado evita retrabalho futuro
+2. **Isolamento Crítico**: Segurança multi-tenant deve ser prioridade
+3. **Estruturação Ágil**: Backlog bem definido acelera desenvolvimento
+4. **Separação de Contextos**: Admin vs Cliente precisam de isolamento completo
+
+### 📝 Observações Técnicas
+
+- **Framework**: FastAPI + Jinja2 + Middleware customizado
+- **Isolamento**: cliente_id injetado automaticamente em todas as requests
+- **Segurança**: Autenticação separada + validações de licença
+- **UI/UX**: Interface diferenciada para clientes (mais simples que admin)
+
+---
+
 ## 01/11/2025
 
 - Dia de Finalização da US-008 e Deploy da Documentação
