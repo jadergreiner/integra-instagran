@@ -19,10 +19,10 @@ class TestLoginE2E:
 
         # Então
         expect(page_with_server).to_have_title("Login Administrador")
-        expect(page_with_server.locator("h3")).to_contain_text("Login do Administrador")
+        expect(page_with_server.locator("h3")).to_contain_text("Portal Administrativo")
         expect(page_with_server.locator("input[name='usuario']")).to_be_visible()
         expect(page_with_server.locator("input[name='senha']")).to_be_visible()
-        expect(page_with_server.locator("button[type='submit']")).to_contain_text("Entrar")
+        expect(page_with_server.locator("button[type='submit']")).to_contain_text("Entrar no Sistema")
 
     def test_quando_fazer_login_com_credenciais_validas_entao_deve_redirecionar_para_dashboard(self, page_with_server: Page):
         """TASK-003: Valida fluxo completo de login válido e redirecionamento"""
@@ -77,6 +77,6 @@ class TestLoginE2E:
 
         # Então - deve redirecionar para página de login
         expect(page_with_server).to_have_title("Login Administrador")
-        expect(page_with_server.locator("h3")).to_contain_text("Login do Administrador")
+        expect(page_with_server.locator("h3")).to_contain_text("Portal Administrativo")
         expect(page_with_server.locator("input[name='usuario']")).to_be_visible()
         expect(page_with_server.locator("input[name='senha']")).to_be_visible()
