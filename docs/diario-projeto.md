@@ -42,6 +42,7 @@
 - **OAuth Planning**: Estrutura preparada para login social futuro
 - **Licença Integration**: Validação automática de licença ativa
 - **Dashboards Compartilhados**: Sistema de templates criados pelo admin
+- **Gestão Financeira**: Campos preparados para assinatura mensal (tipo_cobranca, valor, auto_renovacao)
 
 #### 4. **Histórias de Usuário Detalhadas**
 - **US-010**: Login de Cliente (autenticação dedicada)

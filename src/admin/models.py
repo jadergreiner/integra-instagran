@@ -8,6 +8,11 @@ class LicencaCreate(BaseModel):
     cliente_id: int = Field(..., description="ID do cliente que receberá a licença")
     validade: date = Field(..., description="Data de validade da licença (deve ser futura)")
 
+    # Campos preparados para gestão financeira futura (assinatura mensal)
+    tipo_cobranca: Optional[str] = Field(None, description="Tipo de cobrança: mensal, anual (preparado para futuro)")
+    valor: Optional[float] = Field(None, description="Valor da licença (preparado para futuro)")
+    auto_renovacao: Optional[bool] = Field(None, description="Renovação automática (preparado para futuro)")
+
 
 class LicencaResponse(BaseModel):
     """Modelo para resposta de licença - TASK-007"""
@@ -16,6 +21,13 @@ class LicencaResponse(BaseModel):
     status: str
     validade: date
     criado_em: Optional[date] = None
+
+    # Campos preparados para gestão financeira futura
+    tipo_cobranca: Optional[str] = None
+    valor: Optional[float] = None
+    ultimo_pagamento: Optional[date] = None
+    status_pagamento: Optional[str] = None  # pago, pendente, vencido
+    auto_renovacao: Optional[bool] = None
 
 
 class Licenca(BaseModel):
