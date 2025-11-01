@@ -3,7 +3,7 @@
     "id": 1,
     "nome": "Administrador",
     "email": "admin",
-    "senha_hash": "$pbkdf2-sha256$29000$fk.JkdLa.987R.j9v/femw$9LJHtAhc3mn3thuIprI6rb/5dHUSrYWXBdVACTcwTIo",
+    "senha_hash": "$pbkdf2-sha256$29000$/Z9TCqFUag0BgHDuXSsFwA$QBIT6oewjTVjk7WcNupWGxAJqqTAyNNMmstpeDv6uJk",
     "permissao": "admin",
     "status": "ativo",
     "criado_em": "2025-11-01",

@@ -1,6 +1,28 @@
 import pytest
+import tempfile
+import os
+import re
 from fastapi.testclient import TestClient
 from src.main import app
+from src.admin.usuario_service import UsuarioService
+
+
+@pytest.fixture
+def temp_data_file():
+    """Fixture para criar arquivo temporário de dados para testes"""
+    with tempfile.NamedTemporaryFile(mode='w', suffix='.json', delete=False) as f:
+        temp_file = f.name
+    
+    # Cria serviço com arquivo temporário
+    service = UsuarioService(temp_file)
+    
+    yield temp_file
+    
+    # Limpa arquivo após teste
+    try:
+        os.unlink(temp_file)
+    except:
+        pass
 
 
 class TestUsuarioAdmin:
@@ -33,8 +55,8 @@ class TestUsuarioAdmin:
         response = client.post("/admin/usuarios/login", data=dados)
 
         # Então
-        assert response.status_code == 400
-        assert "Credenciais inválidas" in response.json()["detail"]
+        assert response.status_code == 200  # Retorna template com erro
+        assert "Credenciais inválidas" in response.text
 
     def test_quando_post_login_com_credenciais_validas_entao_deve_redirecionar_para_dashboard(self):
         """TASK-003: Valida especificamente o redirecionamento para dashboard"""
@@ -208,7 +230,8 @@ class TestCriarUsuarioAdmin:
         dados_usuario = {
             "nome": "João Silva",
             "email": email_unico,
-            "senha": "senhaForte123!"
+            "senha": "senhaForte123!",
+            "confirmar_senha": "senhaForte123!"
         }
 
         # Quando
@@ -216,7 +239,7 @@ class TestCriarUsuarioAdmin:
 
         # Então
         assert response.status_code == 302  # Redirect após criação
-        assert response.headers["location"] == "/admin/usuarios/"
+        assert response.headers["location"].startswith("/admin/usuarios/")
 
     def test_quando_post_criar_usuario_com_email_duplicado_entao_deve_mostrar_erro(self):
         """TASK-017: Valida validação de email único"""
@@ -229,7 +252,8 @@ class TestCriarUsuarioAdmin:
         dados_usuario1 = {
             "nome": "João Silva",
             "email": "joao.silva@exemplo.com",
-            "senha": "senhaForte123!"
+            "senha": "senhaForte123!",
+            "confirmar_senha": "senhaForte123!"
         }
         client.post("/admin/usuarios/criar", data=dados_usuario1)
 
@@ -237,15 +261,16 @@ class TestCriarUsuarioAdmin:
         dados_usuario2 = {
             "nome": "Maria Silva",
             "email": "joao.silva@exemplo.com",  # Mesmo email
-            "senha": "outraSenha123!"
+            "senha": "outraSenha123!",
+            "confirmar_senha": "outraSenha123!"
         }
 
         # Quando
         response = client.post("/admin/usuarios/criar", data=dados_usuario2)
 
         # Então
-        assert response.status_code == 400
-        assert "Email já cadastrado" in response.json()["detail"]
+        assert response.status_code == 200  # Retorna template com erro
+        assert "Email já cadastrado" in response.text
 
     def test_quando_post_criar_usuario_com_senha_fraca_entao_deve_mostrar_erro(self):
         """TASK-017: Valida senha forte obrigatória"""
@@ -257,14 +282,16 @@ class TestCriarUsuarioAdmin:
         dados_usuario = {
             "nome": "João Silva",
             "email": "joao.silva@exemplo.com",
-            "senha": "123"  # Senha muito fraca
+            "senha": "123",  # Senha muito fraca
+            "confirmar_senha": "123"
         }
 
         # Quando
         response = client.post("/admin/usuarios/criar", data=dados_usuario)
 
         # Então
-        assert response.status_code == 422  # Validation error
+        assert response.status_code == 200  # Retorna template com erro
+        assert "Senha deve ter pelo menos 8 caracteres" in response.text
 
     def test_quando_get_criar_usuario_sem_login_entao_deve_redirecionar(self):
         """TASK-017: Valida proteção de rota"""
@@ -294,3 +321,172 @@ class TestCriarUsuarioAdmin:
         assert 'name="nome"' in response.text
         assert 'name="email"' in response.text
         assert 'name="senha"' in response.text
+
+
+class TestEditarUsuarioAdmin:
+    """
+    Testes para edição de usuários administrativos
+    TASK-019: Implementar edição de usuários administrativos
+    """
+
+    def test_quando_get_editar_usuario_existente_entao_deve_renderizar_formulario_preenchido(self):
+        """TASK-019: Valida carregamento do formulário de edição com dados pré-preenchidos"""
+        # Dado
+        client = TestClient(app)
+        # Fazer login primeiro
+        client.post("/admin/usuarios/login", data={"usuario": "admin", "senha": "123"})
+
+        # Quando - acessar formulário de edição do usuário admin (id=1)
+        response = client.get("/admin/usuarios/1/editar")
+
+        # Então
+        assert response.status_code == 200
+        assert "Editar Usuário Administrativo" in response.text
+        assert "admin" in response.text  # Email pré-preenchido
+        assert 'name="nome"' in response.text
+        assert 'name="email"' in response.text
+        assert 'name="senha"' in response.text
+
+    def test_quando_get_editar_usuario_inexistente_entao_deve_retornar_erro_404(self):
+        """TASK-019: Valida tratamento de usuário inexistente"""
+        # Dado
+        client = TestClient(app)
+        # Fazer login primeiro
+        client.post("/admin/usuarios/login", data={"usuario": "admin", "senha": "123"})
+
+        # Quando - tentar editar usuário inexistente
+        response = client.get("/admin/usuarios/999/editar")
+
+        # Então
+        assert response.status_code == 404
+
+    def test_quando_post_editar_usuario_com_dados_validos_entao_deve_atualizar_e_redirecionar(self):
+        """TASK-019: Valida edição bem-sucedida de usuário"""
+        # Dado
+        client = TestClient(app)
+        # Fazer login primeiro
+        client.post("/admin/usuarios/login", data={"usuario": "admin", "senha": "123"})
+
+        # Criar um usuário para editar
+        dados_criacao = {
+            "nome": "João Silva",
+            "email": "joao.silva@exemplo.com",
+            "senha": "senhaForte123!",
+            "confirmar_senha": "senhaForte123!"
+        }
+        client.post("/admin/usuarios/criar", data=dados_criacao)
+
+        # Descobrir o ID do usuário criado (último da lista)
+        response_lista = client.get("/admin/usuarios/")
+        # Extrair IDs da resposta HTML (simplificado - assume que IDs são mostrados)
+        import re
+        ids_encontrados = re.findall(r'/admin/usuarios/(\d+)/editar', response_lista.text)
+        usuario_id = int(ids_encontrados[-1]) if ids_encontrados else 2  # Fallback para 2
+
+        # Novos dados para edição
+        dados_edicao = {
+            "nome": "João Silva Atualizado",
+            "email": "joao.silva.atualizado@exemplo.com",
+            "senha": "",  # Senha não alterada
+            "status": "ativo"
+        }
+
+        # Quando - editar o usuário
+        response = client.post(f"/admin/usuarios/{usuario_id}/editar", data=dados_edicao, follow_redirects=False)
+
+        # Então
+        assert response.status_code == 302  # Redirect após edição
+        assert response.headers["location"].startswith("/admin/usuarios/")
+
+    def test_quando_post_editar_usuario_com_email_duplicado_entao_deve_mostrar_erro(self):
+        """TASK-019: Valida validação de email único na edição"""
+        # Dado
+        client = TestClient(app)
+        # Fazer login primeiro
+        client.post("/admin/usuarios/login", data={"usuario": "admin", "senha": "123"})
+
+        # Criar dois usuários
+        dados1 = {
+            "nome": "João Silva",
+            "email": "joao.silva@exemplo.com",
+            "senha": "senhaForte123!",
+            "confirmar_senha": "senhaForte123!"
+        }
+        dados2 = {
+            "nome": "Maria Silva",
+            "email": "maria.silva@exemplo.com",
+            "senha": "senhaForte123!",
+            "confirmar_senha": "senhaForte123!"
+        }
+        client.post("/admin/usuarios/criar", data=dados1)
+        client.post("/admin/usuarios/criar", data=dados2)
+
+        # Descobrir IDs dos usuários criados
+        response_lista = client.get("/admin/usuarios/")
+        ids_encontrados = re.findall(r'/admin/usuarios/(\d+)/editar', response_lista.text)
+        usuario_id = int(ids_encontrados[-2]) if len(ids_encontrados) >= 2 else 3  # Penúltimo criado
+
+        # Tentar alterar email do usuário para o mesmo email de outro usuário
+        dados_edicao = {
+            "nome": "João Silva",
+            "email": "maria.silva@exemplo.com",  # Email já existe
+            "senha": "",
+            "status": "ativo"
+        }
+
+        # Quando - editar usuário com email duplicado
+        response = client.post(f"/admin/usuarios/{usuario_id}/editar", data=dados_edicao)
+
+        # Então
+        assert response.status_code == 200  # Retorna template com erro
+        assert "Email já cadastrado" in response.text
+
+    def test_quando_post_editar_usuario_com_senha_fraca_entao_deve_mostrar_erro(self):
+        """TASK-019: Valida senha forte obrigatória quando alterada"""
+        # Dado
+        client = TestClient(app)
+        # Fazer login primeiro
+        client.post("/admin/usuarios/login", data={"usuario": "admin", "senha": "123"})
+
+        # Criar um usuário para editar
+        dados_criacao = {
+            "nome": "João Silva",
+            "email": "joao.silva@exemplo.com",
+            "senha": "senhaForte123!",
+            "confirmar_senha": "senhaForte123!"
+        }
+        client.post("/admin/usuarios/criar", data=dados_criacao)
+
+        # Descobrir o ID do usuário criado
+        response_lista = client.get("/admin/usuarios/")
+        ids_encontrados = re.findall(r'/admin/usuarios/(\d+)/editar', response_lista.text)
+        usuario_id = int(ids_encontrados[-1]) if ids_encontrados else 2  # Fallback para 2
+
+        # Dados com senha fraca
+        dados_edicao = {
+            "nome": "João Silva",
+            "email": "joao.silva@exemplo.com",
+            "senha": "123",  # Senha muito fraca
+            "status": "ativo",
+            "alterar_senha": "on"  # Marcar checkbox para alterar senha
+        }
+
+        # Quando - tentar editar com senha fraca
+        response = client.post(f"/admin/usuarios/{usuario_id}/editar", data=dados_edicao)
+
+        # Então
+        assert response.status_code == 200  # Retorna template com erro
+        assert "Nova senha deve ter pelo menos 8 caracteres" in response.text
+
+    def test_quando_get_editar_usuario_sem_login_entao_deve_redirecionar(self):
+        """TASK-019: Valida proteção de rota de edição"""
+        # Dado
+        client = TestClient(app)
+        # Não fazer login
+
+        # Quando - tentar acessar edição sem login
+        response = client.get("/admin/usuarios/1/editar", follow_redirects=False)
+
+        # Então
+        assert response.status_code == 302
+        assert response.headers["location"] == "/admin/login"

@@ -47,45 +47,31 @@ def login_post(
         )
 
 
-@router.get("/criar", response_class=HTMLResponse)
-def criar_usuario_page(request: Request):
-    """Página para criar novo usuário administrativo"""
-    return templates.TemplateResponse("usuario_form.html", {"request": request, "action": "criar"})
-
-
 @router.get("/", response_class=HTMLResponse)
-def listar_usuarios_page(request: Request, status: Optional[str] = None):
+def listar_usuarios_page(request: Request, status: str = None, success: str = None):
     """Página para listar usuários administrativos - TASK-010"""
     try:
         usuarios = usuario_service.listar_usuarios(status_filtro=status)
         return templates.TemplateResponse(
-            "usuarios.html",
+            "listar_usuarios.html",
             {
                 "request": request,
                 "usuarios": usuarios,
-                "filtro_status": status
+                "status_filtro": status,
+                "success": success
             }
         )
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Erro ao listar usuários: {str(e)}")
 
 
-@router.get("/api/", response_model=List[UsuarioResponse])
-def listar_usuarios_api(status: Optional[str] = None):
-    """API para listar usuários administrativos - TASK-010"""
-    try:
-        return usuario_service.listar_usuarios(status_filtro=status)
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Erro ao listar usuários: {str(e)}")
-
-
-@router.get("/novo", response_class=HTMLResponse)
+@router.get("/criar", response_class=HTMLResponse)
 def criar_usuario_page(request: Request):
     """Página para criar novo usuário administrativo - TASK-010"""
     return templates.TemplateResponse("usuario_form.html", {"request": request, "modo": "criar"})
 
 
-@router.post("/novo")
+@router.post("/criar")
 def criar_usuario_post(
     request: Request,
     nome: str = Form(...),
@@ -161,7 +147,11 @@ def editar_usuario_page(request: Request, usuario_id: int):
     try:
         usuario = usuario_service.obter_usuario_por_id(usuario_id)
         if not usuario:
-            raise HTTPException(status_code=404, detail="Usuário não encontrado")
+            return templates.TemplateResponse(
+                "error.html",
+                {"request": request, "error_code": 404, "error_message": "Usuário não encontrado"},
+                status_code=404
+            )
 
         return templates.TemplateResponse(
             "usuario_form.html",
@@ -171,10 +161,12 @@ def editar_usuario_page(request: Request, usuario_id: int):
                 "usuario": usuario
             }
         )
-    except HTTPException:
-        raise
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Erro ao carregar usuário: {str(e)}")
+        return templates.TemplateResponse(
+            "error.html",
+            {"request": request, "error_code": 500, "error_message": f"Erro ao carregar usuário: {str(e)}"},
+            status_code=500
+        )
 
 
 @router.post("/{usuario_id}/editar")

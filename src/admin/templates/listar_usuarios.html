@@ -90,6 +90,12 @@
     <div class="container">
         <h1>Usuários Administrativos</h1>
 
+        {% if success == 'usuario_criado' %}
+        <div class="alert alert-success">Usuário criado com sucesso!</div>
+        {% elif success == 'usuario_atualizado' %}
+        <div class="alert alert-success">Usuário atualizado com sucesso!</div>
+        {% endif %}
+
         <div class="actions">
             <a href="/admin/usuarios/criar" class="btn btn-primary">Novo Usuário</a>
             <a href="/admin/dashboard" class="btn">Voltar ao Dashboard</a>
@@ -104,6 +110,7 @@
                     <th>Email</th>
                     <th>Permissão</th>
                     <th>Criado em</th>
+                    <th>Ações</th>
                 </tr>
             </thead>
             <tbody>
@@ -116,6 +123,9 @@
                         <span class="status status-admin">{{ usuario.permissao }}</span>
                     </td>
                     <td>{{ usuario.criado_em or 'N/A' }}</td>
+                    <td>
+                        <a href="/admin/usuarios/{{ usuario.id }}/editar" class="btn btn-sm btn-outline-primary">Editar</a>
+                    </td>
                 </tr>
                 {% endfor %}
             </tbody>

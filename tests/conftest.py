@@ -68,8 +68,28 @@ def clean_licencas_data():
         licencas_file.unlink()  # Remove o arquivo
 
 
+@pytest.fixture(scope="function", autouse=True)
+def clean_usuarios_data():
+    """Limpa dados de usuários antes de cada teste para isolamento, mantendo apenas admin"""
+    usuarios_file = Path("data/usuarios.json")
+    if usuarios_file.exists():
+        # Recria apenas com usuário admin padrão
+        admin_data = {
+            "id": 1,
+            "nome": "Administrador",
+            "email": "admin",
+            "senha_hash": "$pbkdf2-sha256$29000$/Z9TCqFUag0BgHDuXSsFwA$QBIT6oewjTVjk7WcNupWGxAJqqTAyNNMmstpeDv6uJk",  # Hash de "123"
+            "permissao": "admin",
+            "status": "ativo",
+            "criado_em": "2025-11-01",
+            "ultimo_acesso": None
+        }
+        with open(usuarios_file, 'w', encoding='utf-8') as f:
+            json.dump([admin_data], f, indent=2, ensure_ascii=False)
+
+
 @pytest.fixture(scope="function")
-def page_with_server(page: Page, server_process, clean_licencas_data):
+def page_with_server(page: Page, server_process, clean_licencas_data, clean_usuarios_data):
     """Fixture que garante que o servidor está rodando antes dos testes"""
     # Servidor ja foi verificado no server_process fixture
     yield page

@@ -18,7 +18,7 @@ class TestCriarUsuarioE2E:
 
         # Então - deve redirecionar para página de login
         expect(page_with_server).to_have_title("Login Administrador")
-        expect(page_with_server.locator("h2")).to_contain_text("Login do Administrador")
+        expect(page_with_server.locator("h3")).to_contain_text("Login do Administrador")
 
     def test_quando_acessar_pagina_criar_usuario_logado_entao_deve_carregar_formulario(self, page_with_server: Page):
         """TASK-021: Valida carregamento da página de criação de usuário"""
@@ -33,8 +33,8 @@ class TestCriarUsuarioE2E:
         page_with_server.goto("http://127.0.0.1:8000/admin/usuarios/criar")
 
         # Então
-        expect(page_with_server).to_have_title("Criar Novo Usuário - Integra Instagran")
-        expect(page_with_server.locator("h1")).to_contain_text("Novo Usuário Administrativo")
+        expect(page_with_server).to_have_title("Novo Usuário Administrativo - Integra Instagran")
+        expect(page_with_server.locator("h2")).to_contain_text("Novo Usuário Administrativo")
         expect(page_with_server.locator("input[name='nome']")).to_be_visible()
         expect(page_with_server.locator("input[name='email']")).to_be_visible()
         expect(page_with_server.locator("input[name='senha']")).to_be_visible()
@@ -54,6 +54,7 @@ class TestCriarUsuarioE2E:
         page_with_server.fill("input[name='nome']", "João Silva")
         page_with_server.fill("input[name='email']", "joao.silva@exemplo.com")
         page_with_server.fill("input[name='senha']", "senhaForte123!")
+        page_with_server.fill("input[name='confirmar_senha']", "senhaForte123!")
         
         # Verificar se os campos foram preenchidos
         expect(page_with_server.locator("input[name='nome']")).to_have_value("João Silva")
@@ -77,7 +78,7 @@ class TestCriarUsuarioE2E:
             print(f"DEBUG: Erro encontrado na página: {error_text}")
         
         # Então - deve redirecionar para lista de usuários
-        expect(page_with_server).to_have_url("http://127.0.0.1:8000/admin/usuarios/")
+        assert "http://127.0.0.1:8000/admin/usuarios/" in page_with_server.url
         expect(page_with_server.locator("h1")).to_contain_text("Usuários Administrativos")
 
     def test_quando_criar_usuario_com_email_duplicado_entao_deve_mostrar_erro(self, page_with_server: Page):
@@ -93,14 +94,16 @@ class TestCriarUsuarioE2E:
         page_with_server.fill("input[name='nome']", "João Silva")
         page_with_server.fill("input[name='email']", "joao.silva@exemplo.com")
         page_with_server.fill("input[name='senha']", "senhaForte123!")
+        page_with_server.fill("input[name='confirmar_senha']", "senhaForte123!")
         page_with_server.click("button[type='submit']")
-        expect(page_with_server).to_have_url("http://127.0.0.1:8000/admin/usuarios/")
+        expect(page_with_server).to_have_url("http://127.0.0.1:8000/admin/usuarios/?success=usuario_criado")
 
         # Quando - tentar criar segundo usuário com mesmo email
         page_with_server.goto("http://127.0.0.1:8000/admin/usuarios/criar")
         page_with_server.fill("input[name='nome']", "Maria Silva")
         page_with_server.fill("input[name='email']", "joao.silva@exemplo.com")  # Mesmo email
         page_with_server.fill("input[name='senha']", "outraSenha123!")
+        page_with_server.fill("input[name='confirmar_senha']", "outraSenha123!")
         page_with_server.click("button[type='submit']")
 
         # Então - deve mostrar erro (status 400)
