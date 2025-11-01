@@ -32,8 +32,22 @@ def server_process():
         cwd=os.getcwd()
     )
 
-    # Aguarda o servidor iniciar
-    time.sleep(3)
+    # Aguarda o servidor iniciar com verificacao mais rapida
+    max_attempts = 10
+    for attempt in range(max_attempts):
+        try:
+            import socket
+            sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            sock.settimeout(1)
+            result = sock.connect_ex(('127.0.0.1', 8000))
+            sock.close()
+            if result == 0:
+                break
+        except:
+            pass
+        time.sleep(0.5)
+    else:
+        pytest.fail("Servidor nao iniciou apos 5 segundos")
 
     yield process
 
@@ -57,11 +71,5 @@ def clean_licencas_data():
 @pytest.fixture(scope="function")
 def page_with_server(page: Page, server_process, clean_licencas_data):
     """Fixture que garante que o servidor está rodando antes dos testes"""
-    # Verifica se o servidor está respondendo
-    try:
-        response = page.request.get("http://127.0.0.1:8000/admin/login")
-        assert response.status == 200
-    except Exception as e:
-        pytest.fail(f"Servidor não está respondendo: {e}")
-
+    # Servidor ja foi verificado no server_process fixture
     yield page

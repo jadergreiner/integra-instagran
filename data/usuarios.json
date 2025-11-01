@@ -1,0 +1,12 @@
+[
+  {
+    "id": 1,
+    "nome": "Administrador",
+    "email": "admin",
+    "senha_hash": "$pbkdf2-sha256$29000$fk.JkdLa.987R.j9v/femw$9LJHtAhc3mn3thuIprI6rb/5dHUSrYWXBdVACTcwTIo",
+    "permissao": "admin",
+    "status": "ativo",
+    "criado_em": "2025-11-01",
+    "ultimo_acesso": "2025-11-01"
+  }
+]

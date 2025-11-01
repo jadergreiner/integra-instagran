@@ -33,10 +33,134 @@ Este documento mantém o Product Backlog priorizado, estruturado em Épicos → 
 
 #### FEAT-003: Gestão de Usuários
 
-**Status:** Planejado  
+**Status:** Em Refinamento  
 **Descrição:** Administração de usuários administrativos.  
-**Histórias Associadas:** Pendente  
+**Histórias Associadas:** US-007, US-008, US-009 (em definição)  
 **Duração Estimada:** 1 Sprint  
+
+### FEAT-003 - Histórias (Em Definição)
+
+#### US-007: Listar Usuários Administrativos
+
+**Status:** Em Desenvolvimento  
+**Como:** Administrador master do sistema  
+**Quero:** Visualizar lista de todos os usuários administrativos  
+**Para:** Gerenciar acessos e permissões  
+**Critérios de Aceitação:**
+
+- Lista paginada de usuários
+- Filtros por status (ativo/inativo)
+- Informações: nome, email, data criação, último acesso
+- Ações disponíveis: editar, desativar/reativar
+
+**Tarefas Associadas:** TASK-010, TASK-011, TASK-012, TASK-013, TASK-014
+
+### US-007 - Tarefas
+
+#### TASK-010: Implementar Modelos de Usuário
+
+**Status:** ✅ Concluído  
+**Descrição:** Criar modelos Pydantic para usuários administrativos  
+**Critérios:**
+
+- Modelo Usuario com campos: id, nome, email, senha_hash, permissao, status, criado_em, ultimo_acesso
+- Modelo UsuarioCreate para criação
+- Modelo UsuarioUpdate para edição
+- Modelo UsuarioResponse para API (sem senha)
+
+#### TASK-011: Implementar Serviço de Usuários
+
+**Status:** ✅ Concluído  
+**Descrição:** Criar UsuarioService com operações CRUD  
+**Critérios:**
+
+- Métodos: listar_usuarios, criar_usuario, obter_usuario_por_id, atualizar_usuario, autenticar_usuario
+- Persistência em JSON (data/usuarios.json)
+- Hash seguro de senhas
+- Validações de negócio (email único, etc.)
+
+#### TASK-012: Implementar Rotas de Listagem
+
+**Status:** ✅ Concluído  
+**Descrição:** Criar endpoints para listagem de usuários  
+**Critérios:**
+
+- GET /admin/usuarios/ - página HTML com lista
+- GET /admin/usuarios/api/ - endpoint JSON para API
+- Filtros por status (ativo/inativo)
+- Middleware de autenticação
+
+#### TASK-013: Resolver Problema bcrypt Windows
+
+**Status:** Em Andamento  
+**Descrição:** Corrigir erro de bcrypt no ambiente Windows  
+**Critérios:**
+
+- bcrypt.hash() funcionando sem erros
+- Senha padrão do admin válida
+- Testes executando sem falhas
+- Alternativa: considerar pbkdf2_sha256 se bcrypt não resolver
+
+#### TASK-014: Criar Template de Listagem
+
+**Status:** ✅ Concluído  
+**Descrição:** Criar interface HTML para listagem de usuários  
+**Critérios:**
+
+- Tabela responsiva com dados do usuário
+- Filtros visuais por status
+- Botões de ação (editar)
+- Design consistente com dashboard
+- Mensagens de status vazias
+
+#### TASK-015: Criar Testes Unitários
+
+**Status:** Pendente  
+**Descrição:** Implementar testes unitários para UsuarioService  
+**Critérios:**
+
+- Testes para todos os métodos do serviço
+- Cenários: criação, listagem, atualização, autenticação
+- Mocks para dependências externas
+- Cobertura > 80%
+
+#### TASK-016: Criar Testes E2E
+
+**Status:** Pendente  
+**Descrição:** Implementar testes end-to-end para listagem  
+**Critérios:**
+
+- Teste: acessar página de usuários logado
+- Teste: filtros funcionando
+- Teste: navegação para edição
+- Playwright com cenários completos
+
+#### US-008: Criar Novo Usuário Administrativo
+
+**Status:** Planejado  
+**Como:** Administrador master do sistema  
+**Quero:** Criar novos usuários administrativos  
+**Para:** Conceder acesso ao portal  
+**Critérios de Aceitação:**
+
+- Formulário com campos: nome, email, senha
+- Validação de email único
+- Senha forte obrigatória
+- Status inicial: ativo
+- Notificação de boas-vindas (planejada)
+
+#### US-009: Editar/Desativar Usuários
+
+**Status:** Planejado  
+**Como:** Administrador master do sistema  
+**Quero:** Modificar dados ou desativar usuários administrativos  
+**Para:** Manter controle de acessos  
+**Critérios de Aceitação:**
+
+- Edição de nome e email
+- Troca de senha (opcional)
+- Desativação/reativação de usuários
+- Log de auditoria das mudanças  
 
 ## Histórias do Usuário por Feature
 
@@ -59,7 +183,7 @@ Este documento mantém o Product Backlog priorizado, estruturado em Épicos → 
 
 #### US-002: Logout de Administrador
 
-**Status:** Planejado  
+**Status:** ✅ Concluído  
 **Como:** Administrador logado  
 **Quero:** Fazer logout do sistema  
 **Para:** Encerrar sessão de forma segura  

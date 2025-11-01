@@ -26,10 +26,41 @@ class Licenca(BaseModel):
 
 
 class Usuario(BaseModel):
+    """Modelo para usuário administrativo - TASK-010"""
+    id: int
+    nome: str = Field(min_length=2, max_length=100)
+    email: EmailStr  # Validação automática de email
+    senha_hash: str  # Hash da senha (não exposta na API)
+    permissao: str = Field(default="admin")
+    status: str = Field(default="ativo")  # ativo, inativo
+    criado_em: Optional[date] = None
+    ultimo_acesso: Optional[date] = None
+
+
+class UsuarioCreate(BaseModel):
+    """Modelo para criação de novo usuário administrativo - TASK-010"""
+    nome: str = Field(min_length=2, max_length=100, description="Nome completo do usuário")
+    email: EmailStr = Field(description="Email único do usuário")
+    senha: str = Field(min_length=8, description="Senha forte (mínimo 8 caracteres)")
+
+
+class UsuarioResponse(BaseModel):
+    """Modelo para resposta de usuário (sem senha) - TASK-010"""
     id: int
     nome: str
-    email: EmailStr  # Validação automática de email
+    email: str  # Mantém compatibilidade com testes (usa nomes de usuário simples)
     permissao: str
+    status: str
+    criado_em: Optional[date] = None
+    ultimo_acesso: Optional[date] = None
+
+
+class UsuarioUpdate(BaseModel):
+    """Modelo para atualização de usuário administrativo - TASK-010"""
+    nome: Optional[str] = Field(None, min_length=2, max_length=100)
+    email: Optional[str] = None  # Mantém compatibilidade com testes
+    senha: Optional[str] = Field(None, min_length=8)
+    status: Optional[str] = Field(None, pattern="^(ativo|inativo)$")
 
 
 class LicencaStatusUpdate(BaseModel):

@@ -4,3 +4,5 @@ pydantic[email]
 pytest
 pytest-playwright
 playwright
+passlib[bcrypt]
+jinja2

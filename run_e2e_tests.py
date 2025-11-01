@@ -37,9 +37,9 @@ def run_e2e_tests():
     try:
         # Verifica se o servidor está respondendo
         import requests
-        response = requests.get("http://127.0.0.1:8000/admin/login", timeout=5)
-        if response.status_code != 200:
-            print("❌ Servidor não iniciou corretamente")
+        response = requests.get("http://127.0.0.1:8000/admin/login", timeout=5, allow_redirects=False)
+        if response.status_code not in [200, 302]:
+            print(f"❌ Servidor não iniciou corretamente (status: {response.status_code})")
             return 1
 
         print("✅ Servidor iniciado com sucesso")
@@ -48,7 +48,7 @@ def run_e2e_tests():
         print("🧪 Executando testes e2e...")
         result = subprocess.run([
             sys.executable, "-m", "pytest",
-            "tests/test_login_e2e.py",
+            "tests/test_usuarios_e2e.py",
             "-v",
             "--browser", "chromium"
         ], cwd=os.getcwd())
