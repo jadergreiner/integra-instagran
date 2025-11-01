@@ -21,11 +21,13 @@ Implementar o Portal do Cliente como um módulo separado (`src/client/`) com as 
 - **URLs segregadas**: `/client/*` para rotas do cliente vs `/admin/*` para admin
 
 ### Funcionalidades Core:
-1. **Autenticação de Cliente**: Login com credenciais específicas do cliente
-2. **Dashboard do Cliente**: Visão geral dos dados e configurações
-3. **Gestão de APIs**: Configuração de credenciais para Instagram e outras plataformas
-4. **Relatórios**: Visualização de dados coletados
-5. **Configurações**: Personalização do cliente
+1. **Autenticação de Cliente**: Login com credenciais específicas do cliente + OAuth futuro
+2. **Gestão Multi-usuário**: Cliente pode criar usuários para sua equipe
+3. **Dashboard do Cliente**: Visão geral dos dados e configurações
+4. **Gestão de APIs**: Configuração de credenciais para Instagram e outras plataformas
+5. **Dashboards Compartilhados**: Insights criados pelo admin e compartilhados
+6. **Relatórios**: Visualização de dados coletados
+7. **Configurações**: Personalização do cliente
 
 ### Isolamento de Dados:
 - **Middleware de cliente**: Injeta `cliente_id` em todas as requisições
@@ -104,6 +106,12 @@ class ClientIsolationMiddleware:
 - **Tabelas com cliente_id**: Todas as tabelas terão coluna cliente_id
 - **Queries filtradas**: ORM automaticamente filtra por cliente_id
 - **Validações**: Middleware garante cliente_id válido
+
+### Funcionalidades Avançadas:
+- **Multi-usuário por cliente**: Sistema de usuários e permissões por organização
+- **OAuth Integration**: Planejamento para login social (Google, Facebook)
+- **Dashboards compartilhados**: Templates criados pelo admin, personalizáveis por cliente
+- **Licença Integration**: Validação automática de licença ativa para acesso
 
 ## Métricas de Sucesso
 

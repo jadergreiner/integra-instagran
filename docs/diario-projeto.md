@@ -33,13 +33,26 @@
   - FEAT-006: Gestão de APIs Externas
   - FEAT-007: Relatórios e Analytics
   - FEAT-008: Configurações do Cliente
+  - **FEAT-009: Gestão de Usuários do Cliente (NOVO)**
+  - **FEAT-010: Dashboards Compartilhados (NOVO)**
 
-#### 3. **Histórias de Usuário Detalhadas**
+#### 3. **Ajustes Baseados em Requisitos Específicos**
+
+- **Multi-usuário**: Cada cliente pode gerenciar sua própria equipe
+- **OAuth Planning**: Estrutura preparada para login social futuro
+- **Licença Integration**: Validação automática de licença ativa
+- **Dashboards Compartilhados**: Sistema de templates criados pelo admin
+
+#### 4. **Histórias de Usuário Detalhadas**
 - **US-010**: Login de Cliente (autenticação dedicada)
 - **US-011**: Dashboard do Cliente (visão geral)
 - **US-012**: Configurar API do Instagram (credenciais)
 - **US-013**: Visualizar Relatórios (analytics)
 - **US-014**: Gerenciar Configurações (personalização)
+- **US-017**: Gerenciar Usuários da Conta (multi-usuário)
+- **US-018**: Login Integrado com Redes Sociais (OAuth)
+- **US-019**: Visualizar Dashboards Compartilhados
+- **US-020**: Solicitar Novos Dashboards
 
 ### 📈 Melhorias Arquiteturais
 

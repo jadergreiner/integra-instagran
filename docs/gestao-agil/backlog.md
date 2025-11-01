@@ -82,7 +82,21 @@ Este documento mantém o Product Backlog priorizado, estruturado em Épicos → 
 **Status:** Planejado  
 **Descrição:** Área para personalizar configurações específicas do cliente.  
 **Histórias Associadas:** US-016 (planejado)  
-**Duração Estimada:** 0.5 Sprint
+**Duração Estimada:** 0.5 Sprint  
+
+#### FEAT-009: Gestão de Usuários do Cliente
+
+**Status:** Planejado  
+**Descrição:** Sistema para o cliente gerenciar seus próprios usuários e permissões.  
+**Histórias Associadas:** US-017, US-018 (planejado)  
+**Duração Estimada:** 1 Sprint  
+
+#### FEAT-010: Dashboards Compartilhados
+
+**Status:** Planejado  
+**Descrição:** Sistema de dashboards/insights criados pelo administrador e compartilhados com clientes.  
+**Histórias Associadas:** US-019, US-020 (planejado)  
+**Duração Estimada:** 1 Sprint
 
 #### US-007: Listar Usuários Administrativos
 
@@ -563,16 +577,18 @@ Este documento mantém o Product Backlog priorizado, estruturado em Épicos → 
 
 **EPIC-002 (Portal do Cliente):** 🔄 PRÓXIMO - Em Análise
 1. **FEAT-004**: Autenticação de Clientes (base necessária)
-2. **FEAT-005**: Dashboard do Cliente (experiência inicial)
-3. **FEAT-006**: Gestão de APIs Externas (valor core)
-4. **FEAT-007**: Relatórios e Analytics (valor analítico)
-5. **FEAT-008**: Configurações do Cliente (complementar)
+2. **FEAT-009**: Gestão de Usuários do Cliente (multi-usuário)
+3. **FEAT-005**: Dashboard do Cliente (experiência inicial)
+4. **FEAT-006**: Gestão de APIs Externas (valor core)
+5. **FEAT-010**: Dashboards Compartilhados (insights admin)
+6. **FEAT-007**: Relatórios e Analytics (valor analítico)
+7. **FEAT-008**: Configurações do Cliente (complementar)
 
 ## Métricas de Progresso
 
 - Épicos Concluídos: 1/2 (EPIC-001 ✅)
-- Features Concluídas: 3/8 (FEAT-001, FEAT-002, FEAT-003 ✅)
-- Histórias Concluídas: 9/16 (US-001 até US-009 ✅)
+- Features Concluídas: 3/11 (FEAT-001, FEAT-002, FEAT-003 ✅)
+- Histórias Concluídas: 9/21 (US-001 até US-009 ✅)
 - Tarefas Concluídas: 8/24 (TASK-001 até TASK-008 ✅)
 
 Última Atualização: 01/11/2025
@@ -660,3 +676,67 @@ Este documento mantém o Product Backlog priorizado, estruturado em Épicos → 
 - Exclusão de conta (com confirmação)
 
 **Tarefas Associadas:** TASK-023 (planejado)
+
+#### US-017: Gerenciar Usuários da Conta
+
+**Status:** Planejado  
+**Como:** Cliente administrador da conta  
+**Quero:** Criar e gerenciar usuários da minha organização  
+**Para:** Controlar acessos à conta por diferentes membros da equipe  
+**Critérios de Aceitação:**
+
+- Criar novos usuários com email e permissões
+- Definir roles: Admin, Editor, Viewer
+- Editar permissões de usuários existentes
+- Desativar/reativar usuários
+- Convites por email com link de ativação
+
+**Tarefas Associadas:** TASK-024 (planejado)
+
+#### US-018: Login Integrado com Redes Sociais
+
+**Status:** Planejado  
+**Como:** Cliente  
+**Quero:** Fazer login usando conta do Google/Facebook/etc  
+**Para:** Facilitar acesso sem criar senha adicional  
+**Critérios de Aceitação:**
+
+- Botões de login social (Google, Facebook, etc.)
+- Mapeamento automático para usuário existente
+- Criação de conta se primeiro login social
+- Fallback para login tradicional
+- Consentimento de permissões
+
+**Tarefas Associadas:** TASK-025 (planejado)
+
+#### US-019: Visualizar Dashboards Compartilhados
+
+**Status:** Planejado  
+**Como:** Cliente  
+**Quero:** Acessar dashboards criados pelo administrador  
+**Para:** Visualizar insights pré-configurados  
+**Critérios de Aceitação:**
+
+- Lista de dashboards disponíveis
+- Visualização interativa dos dados
+- Filtros e períodos personalizáveis
+- Exportação de dados
+- Favoritar dashboards importantes
+
+**Tarefas Associadas:** TASK-026 (planejado)
+
+#### US-020: Solicitar Novos Dashboards
+
+**Status:** Planejado  
+**Como:** Cliente  
+**Quero:** Solicitar criação de novos dashboards personalizados  
+**Para:** Atender necessidades específicas da minha empresa  
+**Critérios de Aceitação:**
+
+- Formulário para descrever necessidade
+- Seleção de métricas desejadas
+- Priorização da solicitação
+- Comunicação com administrador
+- Status de acompanhamento
+
+**Tarefas Associadas:** TASK-027 (planejado)
