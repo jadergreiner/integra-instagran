@@ -20,6 +20,13 @@ Este documento mantém o Product Backlog priorizado, estruturado em Épicos → 
 **Valor de Negócio:** Permite auto-gestão dos clientes, reduzindo suporte e aumentando satisfação.  
 **Duração Estimada:** 3-4 Sprints  
 
+### EPIC-003: Analytics e Insights Avançados para Clientes
+
+**Status:** Planejado  
+**Descrição:** Sistema completo de analytics para clientes visualizarem dados de suas redes sociais, com comparações inteligentes e sugestões de conteúdo.  
+**Valor de Negócio:** Diferencial competitivo com insights acionáveis, aumentando retenção e satisfação dos clientes.  
+**Duração Estimada:** 4-5 Sprints  
+
 ## Features por Épico
 
 ### EPIC-001 - Features
@@ -106,7 +113,58 @@ Este documento mantém o Product Backlog priorizado, estruturado em Épicos → 
 **Histórias Associadas:** US-019, US-020 (planejado)  
 **Duração Estimada:** 1 Sprint
 
-#### US-007: Listar Usuários Administrativos
+## Features por Épico - EPIC-003
+
+### EPIC-003 - Features
+
+#### FEAT-012: Análise de Engajamento
+
+**Status:** Planejado  
+**Descrição:** Métricas detalhadas de likes, comentários, compartilhamentos e taxa de engajamento por post.  
+**Histórias Associadas:** US-026 (planejado)  
+**Duração Estimada:** 1 Sprint  
+
+#### FEAT-013: Análise de Perfil
+
+**Status:** Planejado  
+**Descrição:** Score geral do perfil, pontos fortes/fracos e recomendações de otimização.  
+**Histórias Associadas:** US-027 (planejado)  
+**Duração Estimada:** 1 Sprint  
+
+#### FEAT-014: Comparação Regional
+
+**Status:** Planejado  
+**Descrição:** Benchmark com perfis similares na mesma região e insights geográficos.  
+**Histórias Associadas:** US-028 (planejado)  
+**Duração Estimada:** 1 Sprint  
+
+#### FEAT-015: Comparação por Segmento
+
+**Status:** Planejado  
+**Descrição:** Análise competitiva por nicho de mercado e posicionamento relativo.  
+**Histórias Associadas:** US-029 (planejado)  
+**Duração Estimada:** 1 Sprint  
+
+#### FEAT-016: Análise de Seguidores
+
+**Status:** Planejado  
+**Descrição:** Demografia dos seguidores, crescimento de audiência e engajamento por segmento.  
+**Histórias Associadas:** US-030 (planejado)  
+**Duração Estimada:** 1 Sprint  
+
+#### FEAT-017: Dashboard de Métricas Gerais
+
+**Status:** Planejado  
+**Descrição:** KPIs principais em tempo real com gráficos interativos e relatórios exportáveis.  
+**Histórias Associadas:** US-031 (planejado)  
+**Duração Estimada:** 1 Sprint  
+
+#### FEAT-018: Sugestões de Publicações e Stories
+
+**Status:** Planejado  
+**Descrição:** Recomendações de conteúdo baseadas em dados e calendário otimizado.  
+**Histórias Associadas:** US-032 (planejado)  
+**Duração Estimada:** 1 Sprint
 
 **Status:** ✅ Concluído  
 **Como:** Administrador master do sistema  
@@ -798,3 +856,40 @@ Este documento mantém o Product Backlog priorizado, estruturado em Épicos → 
 - Acesso liberado ao dashboard completo
 - Email de boas-vindas enviado
 - Renovação automática preparada para próximo mês
+
+**Tarefas Associadas:** TASK-030 (planejado)
+
+#### US-024: Recuperação de Senha do Cliente
+
+**Status:** Planejado  
+**Como:** Cliente que esqueceu sua senha  
+**Quero:** Recuperar minha senha através do email  
+**Para:** Voltar a acessar minha conta  
+**Critérios de Aceitação:**
+
+- Link "Esqueci minha senha" na página de login
+- Formulário para inserir email
+- Token de reset enviado por email (válido por 1 hora)
+- Página de reset de senha com token na URL
+- Validação de senha forte no reset
+- Redirecionamento para login após sucesso
+- Logs de tentativas de reset
+
+**Tarefas Associadas:** TASK-031 (planejado)
+
+#### US-025: Email de Boas Vindas Após Cadastro
+
+**Status:** Planejado  
+**Como:** Cliente recém-cadastrado  
+**Quero:** Receber email de boas vindas com instruções  
+**Para:** Saber como começar a usar a plataforma  
+**Critérios de Aceitação:**
+
+- Email enviado automaticamente após cadastro
+- Conteúdo: boas vindas, guia inicial, próximos passos
+- Link para acessar o dashboard
+- Informações sobre suporte e documentação
+- Personalização com nome da empresa
+- Template HTML responsivo e profissional
+
+**Tarefas Associadas:** TASK-032 (planejado)

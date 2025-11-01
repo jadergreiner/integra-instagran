@@ -6,3 +6,4 @@ pytest-playwright
 playwright
 passlib[bcrypt]
 jinja2
+fastapi-mail
