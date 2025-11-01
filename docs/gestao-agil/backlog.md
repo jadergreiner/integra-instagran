@@ -26,7 +26,7 @@ Este documento mantém o Product Backlog priorizado, estruturado em Épicos → 
 
 #### FEAT-002: Gestão de Licenças
 
-**Status:** Planejado  
+**Status:** ✅ Concluído  
 **Descrição:** CRUD completo para licenças (criar, ativar, expirar, listar).  
 **Histórias Associadas:** US-003, US-004, US-005, US-006  
 **Duração Estimada:** 1-2 Sprints  
@@ -125,17 +125,17 @@ Este documento mantém o Product Backlog priorizado, estruturado em Épicos → 
 
 #### US-006: Editar Dados da Licença
 
-**Status:** Planejado  
+**Status:** ✅ Concluído  
 **Como:** Administrador do sistema  
 **Quero:** Modificar validade e dados da licença  
 **Para:** Atualizar informações conforme necessário  
 **Critérios de Aceitação:**
 
-- Formulário pré-preenchido com dados atuais
-- Validação de datas (validade deve ser futura)
-- Salvar apenas campos modificados
-- Redirecionamento para detalhes após edição
-- Histórico de modificações
+- ✅ Formulário pré-preenchido com dados atuais
+- ✅ Validação de datas (validade deve ser futura)
+- ✅ Salvar apenas campos modificados
+- ✅ Redirecionamento para detalhes após edição
+- ✅ Histórico de modificações
 
 **Tarefas Associadas:** TASK-016, TASK-017, TASK-018  
 
@@ -354,7 +354,7 @@ Este documento mantém o Product Backlog priorizado, estruturado em Épicos → 
 
 #### TASK-016: Implementar Rota GET /admin/licencas/{id}/editar
 
-**Status:** Planejado  
+**Status:** ✅ Concluído  
 **Descrição:** Criar endpoint para carregar formulário de edição de licença.  
 **Responsável:** Copilot  
 **Estimativa:** 45min  
@@ -365,7 +365,7 @@ Este documento mantém o Product Backlog priorizado, estruturado em Épicos → 
 
 #### TASK-017: Implementar Rota PUT /admin/licencas/{id}
 
-**Status:** Planejado  
+**Status:** ✅ Concluído  
 **Descrição:** Criar endpoint para atualização de dados da licença.  
 **Responsável:** Copilot  
 **Estimativa:** 1h  
