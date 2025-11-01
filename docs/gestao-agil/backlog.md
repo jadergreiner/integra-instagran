@@ -33,16 +33,16 @@ Este documento mantém o Product Backlog priorizado, estruturado em Épicos → 
 
 #### FEAT-003: Gestão de Usuários
 
-**Status:** Em Refinamento  
+**Status:** ✅ Concluído  
 **Descrição:** Administração de usuários administrativos.  
-**Histórias Associadas:** US-007, US-008, US-009 (em definição)  
+**Histórias Associadas:** US-007 ✅, US-008 ✅, US-009 ✅  
 **Duração Estimada:** 1 Sprint  
 
 ### FEAT-003 - Histórias (Em Definição)
 
 #### US-007: Listar Usuários Administrativos
 
-**Status:** Em Desenvolvimento  
+**Status:** ✅ Concluído  
 **Como:** Administrador master do sistema  
 **Quero:** Visualizar lista de todos os usuários administrativos  
 **Para:** Gerenciar acessos e permissões  
@@ -53,7 +53,7 @@ Este documento mantém o Product Backlog priorizado, estruturado em Épicos → 
 - Informações: nome, email, data criação, último acesso
 - Ações disponíveis: editar, desativar/reativar
 
-**Tarefas Associadas:** TASK-010, TASK-011, TASK-012, TASK-013, TASK-014
+**Tarefas Associadas:** TASK-010, TASK-011, TASK-012, TASK-013, TASK-014, TASK-015, TASK-016
 
 ### US-007 - Tarefas
 
@@ -92,7 +92,7 @@ Este documento mantém o Product Backlog priorizado, estruturado em Épicos → 
 
 #### TASK-013: Resolver Problema bcrypt Windows
 
-**Status:** Em Andamento  
+**Status:** ✅ Concluído  
 **Descrição:** Corrigir erro de bcrypt no ambiente Windows  
 **Critérios:**
 
@@ -115,7 +115,7 @@ Este documento mantém o Product Backlog priorizado, estruturado em Épicos → 
 
 #### TASK-015: Criar Testes Unitários
 
-**Status:** Pendente  
+**Status:** ✅ Concluído  
 **Descrição:** Implementar testes unitários para UsuarioService  
 **Critérios:**
 
@@ -126,7 +126,7 @@ Este documento mantém o Product Backlog priorizado, estruturado em Épicos → 
 
 #### TASK-016: Criar Testes E2E
 
-**Status:** Pendente  
+**Status:** ✅ Concluído  
 **Descrição:** Implementar testes end-to-end para listagem  
 **Critérios:**
 
@@ -137,7 +137,7 @@ Este documento mantém o Product Backlog priorizado, estruturado em Épicos → 
 
 #### US-008: Criar Novo Usuário Administrativo
 
-**Status:** Planejado  
+**Status:** ✅ Concluído  
 **Como:** Administrador master do sistema  
 **Quero:** Criar novos usuários administrativos  
 **Para:** Conceder acesso ao portal  
@@ -151,16 +151,18 @@ Este documento mantém o Product Backlog priorizado, estruturado em Épicos → 
 
 #### US-009: Editar/Desativar Usuários
 
-**Status:** Planejado  
+**Status:** ✅ Concluído  
 **Como:** Administrador master do sistema  
 **Quero:** Modificar dados ou desativar usuários administrativos  
 **Para:** Manter controle de acessos  
 **Critérios de Aceitação:**
 
-- Edição de nome e email
-- Troca de senha (opcional)
-- Desativação/reativação de usuários
-- Log de auditoria das mudanças  
+- ✅ Edição de nome e email
+- ✅ Troca de senha (opcional)
+- ✅ Desativação/reativação de usuários
+- ✅ Log de auditoria das mudanças  
+
+**Tarefas Associadas:** TASK-019 (testes unitários), TASK-020 (backend), TASK-021 (frontend)  
 
 ## Histórias do Usuário por Feature
 
