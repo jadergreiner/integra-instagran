@@ -59,7 +59,7 @@ Este documento mantém o Product Backlog priorizado, estruturado em Épicos → 
 
 #### US-002: Logout de Administrador
 
-**Status:** Planejado  
+**Status:** ✅ Concluído  
 **Como:** Administrador logado  
 **Quero:** Fazer logout do sistema  
 **Para:** Encerrar sessão de forma segura  
