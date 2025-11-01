@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+
+{% block title %}Usuários Administrativos{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h1>Usuários Administrativos</h1>
+                <a href="/admin/usuarios/criar" class="btn btn-primary">
+                    <i class="fas fa-plus"></i> Novo Usuário
+                </a>
+            </div>
+
+            <!-- Filtros -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <form method="get" class="row g-3">
+                        <div class="col-md-4">
+                            <label for="status" class="form-label">Filtrar por Status</label>
+                            <select name="status" id="status" class="form-select">
+                                <option value="">Todos</option>
+                                <option value="ativo" {% if filtro_status == 'ativo' %}selected{% endif %}>Ativos</option>
+                                <option value="inativo" {% if filtro_status == 'inativo' %}selected{% endif %}>Inativos</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label">&nbsp;</label>
+                            <button type="submit" class="btn btn-outline-primary d-block">Filtrar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Tabela de Usuários -->
+            <div class="card">
+                <div class="card-body">
+                    {% if usuarios %}
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nome</th>
+                                    <th>Email</th>
+                                    <th>Status</th>
+                                    <th>Criado em</th>
+                                    <th>Último Acesso</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for usuario in usuarios %}
+                                <tr>
+                                    <td>{{ usuario.id }}</td>
+                                    <td>{{ usuario.nome }}</td>
+                                    <td>{{ usuario.email }}</td>
+                                    <td>
+                                        <span class="badge {% if usuario.status == 'ativo' %}bg-success{% else %}bg-secondary{% endif %}">
+                                            {{ usuario.status|title }}
+                                        </span>
+                                    </td>
+                                    <td>{{ usuario.criado_em or 'N/A' }}</td>
+                                    <td>{{ usuario.ultimo_acesso or 'Nunca' }}</td>
+                                    <td>
+                                        <a href="/admin/usuarios/{{ usuario.id }}/editar" class="btn btn-sm btn-outline-primary">
+                                            <i class="fas fa-edit"></i> Editar
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% else %}
+                    <div class="text-center py-5">
+                        <i class="fas fa-users fa-3x text-muted mb-3"></i>
+                        <h4 class="text-muted">Nenhum usuário encontrado</h4>
+                        <p class="text-muted">Não há usuários cadastrados com os filtros aplicados.</p>
+                        <a href="/admin/usuarios/novo" class="btn btn-primary">Cadastrar Primeiro Usuário</a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
