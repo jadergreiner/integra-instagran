@@ -93,16 +93,16 @@ classDiagram
     ClienteAuth --> Licenca : validação
     MetricasService --> DashboardModule : dados métricas
     DashboardModule --> MetricasService : solicita analytics
-	Main --> AuthService : autenticação
-	Main --> Settings : configurações
-	Main --> Database : conexão
-	Main --> Templates : serve páginas HTML
-	LicencaAdmin --> Licenca : manipula dados
-	UsuarioAdmin --> Usuario : manipula dados
-	LicencaAdmin --> Database : CRUD
-	UsuarioAdmin --> Database : CRUD
-	AuthService --> Database : consulta credenciais
-	Settings --> Database : configurações
+    Main --> AuthService : autenticação
+    Main --> Settings : configurações
+    Main --> Database : conexão
+    Main --> Templates : serve páginas HTML
+    LicencaAdmin --> Licenca : manipula dados
+    UsuarioAdmin --> Usuario : manipula dados
+    LicencaAdmin --> Database : CRUD
+    UsuarioAdmin --> Database : CRUD
+    AuthService --> Database : consulta credenciais
+    Settings --> Database : configurações
 ```
 
 ## Arquitetura
