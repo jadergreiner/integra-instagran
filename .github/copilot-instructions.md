@@ -15,14 +15,37 @@ Aplicação web FastAPI multi-tenant para analytics de redes sociais. Portal adm
 ### Processo TDD
 1. Escrever teste primeiro: `pytest tests/test_*.py -v`
 2. Implementar código com comentários `# TASK-XXX: Descrição`
-3. Atualizar `docs/diario-projeto.md` diariamente
+3. **OBRIGATÓRIO**: Atualizar documentação a cada entrega de história
 4. Criar ADR em `docs/adrs/` para decisões arquiteturais
 5. **Implementar testes E2E**: Criar testes Playwright em `tests/test_*_e2e.py` para todas as funcionalidades voltadas ao usuário
+
+### 📋 PADRÃO OBRIGATÓRIO DE DOCUMENTAÇÃO
+**A CADA ENTREGA DE HISTÓRIA DO USUÁRIO, SEMPRE ATUALIZAR:**
+
+1. **`docs/diario-projeto.md`** - Registrar progresso diário e marcos
+2. **`docs/gestao-agil/backlog.md`** - Atualizar status de features e user stories
+3. **`README.md`** - Funcionalidades novas e instruções de uso
+4. **`docs/01-arquitetura.md`** - Mudanças na estrutura ou componentes
+5. **`docs/04-requisitos.md`** - Novos requisitos ou modificações
+6. **ADRs relevantes** - Decisões arquiteturais importantes
 
 ### Fluxo Git
 - Branches `feature/*` a partir de `develop`
 - Merge para `develop` após testes passarem
 - Branch `release` para pacotes finais → `main`
+- **Commit final SEMPRE inclui atualizações de documentação**
+
+### 🚫 PADRÃO CRÍTICO DE COMMITS
+**NUNCA usar caracteres especiais, acentuação ou emojis em mensagens de commit:**
+
+❌ **ERRADO**: `docs: criar ADRs obrigatórias para decisões técnicas`
+✅ **CORRETO**: `docs: criar ADRs obrigatorias para decisoes tecnicas`
+
+- **Encoding**: Sempre ASCII puro nos commits
+- **Acentos**: Remover todos (á→a, ê→e, ç→c, ã→a)
+- **Emojis**: Proibidos em mensagens de commit
+- **Caracteres especiais**: Evitar (~, ^, ´, `, etc.)
+- **Quebra**: Caracteres não-ASCII quebram workflow Git e histórico
 
 ### Padrões de Teste
 - **Testes Unitários**: Nomes em português, estrutura case-when (`dado_quando_entao`)

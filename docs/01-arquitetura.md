@@ -1,53 +1,78 @@
-# Diagrama Visual da Arquitetura
+# Arquitetura do Sistema - integra-instagran
+
+## Visão Geral
+
+Sistema multi-tenant FastAPI com arquitetura modular para analytics de redes sociais. Suporta portais administrativo e de clientes com isolamento seguro de dados.
+
+## Diagrama de Arquitetura Atualizado
 
 ```mermaid
 classDiagram
-	class Main {
-		+create_app()
-		+include_routers()
-	}
-	class LicencaAdmin {
-		+criar_licenca()
-		+ativar_licenca()
-		+expirar_licenca()
-		+listar_licencas()
-	}
-	class UsuarioAdmin {
-		+criar_usuario()
-		+autenticar_usuario()
-		+listar_usuarios()
-	}
-	class Licenca {
-		+id
-		+cliente_id
-		+status
-		+validade
-	}
-	class Usuario {
-		+id
-		+nome
-		+email
-		+permissao
-	}
-	class AuthService {
-		+login()
-		+verificar_permissao()
-	}
-	class Settings {
-		+carregar_env()
-		+get_config()
-	}
-	class Database {
-		+connect()
-		+execute_query()
-		+close()
-	}
-	class Templates {
-		+render_login()
-	}
+    class Main {
+        +create_app()
+        +include_routers()
+        +autenticacao_middleware()
+    }
+    
+    class AdminModule {
+        +LicencaAdmin
+        +UsuarioAdmin
+        +AuthService
+    }
+    
+    class ClientModule {
+        +ClienteAuth
+        +ClienteRoutes
+        +ClienteModels
+    }
+    
+    class CoreSecurity {
+        +SecurityService
+        +create_jwt_token()
+        +validate_jwt_token()
+        +generate_csrf_token()
+        +validate_csrf_token()
+    }
+    
+    class LicencaAdmin {
+        +criar_licenca()
+        +ativar_licenca()
+        +expirar_licenca()
+        +listar_licencas()
+    }
+    
+    class ClienteAuth {
+        +login()
+        +validate_token()
+        +hash_password()
+        +verify_password()
+    }
+    
+    class Licenca {
+        +id
+        +cliente_id
+        +status
+        +validade
+        +tipo_plano
+    }
+    
+    class Cliente {
+        +id
+        +nome
+        +email
+        +password_hash
+        +licenca_id
+    }
 
-	Main --> LicencaAdmin : inclui rotas
-	Main --> UsuarioAdmin : inclui rotas
+    Main --> AdminModule : /admin/*
+    Main --> ClientModule : /client/*
+    Main --> CoreSecurity : middleware
+    AdminModule --> LicencaAdmin
+    ClientModule --> ClienteAuth
+    ClienteAuth --> CoreSecurity : JWT/CSRF
+    LicencaAdmin --> Licenca
+    ClienteAuth --> Cliente
+    ClienteAuth --> Licenca : validação
 	Main --> AuthService : autenticação
 	Main --> Settings : configurações
 	Main --> Database : conexão

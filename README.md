@@ -1,11 +1,37 @@
 # integra-instagran
 
-## 📖 Documentação
+## 🎯 Visão Geral
 
-[![Documentação Interativa](https://img.shields.io/badge/Documentação-GitHub%20Pages-blue?logo=github)](https://jadergreiner.github.io/integra-instagran/)
-[![Status Documentação](https://img.shields.io/badge/Status-Funcionando-brightgreen)](https://github.com/jadergreiner/integra-instagran/actions)
+**Plataforma multi-tenant de analytics para redes sociais** com portais administrativo e do cliente. Sistema modular FastAPI preparado para nuvem com foco em Instagram e Facebook analytics.
 
-A documentação completa está sendo configurada com **GitHub Pages** usando Docsify para interface interativa.
+### ✅ **Status do Projeto**
+
+- **EPIC-001**: Portal Administrativo ✅ **CONCLUÍDO**
+- **EPIC-002**: Portal do Cliente 🔄 **EM DESENVOLVIMENTO** (40%)
+  - **FEAT-004**: Autenticação de Clientes ✅ **CONCLUÍDO** (JWT + Security Fix)
+  - **FEAT-005**: Dashboard do Cliente 🔄 **INICIANDO**
+- **EPIC-003**: Analytics Avançados 📋 **PLANEJADO**
+
+### 🔒 **Funcionalidades Principais**
+
+#### Portal Administrativo (Concluído)
+- ✅ Sistema de autenticação seguro
+- ✅ Gestão completa de licenças (CRUD)
+- ✅ Gestão de usuários administrativos
+- ✅ Interface responsiva Bootstrap 5
+
+#### Portal do Cliente (Em Desenvolvimento)
+- ✅ **Autenticação JWT segura** (recém-implementado)
+- ✅ **Proteção CSRF** completa
+- ✅ **Validação de licença** automática
+- ✅ **Isolamento multi-tenant** robusto
+- 🔄 Dashboard com métricas (próximo)
+
+### 🛡️ **Segurança Implementada**
+- **JWT Authentication**: Tokens seguros com expiração
+- **CSRF Protection**: Proteção contra ataques cross-site
+- **Multi-tenant Isolation**: Dados segregados por cliente
+- **Authorization Security**: Cliente ID protegido no JWT payload
 
 ### 📚 Conteúdo da Documentação
 

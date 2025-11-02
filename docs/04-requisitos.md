@@ -1,14 +1,61 @@
 
-# Requisitos
+# Requisitos do Sistema - integra-instagran
 
-## Funcionais
+## Requisitos Funcionais
 
-- Gestão de licenças multi-tenant
-- Cadastro e autenticação de administradores
-- Visualização e auditoria de clientes
+### ✅ Portal Administrativo (Implementado)
+- **RF001**: Gestão completa de licenças multi-tenant (CRUD)
+- **RF002**: Cadastro e autenticação de administradores
+- **RF003**: Visualização e auditoria de clientes
+- **RF004**: Interface web responsiva para gestão
 
-## Não Funcionais
+### ✅ Portal do Cliente (Parcialmente Implementado)
+- **RF005**: Sistema de autenticação JWT seguro para clientes ✅
+- **RF006**: Validação automática de licença ativa ✅
+- **RF007**: Dashboard com visão geral da conta 🔄 **EM DESENVOLVIMENTO**
+- **RF008**: Gestão de perfil e configurações 📋 **PLANEJADO**
+- **RF009**: Conectividade com APIs de redes sociais 📋 **PLANEJADO**
 
-- Segurança e segregação de dados
-- Portabilidade para cloud
-- Facilidade de manutenção e escalabilidade
+### 📋 Analytics e Insights (Planejado)
+- **RF010**: Integração com Instagram Graph API
+- **RF011**: Coleta e armazenamento de métricas
+- **RF012**: Dashboards com visualizações interativas
+- **RF013**: Relatórios exportáveis
+- **RF014**: Comparações e benchmarks
+
+## Requisitos Não Funcionais
+
+### 🔒 Segurança (Implementado)
+- **RNF001**: Isolamento multi-tenant robusto ✅
+- **RNF002**: Autenticação JWT com expiração ✅
+- **RNF003**: Proteção CSRF em formulários ✅
+- **RNF004**: Hash seguro de senhas (PBKDF2) ✅
+- **RNF005**: Validação de entrada com Pydantic ✅
+
+### 🚀 Performance e Escalabilidade
+- **RNF006**: Suporte a múltiplos clientes simultâneos
+- **RNF007**: Cache de dados frequentes
+- **RNF008**: Otimização de consultas
+- **RNF009**: Preparação para cloud (AWS)
+
+### 🛠️ Manutenibilidade
+- **RNF010**: Arquitetura modular e testável ✅
+- **RNF011**: Documentação contínua ✅
+- **RNF012**: Testes E2E automatizados ✅
+- **RNF013**: Logs estruturados
+- **RNF014**: Monitoramento de health
+
+## Requisitos de Interface
+
+### 📱 Usabilidade
+- **RI001**: Interface responsiva (desktop, tablet, mobile)
+- **RI002**: Design consistente Bootstrap 5
+- **RI003**: Navegação intuitiva
+- **RI004**: Feedback visual para ações
+- **RI005**: Acessibilidade WCAG 2.1 📋 **PLANEJADO**
+
+### 🔄 Experiência do Usuário
+- **RI006**: Login rápido e seguro ✅
+- **RI007**: Dashboard informativo
+- **RI008**: Fluxos simplificados
+- **RI009**: Estados de loading e erro
