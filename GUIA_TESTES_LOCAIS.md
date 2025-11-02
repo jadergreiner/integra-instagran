@@ -287,6 +287,7 @@ Após completar todos os testes:
 ## 📞 Suporte
 
 Para problemas específicos:
+
 1. Verificar logs do servidor
 2. Consultar documentação em `docs/`
 3. Executar testes automatizados

@@ -116,6 +116,7 @@ Este documento mantém o Product Backlog priorizado, estruturado em Épicos → 
 **Release:** v1.0.0 - Produção  
 
 **Situação (SPIN):**
+
 - **S (Situation):** Clientes precisam acompanhar métricas detalhadas dos posts
 - **P (Problem):** Falta de insights causa abandono da plataforma (32% churn rate)
 - **I (Implication):** Perda de R$ 1.164-7.164/ano por cliente que abandona
@@ -124,6 +125,7 @@ Este documento mantém o Product Backlog priorizado, estruturado em Épicos → 
 **Descrição:** Dashboard abrangente para clientes acompanharem métricas de performance, engajamento e crescimento de seus perfis do Instagram com insights automáticos e recomendações personalizadas.
 
 **Critérios de Aceite:**
+
 1. ✅ Dashboard exibe métricas em tempo real
 2. ✅ Gráficos interativos de engajamento
 3. ✅ Insights automáticos baseados em dados
@@ -132,6 +134,7 @@ Este documento mantém o Product Backlog priorizado, estruturado em Épicos → 
 6. ✅ Sistema de recomendações personalizadas
 
 **Tarefas (SMART):**
+
 - ✅ **TASK-079**: Expandir dashboard cliente com seções avançadas (4h) - **CONCLUÍDA 01/11**
 - ✅ **TASK-080**: Implementar sistema de métricas (6h) - **CONCLUÍDA 01/11**
 - ✅ **TASK-081**: Implementar gestão de perfil cliente (4h) - **CONCLUÍDA 02/11**
@@ -139,17 +142,20 @@ Este documento mantém o Product Backlog priorizado, estruturado em Épicos → 
 - ✅ **TASK-083**: Documentação dashboard (3h) - **CONCLUÍDA 02/11** (ADR-012 + API docs)
 
 **Valor de Negócio:**
+
 - Redução do churn rate de clientes
 - Maior satisfação e engajamento
 - Diferencial competitivo no mercado
 - Base para funcionalidades de IA/ML futuras
 
 **Dependências:**
+
 - Sistema de autenticação cliente (FEAT-004) ✅
 - API Instagram Graph integrada ✅
 - Banco de dados métricas ✅
 
 **Riscos:**
+
 - Performance com grande volume de dados (mitigado com cache)
 - Limites da API Instagram (monitoramento implementado)
 
@@ -405,6 +411,7 @@ Este documento mantém o Product Backlog priorizado, estruturado em Épicos → 
 - Exibição de métricas principais
 - Interface responsiva para clientes
 - Filtros por período de análise  
+
 **Como:** Administrador master do sistema  
 **Quero:** Visualizar lista de todos os usuários administrativos  
 **Para:** Gerenciar acessos e permissões  
@@ -877,9 +884,11 @@ Este documento mantém o Product Backlog priorizado, estruturado em Épicos → 
 ## Priorização
 
 **EPIC-001 (Portal Administrativo):** ✅ CONCLUÍDO
+
 - Todas as features implementadas e testadas
 
 **EPIC-002 (Portal do Cliente):** 🔄 PRÓXIMO - Em Análise
+
 1. **FEAT-011**: Auto-cadastro e Onboarding Self-Service ⭐ CRÍTICO (ponto de entrada)
 2. **FEAT-004**: Autenticação de Clientes (login pós-cadastro)
 3. **FEAT-009**: Gestão de Usuários do Cliente (multi-usuário)

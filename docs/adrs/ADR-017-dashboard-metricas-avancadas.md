@@ -6,6 +6,7 @@
 ## Context
 
 O portal do cliente necessita de um dashboard abrangente para que os usuários possam:
+
 - Acompanhar métricas de performance dos posts em tempo real
 - Visualizar insights automáticos baseados em dados
 - Receber recomendações personalizadas
@@ -14,6 +15,7 @@ O portal do cliente necessita de um dashboard abrangente para que os usuários p
 ## Problema Identificado
 
 **Análise SPIN Selling:**
+
 - **Situation:** Clientes precisam acompanhar métricas detalhadas dos posts
 - **Problem:** Falta de insights causa abandono da plataforma (32% churn rate)
 - **Implication:** Perda de R$ 1.164-7.164/ano por cliente que abandona

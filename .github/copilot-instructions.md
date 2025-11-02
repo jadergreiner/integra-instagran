@@ -2,6 +2,7 @@
 
 ## 🎯 Visão Geral do Projeto
 Aplicação web FastAPI multi-tenant para analytics de redes sociais. Portal administrativo para gestão de licenças + portais clientes para insights de dados.
+
 * **Preparação para Nuvem:** Estrutura Docker-friendly, migração AWS planejada.
 
 ## 🏛️ Padrões Arquiteturais
@@ -41,6 +42,7 @@ Aplicação web FastAPI multi-tenant para analytics de redes sociais. Portal adm
 
 ### 📋 PADRÃO OBRIGATÓRIO DE DOCUMENTAÇÃO
 **A CADA ENTREGA DE HISTÓRIA DO USUÁRIO, SEMPRE ATUALIZAR:**
+
 1.  **`docs/diario-projeto.md`** - Progresso diário e marcos (Gate de Qualidade).
 2.  **`docs/gestao-agil/backlog.md`** - Status de features e user stories (Gate de Aprovação).
 3.  **`README.md`** - **Instruções de Instalação e Uso (principalmente Credenciais/Login)**, lista de funcionalidades novas.

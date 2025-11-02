@@ -5,12 +5,14 @@
 
 ### 🚀 Gate de Início (Implementado 01/11/2025)
 **TODOS os desenvolvimentos devem seguir:**
+
 1. **EPIC:** Definição estratégica do problema
 2. **SPIN Selling:** Validação de valor de negócio
    - Situation, Problem, Implication, Need-payoff
 3. **SMART Tasks:** Tarefas específicas, mensuráveis, atingíveis, relevantes, temporais
 
 **Exemplo Aplicado (FEAT-005):**
+
 - ✅ SPIN validado: Dashboard previne perda R$ 1.164-7.164/ano por cliente
 - ✅ SMART aprovado: 14-17h divididas em 5 tarefas específicas
 - ✅ Aprovação formal: Jader Greiner - 01/11/2025 às 23:34 BRT
@@ -50,6 +52,7 @@ src/client/
 ```
 
 **Padrões Aplicados:**
+
 1. **Service Layer Pattern:** MetricasService centraliza lógica
 2. **Repository Pattern:** Persistência abstraída em JSON
 3. **Pydantic Models:** Validação automática de dados
@@ -59,6 +62,7 @@ src/client/
 ### 🎯 Padrões de UX
 
 **Dashboard Design:**
+
 - **Mobile First:** Responsivo Bootstrap 5
 - **Progressive Enhancement:** Funciona sem JavaScript
 - **Loading States:** Feedback visual contínuo
@@ -68,6 +72,7 @@ src/client/
 ### 📈 Métricas de Qualidade
 
 **Implementação Atual:**
+
 - ✅ **Linhas de Código:** 400+ linhas template bem estruturadas
 - ✅ **Modelos de Dados:** 8 classes Pydantic validadas
 - ✅ **Cobertura de Testes:** 17 testes passando

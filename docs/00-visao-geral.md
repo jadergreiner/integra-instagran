@@ -29,6 +29,7 @@ O integra-instagran é uma solução analítica de dados para mídias sociais, v
 ## Valor de Negócio Comprovado
 
 **Análise SPIN Selling Validada:**
+
 - **Retenção de Clientes:** Dashboard reduz churn rate de 32%
 - **Impacto Financeiro:** Previne perda de R$ 1.164-7.164/ano por cliente
 - **Diferencial Competitivo:** Dashboard único no mercado

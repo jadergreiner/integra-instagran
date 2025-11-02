@@ -137,6 +137,7 @@ classDiagram
    - Enums para categorização
 
 **Fluxo de Dados:**
+
 1. Cliente acessa dashboard
 2. MetricasService solicita dados do Instagram API
 3. Dados processados e salvos em cache
@@ -204,6 +205,7 @@ sequenceDiagram
    - Isolamento por cliente_id
 
 **Segurança Implementada:**
+
 - ✅ JWT com expiração de 24h
 - ✅ Cookie HttpOnly (não acessível via JS)
 - ✅ CSRF token validation

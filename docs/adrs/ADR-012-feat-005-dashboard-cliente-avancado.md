@@ -33,6 +33,7 @@ Implementar dashboard cliente avançado com 5 tasks principais:
 **Decisão:** Bootstrap 5 + FontAwesome para interface moderna e responsiva
 
 **Justificativa:**
+
 - Bootstrap 5 oferece sistema de grid flexível
 - Componentes prontos aceleram desenvolvimento
 - FontAwesome fornece ícones profissionais
@@ -40,18 +41,21 @@ Implementar dashboard cliente avançado com 5 tasks principais:
 
 **Estrutura:**
 ```html
+
 - Header com brand e dropdown de usuário
 - Cards de métricas com gradientes visuais
 - Seção de status de perfil corporativo
 - Área de ações rápidas
 - Gráficos placeholder (Chart.js futuro)
 - Sistema de notificações e recomendações
+
 ```
 
 ### TASK-080: Sistema de Métricas (6h)
 **Decisão:** Serviço de métricas com dados mock estruturados
 
 **Justificativa:**
+
 - Separação de responsabilidades (service layer)
 - Dados mock permitem validação de UI
 - Facilita integração futura com APIs reais
@@ -64,9 +68,11 @@ Implementar dashboard cliente avançado com 5 tasks principais:
 - calcular_taxa_engajamento() -> float
 - obter_historico_posts() -> List[Dict]
 - gerar_insights() -> List[Dict]
+
 ```
 
 **Métricas Implementadas:**
+
 - Contas Instagram ativas
 - Taxa de engajamento (curtidas + comentários / seguidores)
 - Alcance total dos posts
@@ -77,6 +83,7 @@ Implementar dashboard cliente avançado com 5 tasks principais:
 **Decisão:** Serviço de perfil com validação de completude
 
 **Justificativa:**
+
 - Perfil corporativo enriquece contexto do cliente
 - Completude motiva preenchimento de dados
 - Dados estruturados facilitam personalização
@@ -87,9 +94,11 @@ Implementar dashboard cliente avançado com 5 tasks principais:
 - get_perfil_cliente(cliente_id) -> Dict
 - calcular_completude_perfil() -> float
 - validar_dados_obrigatorios() -> List[str]
+
 ```
 
 **Campos do Perfil:**
+
 - Nome da empresa (obrigatório)
 - Segmento de mercado
 - Número de funcionários
@@ -100,6 +109,7 @@ Implementar dashboard cliente avançado com 5 tasks principais:
 **Decisão:** Playwright para testes end-to-end completos
 
 **Justificativa:**
+
 - Playwright suporta múltiplos browsers (Chromium, Firefox, WebKit)
 - Integração nativa com pytest
 - Suporte a autenticação com cookies
@@ -108,33 +118,40 @@ Implementar dashboard cliente avançado com 5 tasks principais:
 **Cobertura de Testes (13 testes):**
 ```python
 TestDashboardNavegacao (3 testes):
+
 - test_carregamento_inicial_dashboard
 - test_navegacao_dropdown_usuario
 - test_elementos_dashboard_visíveis
 
 TestDashboardMetricas (3 testes):
+
 - test_secao_metricas_carregamento
 - test_interacao_cards_metricas
 - test_dados_metricas_numericos
 
 TestDashboardPerfil (2 testes):
+
 - test_link_perfil_disponivel
 - test_status_completude_perfil
 
 TestDashboardResponsividade (3 testes):
+
 - test_responsividade_mobile (375px)
 - test_responsividade_tablet (768px)
 - test_responsividade_desktop (1920px)
 
 TestDashboardIntegracao (2 testes):
+
 - test_integracao_perfil_metricas
 - test_persistencia_navegacao
+
 ```
 
 ### TASK-083: Documentação (2h)
 **Decisão:** Documentação completa em múltiplas camadas
 
 **Artefatos Criados:**
+
 - README.md atualizado com status 100%
 - ADR-012 (este documento)
 - requirements.txt com versões específicas
@@ -206,19 +223,23 @@ TestDashboardIntegracao (2 testes):
 ### Stack Tecnológica
 ```
 Backend:
+
 - FastAPI 0.104+
 - Python-Jose 3.3+ (JWT)
 - Jinja2 3.1+ (templates)
 
 Frontend:
+
 - Bootstrap 5.1.3
 - FontAwesome 6.0
 - CSS3 com gradientes e animações
 
 Testes:
+
 - Pytest 7.4+
 - Playwright 1.40+
 - pytest-playwright 0.4.3+
+
 ```
 
 ### Estrutura de Arquivos

@@ -128,6 +128,7 @@ Após seguir os passos acima, acesse novamente:
 **https://jadergreiner.github.io/integra-instagran/**
 
 Se ainda não funcionar, verifique:
+
 1. Logs do workflow em **Actions**
 2. Configurações em **Settings → Pages**
 3. Status do repositório (público/privado)

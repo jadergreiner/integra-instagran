@@ -9,6 +9,7 @@
 O sistema será baseado em assinatura mensal, onde clientes pagam para usar o produto por 30 dias. A forma principal de pagamento será PIX, sistema brasileiro de pagamentos instantâneos. Precisamos definir como implementar a gestão financeira de forma que seja escalável e integrada ao sistema multi-tenant.
 
 Atualmente temos um sistema básico de licenças com data de validade. Precisamos expandir isso para suportar:
+
 - Assinaturas mensais recorrentes
 - Pagamento via PIX
 - Controle de status financeiro
