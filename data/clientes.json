@@ -1,0 +1,13 @@
+[
+  {
+    "id": 1,
+    "nome": "João Silva",
+    "email": "joao@empresa.com",
+    "password_hash": "$pbkdf2-sha256$29000$w7jXWutd6x2DkNJai/G.1w$YeUC0uVjbJoC8K4VSu76Y6cVsyZvjce3XVwyosM9qOw",
+    "empresa": "Empresa Teste LTDA",
+    "telefone": "(11) 99999-9999",
+    "data_criacao": "2025-10-15T10:30:00",
+    "ultimo_acesso": null,
+    "status": "ativo"
+  }
+]
