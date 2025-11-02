@@ -118,7 +118,9 @@ class InstagramAPIClient:
             response = await self._client.get(url)
             response.raise_for_status()
 
-            data = response.json()
+            # httpx.Response.json() pode ser síncrono ou assíncrono dependendo do mock
+            json_result = response.json()
+            data = await json_result if hasattr(json_result, '__await__') else json_result
 
             # Verifica se há erro na resposta
             if "error" in data:
