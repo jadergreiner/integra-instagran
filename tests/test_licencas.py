@@ -18,13 +18,15 @@ def auth_headers(client):
     # Simular cookie de sessão diretamente (simplificação para testes)
     return {"Cookie": "session=authenticated"}
 
-@pytest.fixture(autouse=True)
-def cleanup_data():
+@pytest.fixture()
+def cleanup_data(request):
     """Limpa dados de teste após cada teste"""
     yield
-    # Limpar arquivo de dados se existir
-    if os.path.exists("data/licencas.json"):
-        os.remove("data/licencas.json")
+    # Não limpar se for teste E2E de dashboard
+    if "dashboard_cliente_e2e" not in request.module.__name__:
+        # Limpar arquivo de dados se existir
+        if os.path.exists("data/licencas.json"):
+            os.remove("data/licencas.json")
 
 class TestLicenca:
     """

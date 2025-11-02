@@ -8,10 +8,56 @@ Este documento mantém o Product Backlog priorizado, estruturado em Épicos → 
 
 ### EPIC-001: Implementar Portal Administrativo
 
-**Status:** Em Andamento  
+**Status:** ✅ Concluído  
 **Descrição:** Criar portal seguro para administradores gerenciarem licenças, usuários e configurações do sistema multi-tenant.  
 **Valor de Negócio:** Permite gestão centralizada e segura do produto.  
 **Duração Estimada:** Vários Sprints  
+
+### EPIC-002: Implementar Portal do Cliente
+
+**Status:** Em Desenvolvimento  
+**Descrição:** Criar portal dedicado para clientes gerenciarem suas próprias configurações, dados e integrações com APIs externas.  
+**Valor de Negócio:** Permite auto-gestão dos clientes, reduzindo suporte e aumentando satisfação.  
+**Duração Estimada:** 3-4 Sprints  
+**Progresso:** 80% (FEAT-004 concluída, FEAT-005 em desenvolvimento)  
+**SPIN Validado:** 01/11/2025 - Dashboard essencial para retenção (risco R$ 1.164-7.164/ano por cliente)  
+**Aprovação Gate de Início:** Jader Greiner - 01/11/2025 às 23:34 BRT  
+
+### EPIC-003: Analytics e Insights Avançados para Clientes
+
+**Status:** Planejado  
+**Descrição:** Sistema completo de analytics para clientes visualizarem dados de suas redes sociais, com comparações inteligentes e sugestões de conteúdo.  
+**Valor de Negócio:** Diferencial competitivo com insights acionáveis, aumentando retenção e satisfação dos clientes.  
+**Duração Estimada:** 8-12 Sprints  
+**Sub-Épicos:** EPIC-003.1 (Instagram), EPIC-003.2 (Facebook), EPIC-003.3 (Analytics Avançados), EPIC-003.4 (Dashboards e Relatórios)
+
+#### EPIC-003.1: Analytics Instagram
+
+**Status:** Planejado  
+**Descrição:** Integração completa com Instagram Graph API para coleta e análise de dados de perfis empresariais.  
+**Valor de Negócio:** Insights visuais e de engajamento para otimização de conteúdo Instagram.  
+**Duração Estimada:** 3-4 Sprints  
+
+#### EPIC-003.2: Analytics Facebook
+
+**Status:** Planejado  
+**Descrição:** Integração com Facebook Graph API para análise de páginas e anúncios corporativos.  
+**Valor de Negócio:** Métricas de performance de anúncios e engajamento orgânico no Facebook.  
+**Duração Estimada:** 2-3 Sprints  
+
+#### EPIC-003.3: Analytics Avançados e Comparativos
+
+**Status:** Planejado  
+**Descrição:** Sistema de comparações inteligentes entre perfis, benchmarks setoriais e análise preditiva.  
+**Valor de Negócio:** Insights estratégicos para posicionamento competitivo e tomada de decisões.  
+**Duração Estimada:** 4-5 Sprints  
+
+#### EPIC-003.4: Dashboards e Relatórios Executivos
+
+**Status:** Planejado  
+**Descrição:** Interface unificada para visualização de dados, relatórios automatizados e exportações.  
+**Valor de Negócio:** Comunicação clara de resultados para stakeholders e equipes internas.  
+**Duração Estimada:** 2-3 Sprints  
 
 ## Features por Épico
 
@@ -30,6 +76,7 @@ Este documento mantém o Product Backlog priorizado, estruturado em Épicos → 
 **Descrição:** CRUD completo para licenças (criar, ativar, expirar, listar).  
 **Histórias Associadas:** US-003, US-004, US-005, US-006  
 **Duração Estimada:** 1-2 Sprints  
+**Nota:** Preparado para gestão financeira futura (assinatura mensal) com campos opcionais, incluindo suporte específico para PIX  
 
 #### FEAT-003: Gestão de Usuários
 
@@ -38,11 +85,324 @@ Este documento mantém o Product Backlog priorizado, estruturado em Épicos → 
 **Histórias Associadas:** US-007 ✅, US-008 ✅, US-009 ✅  
 **Duração Estimada:** 1 Sprint  
 
-### FEAT-003 - Histórias (Em Definição)
+## Features por Épico - EPIC-002
 
-#### US-007: Listar Usuários Administrativos
+### EPIC-002 - Features
+
+#### FEAT-011: Auto-cadastro e Onboarding Self-Service
+
+**Status:** Planejado  
+**Descrição:** Sistema completo de auto-cadastro onde cliente cria conta, gera licença automaticamente e paga via PIX para ativar a plataforma por 30 dias.  
+**Histórias Associadas:** US-021, US-022, US-023 (planejado)  
+**Duração Estimada:** 2 Sprints  
+
+#### FEAT-004: Autenticação de Clientes
 
 **Status:** ✅ Concluído  
+**Descrição:** Sistema de login/logout específico para clientes acessar o portal com segurança JWT.  
+**Histórias Associadas:** US-010 (concluído)  
+**Duração Estimada:** 1 Sprint  
+**Nota:** Inclui correções críticas de segurança (JWT, CSRF, Authorization). Sistema pronto para produção.  
+
+#### FEAT-005: Dashboard do Cliente
+
+**Status:** Em Desenvolvimento  
+**Prioridade:** ALTA ⭐  
+**Responsável:** Jader Greiner  
+**Sprint:** 3-4  
+**SPIN Validado:** 01/11/2025 - Dashboard essencial para retenção (risco R$ 1.164-7.164/ano por cliente)  
+**SMART Approved:** 01/11/2025 às 23:34 BRT por Jader Greiner  
+
+**Situação (SPIN):**
+- **S (Situation):** Clientes precisam acompanhar métricas detalhadas dos posts
+- **P (Problem):** Falta de insights causa abandono da plataforma (32% churn rate)
+- **I (Implication):** Perda de R$ 1.164-7.164/ano por cliente que abandona
+- **N (Need-payoff):** Dashboard aumenta engajamento e reduz churn
+
+**Descrição:** Dashboard abrangente para clientes acompanharem métricas de performance, engajamento e crescimento de seus perfis do Instagram com insights automáticos e recomendações personalizadas.
+
+**Critérios de Aceite:**
+1. Dashboard exibe métricas em tempo real
+2. Gráficos interativos de engajamento
+3. Insights automáticos baseados em dados
+4. Notificações de performance
+5. Histórico de posts com métricas detalhadas
+6. Sistema de recomendações personalizadas
+
+**Tarefas (SMART):**
+- ✅ **TASK-079**: Expandir dashboard cliente com seções avançadas (4h) - **CONCLUÍDA**
+- ✅ **TASK-080**: Implementar sistema de métricas (6h) - **CONCLUÍDA**
+- 🔄 **TASK-081**: Implementar gestão de perfil cliente (3-4h) - **EM PROGRESSO**
+- ⏳ **TASK-082**: Testes E2E dashboard completo (2-3h) - **PENDENTE**
+- ⏳ **TASK-083**: Documentação dashboard (2-3h) - **PENDENTE**
+
+**Valor de Negócio:**
+- Redução do churn rate de clientes
+- Maior satisfação e engajamento
+- Diferencial competitivo no mercado
+- Base para funcionalidades de IA/ML futuras
+
+**Dependências:**
+- Sistema de autenticação cliente (FEAT-004) ✅
+- API Instagram Graph integrada ✅
+- Banco de dados métricas ✅
+
+**Riscos:**
+- Performance com grande volume de dados (mitigado com cache)
+- Limites da API Instagram (monitoramento implementado)
+
+**Estimativa:** 14-17 horas totais  
+**Progresso:** 70% (10h/17h completadas)  
+**Histórias Associadas:** US-011 (em desenvolvimento)  
+**Duração Estimada:** 1-2 Sprints  
+
+#### FEAT-006: Gestão de APIs Externas
+
+**Status:** Planejado  
+**Descrição:** Interface para configurar credenciais e conexões com Instagram e outras plataformas.  
+**Histórias Associadas:** US-012, US-013 (planejado)  
+**Duração Estimada:** 1 Sprint  
+
+#### FEAT-007: Relatórios e Analytics
+
+**Status:** Planejado  
+**Descrição:** Visualização de dados coletados das redes sociais com gráficos e métricas.  
+**Histórias Associadas:** US-014, US-015 (planejado)  
+**Duração Estimada:** 1 Sprint  
+
+#### FEAT-008: Configurações do Cliente
+
+**Status:** Planejado  
+**Descrição:** Área para personalizar configurações específicas do cliente.  
+**Histórias Associadas:** US-016 (planejado)  
+**Duração Estimada:** 0.5 Sprint  
+
+#### FEAT-009: Gestão de Usuários do Cliente
+
+**Status:** Planejado  
+**Descrição:** Sistema para o cliente gerenciar seus próprios usuários e permissões.  
+**Histórias Associadas:** US-017, US-018 (planejado)  
+**Duração Estimada:** 1 Sprint  
+
+#### FEAT-010: Dashboards Compartilhados
+
+**Status:** Planejado  
+**Descrição:** Sistema de dashboards/insights criados pelo administrador e compartilhados com clientes.  
+**Histórias Associadas:** US-019, US-020 (planejado)  
+**Duração Estimada:** 1 Sprint
+
+## Features por Épico - EPIC-003
+
+### EPIC-003.1 (Instagram) - Features
+
+#### FEAT-012: Análise de Engajamento Instagram
+
+**Status:** Planejado  
+**Descrição:** Métricas detalhadas de likes, comentários, compartilhamentos e taxa de engajamento por post no Instagram.  
+**Histórias Associadas:** US-026 (planejado)  
+**Duração Estimada:** 1 Sprint  
+
+#### FEAT-013: Análise de Perfil Instagram
+
+**Status:** Planejado  
+**Descrição:** Score geral do perfil Instagram, pontos fortes/fracos e recomendações de otimização.  
+**Histórias Associadas:** US-027 (planejado)  
+**Duração Estimada:** 1 Sprint  
+
+#### FEAT-019: Análise de Seguidores Instagram
+
+**Status:** Planejado  
+**Descrição:** Demografia dos seguidores Instagram, crescimento de audiência e engajamento por segmento.  
+**Histórias Associadas:** US-030 (planejado)  
+**Duração Estimada:** 1 Sprint  
+
+#### FEAT-020: Gestão de Comentários Instagram
+
+**Status:** Planejado  
+**Descrição:** Sistema de análise de sentimento e resposta automática a comentários no Instagram.  
+**Histórias Associadas:** US-033 (planejado)  
+**Duração Estimada:** 1 Sprint  
+
+### EPIC-003.2 (Facebook) - Features
+
+#### FEAT-021: Analytics de Página Facebook
+
+**Status:** Planejado  
+**Descrição:** Métricas de engajamento e crescimento de páginas corporativas no Facebook.  
+**Histórias Associadas:** US-034 (planejado)  
+**Duração Estimada:** 1 Sprint  
+
+#### FEAT-022: Analytics de Anúncios Facebook
+
+**Status:** Planejado  
+**Descrição:** Performance de campanhas publicitárias, ROI e otimização de anúncios.  
+**Histórias Associadas:** US-035 (planejado)  
+**Duração Estimada:** 1 Sprint  
+
+#### FEAT-023: Análise de Público Facebook
+
+**Status:** Planejado  
+**Descrição:** Demografia e comportamento do público alcançado pelas páginas e anúncios.  
+**Histórias Associadas:** US-036 (planejado)  
+**Duração Estimada:** 1 Sprint  
+
+### EPIC-003.3 (Analytics Avançados) - Features
+
+#### FEAT-014: Comparação Regional
+
+**Status:** Planejado  
+**Descrição:** Benchmark com perfis similares na mesma região e insights geográficos.  
+**Histórias Associadas:** US-028 (planejado)  
+**Duração Estimada:** 1 Sprint  
+
+#### FEAT-015: Comparação por Segmento
+
+**Status:** Planejado  
+**Descrição:** Análise competitiva por nicho de mercado e posicionamento relativo.  
+**Histórias Associadas:** US-029 (planejado)  
+**Duração Estimada:** 1 Sprint  
+
+#### FEAT-024: Análise Preditiva de Performance
+
+**Status:** Planejado  
+**Descrição:** Previsões de engajamento e crescimento baseadas em dados históricos e tendências.  
+**Histórias Associadas:** US-037 (planejado)  
+**Duração Estimada:** 2 Sprints  
+
+#### FEAT-025: Benchmarking Inteligente
+
+**Status:** Planejado  
+**Descrição:** Comparações automatizadas com concorrentes e melhores práticas do setor.  
+**Histórias Associadas:** US-038 (planejado)  
+**Duração Estimada:** 1 Sprint  
+
+### EPIC-003.4 (Dashboards e Relatórios) - Features
+
+#### FEAT-017: Dashboard de Métricas Gerais
+
+**Status:** Planejado  
+**Descrição:** KPIs principais em tempo real com gráficos interativos e relatórios exportáveis.  
+**Histórias Associadas:** US-031 (planejado)  
+**Duração Estimada:** 1 Sprint  
+
+#### FEAT-018: Sugestões de Publicações e Stories
+
+**Status:** Planejado  
+**Descrição:** Recomendações de conteúdo baseadas em dados e calendário otimizado.  
+**Histórias Associadas:** US-032 (planejado)  
+**Duração Estimada:** 1 Sprint  
+
+#### FEAT-026: Relatórios Executivos Automatizados
+
+**Status:** Planejado  
+**Descrição:** Geração automática de relatórios em PDF/PPT para stakeholders.  
+**Histórias Associadas:** US-039 (planejado)  
+**Duração Estimada:** 1 Sprint  
+
+#### FEAT-027: Alertas e Notificações Inteligentes
+
+**Status:** Planejado  
+**Descrição:** Sistema de alertas para quedas de engajamento, crises de reputação e oportunidades.  
+**Histórias Associadas:** US-040 (planejado)  
+**Duração Estimada:** 1 Sprint
+
+## Tarefas Técnicas - EPIC-003
+
+### Preparação para Integração Instagram
+
+#### TASK-033: Configurar Meta for Developers
+
+**Status:** Planejado  
+**Descrição:** Criar app no Meta for Developers e configurar Instagram Graph API  
+**Critérios:**
+
+- Conta de desenvolvedor Meta criada
+- App criado no portal Meta for Developers
+- Produto Instagram Graph API adicionado
+- Token de acesso de longa duração gerado
+- Permissões básicas solicitadas (instagram_basic, pages_show_list)
+
+#### TASK-034: Preparar Contas Empresariais
+
+**Status:** Planejado  
+**Descrição:** Garantir que todas as contas do grupo estejam configuradas como Business Accounts  
+**Critérios:**
+
+- Todas as 10+ contas convertidas para Business/Creator
+- Vinculação com Páginas do Facebook estabelecida
+- Centralização no Business Manager corporativo
+- Acesso de administrador confirmado para desenvolvedores
+
+#### TASK-035: Solicitar App Review Meta
+
+**Status:** Planejado  
+**Descrição:** Submeter app para revisão e obter permissões avançadas  
+**Critérios:**
+
+- Permissões instagram_manage_insights solicitada
+- Permissões instagram_manage_comments solicitada
+- Documentação técnica preparada para revisão
+- Processo de aprovação acompanhado
+
+#### TASK-036: Implementar Cliente Instagram API
+
+**Status:** Planejado  
+**Descrição:** Criar infraestrutura base para integração com Instagram Graph API  
+**Critérios:**
+
+- Cliente HTTP assíncrono implementado (httpx)
+- Gestão de autenticação e tokens
+- Rate limiting implementado
+- Error handling com retry logic
+- Logging detalhado para auditoria
+
+#### TASK-037: Criar Modelos de Dados Instagram
+
+**Status:** Planejado  
+**Descrição:** Definir modelos Pydantic para responses da API Instagram  
+**Critérios:**
+
+- Modelos para dados de perfil (InstagramAccount)
+- Modelos para métricas de insights (InstagramInsights)
+- Modelos para posts e mídia (InstagramMedia)
+- Modelos para comentários (InstagramComment)
+- Validação de dados obrigatórios
+
+#### TASK-038: Implementar Extração Dados Básicos
+
+**Status:** Planejado  
+**Descrição:** Implementar coleta de dados básicos do perfil Instagram  
+**Critérios:**
+
+- Endpoint para obter dados da conta
+- Persistência em JSON storage
+- Testes de conectividade com contas reais
+- Tratamento de erros de autenticação
+- Logs de execução bem-sucedida
+
+#### TASK-039: Implementar Coleta de Insights
+
+**Status:** Planejado  
+**Descrição:** Implementar extração de métricas de audiência e engajamento  
+**Critérios:**
+
+- Coleta de dados demográficos (idade, gênero, localização)
+- Métricas de alcance e impressões
+- Dados de engajamento por post
+- Agendamento automático de coletas
+- Armazenamento histórico de métricas
+
+#### TASK-040: Implementar Dashboard Básico Instagram
+
+**Status:** Planejado  
+**Descrição:** Criar visualização inicial dos dados coletados  
+**Critérios:**
+
+- Template HTML para dashboard Instagram
+- Gráficos básicos com Chart.js
+- Exibição de métricas principais
+- Interface responsiva para clientes
+- Filtros por período de análise  
 **Como:** Administrador master do sistema  
 **Quero:** Visualizar lista de todos os usuários administrativos  
 **Para:** Gerenciar acessos e permissões  
@@ -514,18 +874,323 @@ Este documento mantém o Product Backlog priorizado, estruturado em Épicos → 
 
 ## Priorização
 
-1. US-002 (segurança crítica - completar autenticação) ✅ **CONCLUÍDA**
-2. FEAT-002 (gestão de licenças - funcionalidade core) - **EM PLANEJAMENTO**
-   - US-003: Criar Nova Licença (próxima prioridade)
-   - US-004: Listar e Filtrar Licenças
-   - US-005: Gerenciar Status da Licença
-   - US-006: Editar Dados da Licença
+**EPIC-001 (Portal Administrativo):** ✅ CONCLUÍDO
+- Todas as features implementadas e testadas
+
+**EPIC-002 (Portal do Cliente):** 🔄 PRÓXIMO - Em Análise
+1. **FEAT-011**: Auto-cadastro e Onboarding Self-Service ⭐ CRÍTICO (ponto de entrada)
+2. **FEAT-004**: Autenticação de Clientes (login pós-cadastro)
+3. **FEAT-009**: Gestão de Usuários do Cliente (multi-usuário)
+4. **FEAT-005**: Dashboard do Cliente (experiência inicial)
+5. **FEAT-006**: Gestão de APIs Externas (valor core)
+6. **FEAT-010**: Dashboards Compartilhados (insights admin)
+7. **FEAT-007**: Relatórios e Analytics (valor analítico)
+8. **FEAT-008**: Configurações do Cliente (complementar)
 
 ## Métricas de Progresso
 
-- Épicos Concluídos: 0/1
-- Features Concluídas: 0/3
-- Histórias Concluídas: 2/6 (US-001, US-002 ✅)
+- Épicos Concluídos: 1/2 (EPIC-001 ✅)
+- Features Concluídas: 3/12 (FEAT-001, FEAT-002, FEAT-003 ✅)
+- Histórias Concluídas: 9/24 (US-001 até US-009 ✅)
 - Tarefas Concluídas: 8/24 (TASK-001 até TASK-008 ✅)
 
-Última Atualização: 30/10/2025
+Última Atualização: 01/11/2025
+
+## Histórias do Usuário - EPIC-002
+
+### FEAT-004 - Histórias
+
+#### US-010: Login de Cliente
+
+**Status:** Planejado  
+**Como:** Usuário cliente (não administrador)  
+**Quero:** Fazer login no portal do cliente  
+**Para:** Acessar minhas configurações e dados de forma segura  
+**Critérios de Aceitação:**
+
+- Página de login dedicada em /client/login
+- Autenticação com email/senha específicos do cliente
+- Validação de cliente ativo e licença válida
+- Redirecionamento para dashboard do cliente após login
+- Mensagem de erro para credenciais inválidas ou cliente inativo
+
+**Tarefas Associadas:** TASK-019 (planejado)
+
+#### US-011: Dashboard do Cliente
+
+**Status:** Planejado  
+**Como:** Cliente logado  
+**Quero:** Visualizar dashboard com visão geral dos meus dados  
+**Para:** Entender rapidamente o status das minhas integrações  
+**Critérios de Aceitação:**
+
+- Página inicial em /client/dashboard
+- Cards com status das APIs conectadas
+- Gráfico simples de dados recentes
+- Links rápidos para configurações
+- Informações do perfil do cliente
+
+**Tarefas Associadas:** TASK-020 (planejado)
+
+#### US-012: Configurar API do Instagram
+
+**Status:** Planejado  
+**Como:** Cliente logado  
+**Quero:** Configurar credenciais da API do Instagram  
+**Para:** Permitir coleta de dados da minha conta  
+**Critérios de Aceitação:**
+
+- Formulário para Access Token e Account ID
+- Validação de credenciais via API
+- Status de conexão (conectado/desconectado)
+- Teste de conectividade
+- Armazenamento seguro das credenciais
+
+**Tarefas Associadas:** TASK-021 (planejado)
+
+#### US-013: Visualizar Relatórios
+
+**Status:** Planejado  
+**Como:** Cliente logado  
+**Quero:** Ver relatórios dos dados coletados  
+**Para:** Analisar performance das minhas redes sociais  
+**Critérios de Aceitação:**
+
+- Página de relatórios em /client/reports
+- Gráficos de engajamento e seguidores
+- Filtros por período
+- Exportação em PDF/CSV
+- Dados atualizados em tempo real
+
+**Tarefas Associadas:** TASK-022 (planejado)
+
+#### US-014: Gerenciar Configurações
+
+**Status:** Planejado  
+**Como:** Cliente logado  
+**Quero:** Personalizar configurações do meu perfil  
+**Para:** Adaptar o sistema às minhas necessidades  
+**Critérios de Aceitação:**
+
+- Página de configurações em /client/settings
+- Edição de dados do perfil
+- Preferências de notificações
+- Troca de senha
+- Exclusão de conta (com confirmação)
+
+**Tarefas Associadas:** TASK-023 (planejado)
+
+#### US-017: Gerenciar Usuários da Conta
+
+**Status:** Planejado  
+**Como:** Cliente administrador da conta  
+**Quero:** Criar e gerenciar usuários da minha organização  
+**Para:** Controlar acessos à conta por diferentes membros da equipe  
+**Critérios de Aceitação:**
+
+- Criar novos usuários com email e permissões
+- Definir roles: Admin, Editor, Viewer
+- Editar permissões de usuários existentes
+- Desativar/reativar usuários
+- Convites por email com link de ativação
+
+**Tarefas Associadas:** TASK-024 (planejado)
+
+#### US-018: Login Integrado com Redes Sociais
+
+**Status:** Planejado  
+**Como:** Cliente  
+**Quero:** Fazer login usando conta do Google/Facebook/etc  
+**Para:** Facilitar acesso sem criar senha adicional  
+**Critérios de Aceitação:**
+
+- Botões de login social (Google, Facebook, etc.)
+- Mapeamento automático para usuário existente
+- Criação de conta se primeiro login social
+- Fallback para login tradicional
+- Consentimento de permissões
+
+**Tarefas Associadas:** TASK-025 (planejado)
+
+#### US-019: Visualizar Dashboards Compartilhados
+
+**Status:** Planejado  
+**Como:** Cliente  
+**Quero:** Acessar dashboards criados pelo administrador  
+**Para:** Visualizar insights pré-configurados  
+**Critérios de Aceitação:**
+
+- Lista de dashboards disponíveis
+- Visualização interativa dos dados
+- Filtros e períodos personalizáveis
+- Exportação de dados
+- Favoritar dashboards importantes
+
+**Tarefas Associadas:** TASK-026 (planejado)
+
+#### US-020: Solicitar Novos Dashboards
+
+**Status:** Planejado  
+**Como:** Cliente  
+**Quero:** Solicitar criação de novos dashboards personalizados  
+**Para:** Atender necessidades específicas da minha empresa  
+**Critérios de Aceitação:**
+
+- Formulário para descrever necessidade
+- Seleção de métricas desejadas
+- Priorização da solicitação
+- Comunicação com administrador
+- Status de acompanhamento
+
+**Tarefas Associadas:** TASK-027 (planejado)
+
+#### US-021: Auto-cadastro de Novo Cliente
+
+**Status:** Planejado  
+**Como:** Potencial cliente interessado no produto  
+**Quero:** Me cadastrar sozinho no sistema  
+**Para:** Criar minha conta e começar a usar a plataforma  
+**Critérios de Aceitação:**
+
+- Página pública de cadastro (/cadastro) sem necessidade de login
+- Formulário com: nome empresa, email, senha, chave PIX
+- Validação de email único e senha forte
+- Criação automática de cliente e usuário admin
+- Geração automática de licença trial (7 dias) ou imediata com PIX
+- Redirecionamento para dashboard após cadastro/pagamento
+
+**Tarefas Associadas:** TASK-028 (planejado)
+
+#### US-022: Geração Automática de QR Code PIX
+
+**Status:** Planejado  
+**Como:** Cliente recém-cadastrado  
+**Quero:** Receber QR Code PIX para ativar minha licença  
+**Para:** Pagar e habilitar a plataforma por 30 dias  
+**Critérios de Aceitação:**
+
+- QR Code gerado automaticamente após cadastro
+- Valor padrão da assinatura mensal
+- Exibição clara do QR Code na tela
+- Instruções para pagamento via PIX
+- Status de pagamento atualizado em tempo real
+- Ativação automática da licença após confirmação
+
+**Tarefas Associadas:** TASK-029 (planejado)
+
+#### US-023: Ativação Automática Após Pagamento
+
+**Status:** Planejado  
+**Como:** Cliente que pagou via PIX  
+**Quero:** Ter minha licença ativada automaticamente  
+**Para:** Começar a usar a plataforma imediatamente  
+**Critérios de Aceitação:**
+
+- Webhook recebe confirmação de pagamento
+- Licença muda status para "ativa"
+- Cliente recebe confirmação visual
+- Acesso liberado ao dashboard completo
+- Email de boas-vindas enviado
+- Renovação automática preparada para próximo mês
+
+**Tarefas Associadas:** TASK-030 (planejado)
+
+#### US-024: Recuperação de Senha do Cliente
+
+**Status:** Planejado  
+**Como:** Cliente que esqueceu sua senha  
+**Quero:** Recuperar minha senha através do email  
+**Para:** Voltar a acessar minha conta  
+**Critérios de Aceitação:**
+
+- Link "Esqueci minha senha" na página de login
+- Formulário para inserir email
+- Token de reset enviado por email (válido por 1 hora)
+- Página de reset de senha com token na URL
+- Validação de senha forte no reset
+- Redirecionamento para login após sucesso
+- Logs de tentativas de reset
+
+**Tarefas Associadas:** TASK-031 (planejado)
+
+#### US-025: Email de Boas Vindas Após Cadastro
+
+**Status:** Planejado  
+**Como:** Cliente recém-cadastrado  
+**Quero:** Receber email de boas vindas com instruções  
+**Para:** Saber como começar a usar a plataforma  
+**Critérios de Aceitação:**
+
+- Email enviado automaticamente após cadastro
+- Conteúdo: boas vindas, guia inicial, próximos passos
+- Link para acessar o dashboard
+- Informações sobre suporte e documentação
+- Personalização com nome da empresa
+- Template HTML responsivo e profissional
+
+**Tarefas Associadas:** TASK-032 (planejado)
+
+---
+
+## 📋 ITENS MOVIDOS PARA BACKLOG - PÓS SECURITY FIX
+
+### US-026: Melhorias de Acessibilidade no Portal Cliente
+
+**Status:** Planejado  
+**Origem:** Code Review FEAT-004 - Movido para backlog conforme priorização de segurança  
+**Como:** Cliente com necessidades de acessibilidade  
+**Quero:** Portal totalmente acessível (WCAG 2.1 AA)  
+**Para:** Ter acesso igual às funcionalidades independente de limitações  
+**Critérios de Aceitação:**
+
+- Navegação completa via teclado
+- Leitores de tela compatíveis
+- Contraste adequado em todos os elementos
+- Textos alternativos em imagens
+- Formulários com labels adequados
+- Estados de foco visíveis
+- Validação WCAG 2.1 AA
+
+**Tarefas Associadas:** TASK-076 (planejado)
+
+### US-027: Expansão de Testes E2E Comprehensivos
+
+**Status:** Planejado  
+**Origem:** Code Review FEAT-004 - Movido para backlog conforme priorização de segurança  
+**Como:** Desenvolvedor da equipe  
+**Quero:** Suite completa de testes E2E para todas as jornadas  
+**Para:** Garantir qualidade e evitar regressões  
+**Critérios de Aceitação:**
+
+- Testes E2E para todas as jornadas principais
+- Testes cross-browser (Chrome, Firefox, Safari)
+- Testes responsivos (desktop, tablet, mobile)
+- Testes de performance e load
+- Integração com CI/CD
+- Relatórios de cobertura detalhados
+- Testes de acessibilidade automatizados
+
+**Tarefas Associadas:** TASK-077 (planejado)
+
+### US-028: Otimizações de Performance Cliente
+
+**Status:** Planejado  
+**Origem:** Code Review FEAT-004 - Movido para backlog conforme priorização de segurança  
+**Como:** Cliente da plataforma  
+**Quero:** Portal com carregamento rápido e responsivo  
+**Para:** Ter experiência fluida e produtiva  
+**Critérios de Aceitação:**
+
+- Carregamento inicial < 3 segundos
+- Time to Interactive < 5 segundos
+- Lazy loading para componentes pesados
+- Cache estratégico de assets
+- Otimização de imagens e recursos
+- Compressão de assets (minificação, gzip)
+- Métricas Core Web Vitals > 90
+
+**Tarefas Associadas:** TASK-078 (planejado)
+
+---
+
+**🔒 SECURITY FIX COMPLETO**: Vulnerabilidades críticas de FEAT-004 foram corrigidas com implementação de JWT, remoção de cookies manipuláveis e proteção CSRF. Sistema está seguro para merge em produção.

@@ -1,0 +1,24 @@
+{
+  "1_TipoInsight.SUCCESS_1762053847": {
+    "cliente_id": "1",
+    "tipo": "success",
+    "icone": "trending-up",
+    "titulo": "Excelente crescimento!",
+    "descricao": "Sua taxa de crescimento de 15.3% esta acima da media.",
+    "acao": "Ver detalhes",
+    "acao_url": "/client/analytics/crescimento",
+    "prioridade": 4,
+    "data_criacao": "2025-11-02 00:24:07.405790"
+  },
+  "1_TipoInsight.INFO_1762053847": {
+    "cliente_id": "1",
+    "tipo": "info",
+    "icone": "calendar",
+    "titulo": "Aumente a frequencia de posts",
+    "descricao": "Postar mais regularmente pode melhorar seu engajamento.",
+    "acao": "Ver calendario",
+    "acao_url": "/client/planejamento",
+    "prioridade": 2,
+    "data_criacao": "2025-11-02 00:24:07.405804"
+  }
+}

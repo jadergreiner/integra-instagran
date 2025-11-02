@@ -1,0 +1,18 @@
+{
+  "123": {
+    "id": 2,
+    "cliente_id": 123,
+    "nome_empresa": "Test Corp",
+    "email_corporativo": "test@corp.com",
+    "telefone": null,
+    "cnpj": null,
+    "endereco": null,
+    "cidade": "São Paulo",
+    "estado": "SP",
+    "cep": null,
+    "site": null,
+    "descricao": null,
+    "data_criacao": "2025-11-01 23:52:55.502120",
+    "data_atualizacao": "2025-11-01 23:52:55.502128"
+  }
+}
