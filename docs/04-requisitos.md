@@ -9,11 +9,18 @@
 - **RF003**: Visualização e auditoria de clientes
 - **RF004**: Interface web responsiva para gestão
 
-### ✅ Portal do Cliente (Parcialmente Implementado)
+### ✅ Portal do Cliente (Implementado/Em Desenvolvimento)
 - **RF005**: Sistema de autenticação JWT seguro para clientes ✅
 - **RF006**: Validação automática de licença ativa ✅
-- **RF007**: Dashboard com visão geral da conta 🔄 **EM DESENVOLVIMENTO**
-- **RF008**: Gestão de perfil e configurações 📋 **PLANEJADO**
+- **RF007**: Dashboard com métricas avançadas e insights 🔄 **EM DESENVOLVIMENTO** (FEAT-005 aprovada 01/11/2025)
+  - ✅ Interface com 6 seções principais
+  - ✅ Gráficos interativos de engajamento
+  - ✅ Sistema de métricas em tempo real
+  - ✅ Notificações de performance
+  - ✅ Insights automáticos baseados em dados
+  - ✅ Histórico de posts com métricas detalhadas
+  - ✅ Recomendações personalizadas
+- **RF008**: Gestão de perfil e configurações � **EM PROGRESSO** (TASK-081)
 - **RF009**: Conectividade com APIs de redes sociais 📋 **PLANEJADO**
 
 ### 📋 Analytics e Insights (Planejado)

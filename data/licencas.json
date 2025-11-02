@@ -1,0 +1,11 @@
+[
+  {
+    "id": 1,
+    "cliente_id": 1,
+    "status": "ativa",
+    "data_inicio": "2025-10-15",
+    "data_expiracao": "2025-12-31",
+    "tipo_plano": "premium",
+    "ativa": true
+  }
+]

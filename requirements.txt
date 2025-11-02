@@ -1,12 +1,29 @@
-fastapi
-uvicorn
-pydantic[email]
-pytest
-pytest-playwright
-playwright
-passlib[bcrypt]
-jinja2
-fastapi-mail
+# Core Framework
+fastapi>=0.104.0
+uvicorn[standard]>=0.24.0
+pydantic[email]>=2.4.0
+
+# Security & Authentication
+passlib[bcrypt]>=1.7.4
+python-jose[cryptography]>=3.3.0
+python-multipart>=0.0.6
+
+# Templates
+jinja2>=3.1.2
+
+# Email
+fastapi-mail>=1.4.1
+
+# HTTP Client & Async
 httpx>=0.25.0
 tenacity>=8.0.0
+
+# Configuration
 python-dotenv>=1.0.0
+
+# Testing
+pytest>=7.4.0
+pytest-asyncio>=0.21.0
+pytest-playwright>=0.4.3
+pytest-timeout>=2.2.0
+playwright>=1.40.0

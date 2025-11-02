@@ -16,6 +16,7 @@ class TestUsuario:
             "id": 1,
             "nome": "João Silva",
             "email": "joao@example.com",
+            "senha_hash": "hash_senha_seguro_123",  # Campo obrigatório adicionado
             "permissao": "admin"
         }
 
@@ -26,6 +27,7 @@ class TestUsuario:
         assert usuario.id == 1
         assert usuario.nome == "João Silva"
         assert usuario.email == "joao@example.com"
+        assert usuario.senha_hash == "hash_senha_seguro_123"
         assert usuario.permissao == "admin"
 
     def test_quando_criar_usuario_com_email_invalido_entao_deve_lancar_erro(self):

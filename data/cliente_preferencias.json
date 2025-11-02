@@ -1,0 +1,44 @@
+{
+  "999": {
+    "id": 1,
+    "cliente_id": 999,
+    "tema": "light",
+    "notificacoes_email": true,
+    "notificacoes_push": true,
+    "idioma": "pt-BR",
+    "fuso_horario": "America/Sao_Paulo",
+    "metricas_favoritas": [],
+    "dashboard_personalizado": false,
+    "data_criacao": "2025-11-01 23:39:22.293273",
+    "data_atualizacao": "2025-11-01 23:39:22.293281"
+  },
+  "123": {
+    "id": 2,
+    "cliente_id": 123,
+    "tema": "dark",
+    "notificacoes_email": false,
+    "notificacoes_push": true,
+    "idioma": "pt-BR",
+    "fuso_horario": "America/Sao_Paulo",
+    "metricas_favoritas": [
+      "engajamento",
+      "alcance"
+    ],
+    "dashboard_personalizado": false,
+    "data_criacao": "2025-11-01 23:39:22.316019",
+    "data_atualizacao": "2025-11-01 23:52:55.485151"
+  },
+  "1": {
+    "id": 3,
+    "cliente_id": 1,
+    "tema": "light",
+    "notificacoes_email": true,
+    "notificacoes_push": true,
+    "idioma": "pt-BR",
+    "fuso_horario": "America/Sao_Paulo",
+    "metricas_favoritas": [],
+    "dashboard_personalizado": false,
+    "data_criacao": "2025-11-02 00:24:07.445352",
+    "data_atualizacao": "2025-11-02 00:24:07.445361"
+  }
+}
