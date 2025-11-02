@@ -15,10 +15,11 @@ Este documento mantém o Product Backlog priorizado, estruturado em Épicos → 
 
 ### EPIC-002: Implementar Portal do Cliente
 
-**Status:** Em Análise  
+**Status:** Em Desenvolvimento  
 **Descrição:** Criar portal dedicado para clientes gerenciarem suas próprias configurações, dados e integrações com APIs externas.  
 **Valor de Negócio:** Permite auto-gestão dos clientes, reduzindo suporte e aumentando satisfação.  
 **Duração Estimada:** 3-4 Sprints  
+**Progresso:** 40% (FEAT-004 concluída, FEAT-005 iniciando)  
 
 ### EPIC-003: Analytics e Insights Avançados para Clientes
 
@@ -95,16 +96,17 @@ Este documento mantém o Product Backlog priorizado, estruturado em Épicos → 
 
 #### FEAT-004: Autenticação de Clientes
 
-**Status:** Planejado  
-**Descrição:** Sistema de login/logout específico para clientes acessar o portal.  
-**Histórias Associadas:** US-010 (planejado)  
+**Status:** ✅ Concluído  
+**Descrição:** Sistema de login/logout específico para clientes acessar o portal com segurança JWT.  
+**Histórias Associadas:** US-010 (concluído)  
 **Duração Estimada:** 1 Sprint  
+**Nota:** Inclui correções críticas de segurança (JWT, CSRF, Authorization). Sistema pronto para produção.  
 
 #### FEAT-005: Dashboard do Cliente
 
-**Status:** Planejado  
+**Status:** Em Desenvolvimento  
 **Descrição:** Página inicial do cliente com visão geral dos dados e configurações.  
-**Histórias Associadas:** US-011 (planejado)  
+**Histórias Associadas:** US-011 (em desenvolvimento)  
 **Duração Estimada:** 1 Sprint  
 
 #### FEAT-006: Gestão de APIs Externas
