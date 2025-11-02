@@ -22,10 +22,12 @@
 ### JWT Security Service (`src/core/security.py`)
 ```python
 class SecurityService:
+
     - create_jwt_token(): Gera JWT com cliente_id e email seguros
     - validate_jwt_token(): Valida assinatura e expiração
     - generate_csrf_token(): Gera tokens CSRF únicos
     - validate_csrf_token(): Validação segura contra timing attacks
+
 ```
 
 ### Autenticação Atualizada (`src/client/auth.py`)
@@ -50,6 +52,7 @@ class SecurityService:
 python test_security_fix.py
 ```
 **Resultado**: ✅ Todas as funcionalidades de segurança operacionais
+
 - JWT: Criação e validação funcionando
 - CSRF: Geração e validação funcionando
 - Token estático: Completamente removido

@@ -6,12 +6,14 @@ O integra-instagran é uma solução analítica de dados para mídias sociais, v
 ## Funcionalidades Principais
 
 ### Portal Administrativo
+
 - Gestão completa de licenças e usuários
 - Controle de acesso multi-tenant
 - Relatórios administrativos
 - Configurações do sistema
 
 ### Portal do Cliente
+
 - **Dashboard Avançado** (FEAT-005 ✅ APROVADO 01/11/2025)
   - Métricas de performance em tempo real
   - Gráficos interativos de engajamento
@@ -21,6 +23,7 @@ O integra-instagran é uma solução analítica de dados para mídias sociais, v
   - Recomendações personalizadas para crescimento
 
 ### Integração Instagram
+
 - Conexão segura com Instagram Graph API
 - Coleta automática de métricas
 - Análise de performance de posts
@@ -29,6 +32,7 @@ O integra-instagran é uma solução analítica de dados para mídias sociais, v
 ## Valor de Negócio Comprovado
 
 **Análise SPIN Selling Validada:**
+
 - **Retenção de Clientes:** Dashboard reduz churn rate de 32%
 - **Impacto Financeiro:** Previne perda de R$ 1.164-7.164/ano por cliente
 - **Diferencial Competitivo:** Dashboard único no mercado

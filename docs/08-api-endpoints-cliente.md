@@ -41,6 +41,7 @@ HTML redirect para dashboard
 ```
 
 **Validações:**
+
 - ✅ Email válido e existente
 - ✅ Senha correta (bcrypt hash)
 - ✅ Licença ativa e válida
@@ -75,6 +76,7 @@ Location: /client/login
 ```
 
 **Comportamento:**
+
 - Remove cookie `access_token`
 - Redirect para página de login
 - Não requer validação de token
@@ -177,11 +179,13 @@ Cookie: access_token=eyJ0eXAiOiJKV1QiLCJhbGc...
 ```
 
 **Segurança:**
+
 - 🔒 Requer JWT válido
 - 🔒 Dados filtrados por `cliente_id` do token
 - 🔒 Session tracking (atualiza `ultimo_acesso`)
 
 **Responsividade:**
+
 - ✅ Mobile (375px)
 - ✅ Tablet (768px)
 - ✅ Desktop (1920px+)
@@ -232,6 +236,7 @@ Cookie: access_token=eyJ0eXAiOiJKV1QiLCJhbGc...
 ```
 
 **Segurança:**
+
 - 🔒 Requer JWT válido
 - 🔒 Apenas perfil do próprio cliente
 
@@ -459,6 +464,7 @@ Atualmente, os endpoints retornam **dados mock** para validação de UI:
 - Histórico de posts é simulado
 
 **Próximos Passos (EPIC-003):**
+
 - Integração com Instagram Graph API
 - Persistência em banco de dados
 - Dados reais de performance

@@ -9,6 +9,7 @@
 O produto integra-instagran é uma plataforma multi-tenant para analytics de redes sociais. Após implementar o portal administrativo (EPIC-001) e iniciar o portal do cliente (EPIC-002), identificamos a necessidade de oferecer valor diferenciado aos clientes através de insights avançados sobre seus perfis nas redes sociais.
 
 Os clientes precisam de ferramentas para:
+
 - Entender o desempenho de seus perfis
 - Comparar-se com concorrentes
 - Receber sugestões de conteúdo otimizado

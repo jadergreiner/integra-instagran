@@ -24,6 +24,7 @@
 ### 📦 **Release v1.0.0 - 02/11/2025**
 
 **Entregas:**
+
 - ✅ Portal Administrativo completo
 - ✅ Portal do Cliente com Dashboard avançado
 - ✅ Autenticação JWT segura
@@ -34,6 +35,7 @@
 - ✅ Interface responsiva (mobile/tablet/desktop)
 
 **Próximos Passos:**
+
 - EPIC-003: Integração com Instagram Graph API
 - Analytics avançados com dados reais
 - Exportação de relatórios
@@ -43,6 +45,7 @@
 **Aprovação Gate de Início:** Jader Greiner - 01/11/2025 às 23:34 BRT
 
 **Valor de Negócio Validado:**
+
 - **Situação:** Clientes precisam acompanhar métricas detalhadas dos posts
 - **Problema:** Falta de insights causa abandono da plataforma (32% churn rate)
 - **Implicação:** Perda de R$ 1.164-7.164/ano por cliente que abandona
@@ -124,6 +127,7 @@ uvicorn src.main:app --reload
 
 ### 📖 Guia Completo de Testes
 [📋 Ver Guia de Testes Locais](GUIA_TESTES_LOCAIS.md) - Inclui:
+
 - Inicialização do servidor
 - Roteiro de testes manuais
 - Troubleshooting
@@ -156,6 +160,7 @@ docsify serve
 ```
 
 **Opção 2: Arquivos Diretos no GitHub**
+
 - [📖 README da Documentação](https://github.com/jadergreiner/integra-instagran/blob/main/docs/README.md)
 - [🎯 Data Lineage & Mapping](https://github.com/jadergreiner/integra-instagran/blob/main/docs/06-data-lineage-mapping.md)
 - [📊 Backlog do Projeto](https://github.com/jadergreiner/github.com/jadergreiner/integra-instagran/blob/main/docs/gestao-agil/backlog.md)
@@ -164,6 +169,7 @@ docsify serve
 ### 🔧 Configuração GitHub Pages
 
 O workflow está configurado para:
+
 - ✅ Deploy automático no push para `main`
 - ✅ Interface interativa com Docsify
 - ✅ Navegação lateral organizada

@@ -174,20 +174,24 @@ Persistência (licencas.json)
 ```
 JSON Files -> PostgreSQL/MySQL
     ↓
+
 - Constraints de FK
 - Índices otimizados
 - Transações ACID
 - Consultas complexas
+
 ```
 
 ### Data Warehouse (Futuro)
 ```
 Aplicação -> Staging -> Data Warehouse
     ↓
+
 - Agregações por cliente
 - Métricas de uso
 - Relatórios históricos
 - Analytics avançado
+
 ```
 
 ## Monitoramento de Dados
