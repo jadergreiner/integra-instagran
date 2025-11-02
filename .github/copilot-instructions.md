@@ -1,62 +1,69 @@
-# integra-instagran - AI Agent Instructions
+# integra-instagran - Instruções para Agentes de IA
 
-## Project Overview
-Multi-tenant FastAPI web application for social media analytics. Portal administrativo for license management + client portals for data insights. Cloud-ready (AWS migration planned).
+## Visão Geral do Projeto
+Aplicação web FastAPI multi-tenant para analytics de redes sociais. Portal administrativo para gestão de licenças + portais clientes para insights de dados. Preparado para nuvem (migração AWS planejada).
 
-## Architecture Patterns
-- **Modular Structure**: `src/main.py` (FastAPI app), `src/admin/` (business logic), `src/core/` (shared services)
-- **Data Persistence**: JSON file storage (`data/licencas.json`) - no database yet
-- **Authentication**: Cookie-based sessions via middleware, hardcoded credentials (`admin`/`123`)
-- **API Design**: Router-based with Pydantic models, HTML responses with Jinja2 templates
-- **Multi-tenant**: Logical data segregation by `cliente_id`, isolated API credentials per client
+## Padrões Arquiteturais
+- **Estrutura Modular**: `src/main.py` (app FastAPI), `src/admin/` (lógica de negócio), `src/core/` (serviços compartilhados)
+- **Integração Instagram**: `src/core/instagram/` (cliente Instagram Graph API com lógica de retry)
+- **Persistência de Dados**: Armazenamento em arquivos JSON (`data/usuarios.json`, `data/licencas.json`) - ainda sem banco de dados
+- **Autenticação**: Sessões baseadas em cookies via middleware, credenciais hardcoded (`admin`/`123`)
+- **Design de API**: Baseado em routers com modelos Pydantic, respostas HTML com templates Jinja2
+- **Multi-tenant**: Segregação lógica de dados por `cliente_id`, credenciais de API isoladas por cliente
 
-## Development Workflow
-### TDD Process
-1. Write test first: `pytest tests/test_*.py -v`
-2. Implement code with `# TASK-XXX: Description` comments
-3. Update `docs/diario-projeto.md` daily
-4. Create ADR in `docs/adrs/` for architectural decisions
-5. **Implement E2E tests**: Create Playwright tests in `tests/test_*_e2e.py` for all user-facing features
+## Fluxo de Desenvolvimento
+### Processo TDD
+1. Escrever teste primeiro: `pytest tests/test_*.py -v`
+2. Implementar código com comentários `# TASK-XXX: Descrição`
+3. Atualizar `docs/diario-projeto.md` diariamente
+4. Criar ADR em `docs/adrs/` para decisões arquiteturais
+5. **Implementar testes E2E**: Criar testes Playwright em `tests/test_*_e2e.py` para todas as funcionalidades voltadas ao usuário
 
-### Git Workflow
-- `feature/*` branches from `develop`
-- Merge to `develop` after tests pass
-- `release` branch for final packages → `main`
+### Fluxo Git
+- Branches `feature/*` a partir de `develop`
+- Merge para `develop` após testes passarem
+- Branch `release` para pacotes finais → `main`
 
-### Testing Patterns
-- **Unit Tests**: Portuguese names, case-when structure (`dado_quando_entao`)
-- **E2E Tests**: Playwright for UI flows (`run_e2e_tests.py`)
-- **Coverage**: `pytest --cov=src tests/`
+### Padrões de Teste
+- **Testes Unitários**: Nomes em português, estrutura case-when (`dado_quando_entao`)
+- **Testes E2E**: Playwright para fluxos de UI (`run_e2e_tests.py`)
+- **Cobertura**: `pytest --cov=src tests/`
 
-## Code Conventions
-- **Traceability**: `# TASK-XXX: Brief description` on all new code
-- **Models**: Pydantic with `Field()` constraints, `EmailStr` validation
-- **Routes**: Form data with `Form(...)` parameters, HTML responses
-- **Imports**: Relative imports within `src/` package
-- **Naming**: Portuguese for tests, Portuguese for code
+## Convenções de Código
+- **Rastreabilidade**: `# TASK-XXX: Descrição breve` em todo código novo
+- **Modelos**: Pydantic com restrições `Field()`, validação `EmailStr`
+- **Rotas**: Dados de formulário com parâmetros `Form(...)`, respostas HTML
+- **Imports**: Imports relativos dentro do pacote `src/`
+- **Nomenclatura**: Português para testes e código
 
-## Key Files & Commands
-- **Run Server**: `uvicorn src.main:app --reload`
-- **Run Tests**: `pytest tests/` or `pytest tests/test_file.py -v`
-- **Install Deps**: `pip install -r requirements.txt`
-- **Login URL**: `http://127.0.0.1:8000/admin/login`
+## Arquivos e Comandos Principais
+- **Executar Servidor**: `uvicorn src.main:app --reload`
+- **Executar Testes**: `pytest tests/` ou `pytest tests/test_file.py -v`
+- **Instalar Dependências**: `pip install -r requirements.txt`
+- **URL de Login**: `http://127.0.0.1:8000/admin/login`
+- **Testes E2E**: `python run_e2e_tests.py`
 
-## Integration Points
-- **External APIs**: Social media platforms (Instagram, etc.) - credentials isolated per client
-- **Cloud Migration**: AWS-ready with environment variables, Docker-friendly structure
-- **Security**: Client-specific API keys, secure credential storage planned
+## Pontos de Integração
+- **API Instagram**: `src/core/instagram/client.py` - cliente Graph API com lógica de retry exponencial backoff
+- **APIs Externas**: Plataformas de redes sociais - credenciais isoladas por cliente
+- **Migração para Nuvem**: Preparado para AWS com variáveis de ambiente, estrutura Docker-friendly
+- **Segurança**: Chaves de API específicas por cliente, armazenamento seguro de credenciais planejado
 
-## Quality Gates
-- All tests pass before merge
-- ADR required for architectural changes
-- Daily diary updates in `docs/diario-projeto.md`
-- Backlog approval required (`docs/gestao-agil/backlog.md`)
+## Portões de Qualidade
+- Todos os testes devem passar antes do merge
+- ADR obrigatório para mudanças arquiteturais
+- Atualizações diárias do diário em `docs/diario-projeto.md`
+- Aprovação do backlog obrigatória (`docs/gestao-agil/backlog.md`)
 
-## Common Patterns
-- **New Feature**: Register in backlog → Create ADR → TDD implementation → Update docs
-- **Models**: `class ModelName(BaseModel):  # TASK-XXX`
-- **Routes**: `@router.post("/", response_class=HTMLResponse)`
-- **Validation**: `cliente_id: int = Form(...)` with business logic checks
+## Padrões Comuns
+- **Nova Funcionalidade**: Registrar no backlog → Criar ADR → Implementação TDD → Atualizar docs
+- **Modelos**: `class NomeModelo(BaseModel):  # TASK-XXX`
+- **Rotas**: `@router.post("/", response_class=HTMLResponse)`
+- **Validação**: `cliente_id: int = Form(...)` com verificações de lógica de negócio
+- **Clientes de API**: Usar `tenacity` para lógica de retry, `httpx` para requisições assíncronas
+- **Middleware**: Autenticação com exclusões de rotas (ver `rotas_publicas` em `main.py`)
+- **Templates**: Respostas Jinja2 com contexto `{"request": request}`
+- **Tratamento de Erros**: `HTTPException` para erros de API, `ValueError` para lógica de negócio
 
 ## Documentação e Markdown
 
@@ -225,33 +232,54 @@ Todos os ADRs devem seguir esta estrutura padronizada para consistência e clare
 ## Estrutura do Projeto Atual
 
 - `src/`: Código fonte
-  - `main.py`: Ponto de entrada FastAPI
+  - `main.py`: Ponto de entrada FastAPI com middleware de autenticação
   - `admin/`: Módulo administrativo (usuários, licenças, templates)
+    - `models.py`: Modelos Pydantic com campos preparados para PIX/pagamentos
+    - `licencas.py`: Router para gestão de licenças
+    - `usuarios.py`: Router para gestão de usuários administrativos
+    - `templates/`: Templates Jinja2 para interface web
   - `core/`: Serviços core (auth, settings, database)
-- `tests/`: Testes unitários
+    - `auth.py`: Autenticação com hashing PBKDF2, credenciais hardcoded
+    - `instagram/`: Cliente Instagram Graph API com retry automático
+      - `client.py`: Cliente principal com `tenacity` para resilência
+      - `models.py`: Modelos específicos para Instagram API
+- `tests/`: Testes unitários e E2E (Playwright)
 - `docs/`: Documentação completa
-  - `adrs/`: Registros de decisões arquiteturais
-  - `diario-projeto.md`: Diário de desenvolvimento
-- `requirements.txt`: Dependências Python
-- `.github/copilot-instructions.md`: Este arquivo
+  - `adrs/`: Registros de decisões arquiteturais (ADR-009 para portal cliente)
+  - `diario-projeto.md`: Diário de desenvolvimento atualizado diariamente
+  - `gestao-agil/backlog.md`: Backlog estruturado em EPIC → FEAT → US → TASK
+- `data/`: Persistência JSON (usuarios.json, licencas.json)
+- `requirements.txt`: Dependências Python incluindo fastapi, playwright, tenacity
 
 ## Comandos Essenciais
 
-- Instalar dependências: `pip install -r requirements.txt`
-- Executar servidor: `uvicorn src.main:app --reload`
-- Executar testes: `pytest tests/`
-- Acessar login: `http://127.0.0.1:8000/admin/login`
+- **Instalar dependências**: `pip install -r requirements.txt`
+- **Executar servidor**: `uvicorn src.main:app --reload`
+- **Executar testes unitários**: `pytest tests/ -v`
+- **Executar testes E2E**: `python run_e2e_tests.py`
+- **Cobertura de testes**: `pytest --cov=src tests/`
+- **Acessar login admin**: `http://127.0.0.1:8000/admin/login` (admin/123)
+- **Dashboard admin**: `http://127.0.0.1:8000/admin/dashboard`
 
 ## Modelos e Validações
 
-- Use Pydantic para modelos de dados.
-- Valide emails com `EmailStr`.
-- Use `Field` para restrições (ex: `min_length`).
-- Exemplo: `email: EmailStr`, `status: str = Field(min_length=1)`.
+### Padrões Pydantic Específicos
+- **Use Pydantic para modelos de dados com validações rigorosas**
+- **Validação de email**: `EmailStr` para emails (ex: `email: EmailStr`)
+- **Restrições**: Use `Field()` para restrições (ex: `status: str = Field(min_length=1)`)
+- **Preparação Futura**: Campos opcionais preparados para features futuras (ex: PIX em `LicencaCreate`)
+- **Exemplo de modelo**:
+  ```python
+  class LicencaCreate(BaseModel):  # TASK-XXX
+      cliente_id: int = Field(..., description="ID do cliente")
+      validade: date = Field(..., description="Data de validade")
+      # Campos preparados para gestão financeira futura
+      chave_pix: Optional[str] = Field(None, description="Chave PIX")
+  ```
 
 ## Qualidade e Padronização de Código
 
-- Todo o código Python deve seguir o padrão [PEP8](https://peps.python.org/pep-0008/).
+- Todo o código Python deve seguir o padrão PEP8.
 - Utilize ferramentas de lint (ex: flake8, pylint) para garantir conformidade e qualidade.
 - Recomenda-se configurar o lint no ambiente de desenvolvimento e no pipeline de CI/CD.
 
@@ -265,37 +293,59 @@ Todos os ADRs devem seguir esta estrutura padronizada para consistência e clare
 
 ## Padrões de Integração e Princípios de Projeto
 
-- Integração com APIs deve ser feita de forma segura e escalável.
-- As chaves de acesso e credenciais de APIs devem ser armazenadas de forma isolada dentro das contas individuais de cada cliente.
+### Integração Instagram Graph API
+- **Cliente Resiliente**: `src/core/instagram/client.py` usa `tenacity` para retry exponencial
+- **Rate Limiting**: Implementado com backoff automático para evitar throttling
+- **Isolamento por Cliente**: Cada cliente mantém suas próprias credenciais Instagram
+- **Async/Await**: Cliente completamente assíncrono usando `httpx`
 
-### Princípios aplicados
-1. **YAGNI (You Aren't Gonna Need It)**
-  - Não adicione funcionalidades até que sejam realmente necessárias.
-2. **KISS (Keep It Simple, Stupid)**
-  - Simplicidade é a sofisticação máxima.
-3. **Entrega Incremental**
-  - Entregue valor cedo e frequentemente.
-4. **Data-Driven Design**
-  - Decisões baseadas em dados, não em suposições.
+### Arquitetura Multi-Tenant
+- **Isolamento Lógico**: Filtros automáticos por `cliente_id` em todas operações
+- **Autenticação Dupla**: Admin (`/admin/*`) vs Cliente (`/client/*` - planejado)
+- **Middleware**: Autenticação baseada em cookies com rotas públicas definidas
+- **Persistência**: Arquivos JSON como ponte para futura migração para banco de dados
 
-## Tecnologias e Diretrizes de Desenvolvimento
+### Princípios Aplicados
+1. **YAGNI (You Aren't Gonna Need It)** - Não adicione funcionalidades até que sejam realmente necessárias
+2. **KISS (Keep It Simple, Stupid)** - Simplicidade é a sofisticação máxima  
+3. **Entrega Incremental** - Entregue valor cedo e frequentemente
+4. **Data-Driven Design** - Decisões baseadas em dados, não em suposições
 
-- Linguagem preferencial: Python
-- Aplicações inicialmente web; escolha do framework web sob melhor julgamento do agente (ex: Django, FastAPI, Flask)
-- Estruture o projeto para facilitar futura migração para ambiente cloud (AWS), evitando dependências locais rígidas e priorizando padrões portáveis (ex: variáveis de ambiente, Docker, arquivos de configuração separados)
-- Inicialmente, a aplicação será hospedada localmente, mas mantenha práticas que permitam escalar e migrar facilmente para nuvem
+## Estado Atual do Projeto (Nov 2025)
+
+### Épicos e Status
+- **EPIC-001 (Portal Administrativo)**: ✅ **Concluído** - Login, gestão de usuários e licenças funcionais
+- **EPIC-002 (Portal do Cliente)**: 🔄 **Em Análise** - ADR-009 criado, arquitetura multi-tenant definida
+- **EPIC-003 (Analytics Avançados)**: 📋 **Planejado** - Instagram Graph API client já implementado
+
+### Funcionalidades Ativas
+- Login administrativo (`admin`/`123`)
+- Gestão de usuários administrativos
+- Gestão de licenças com campos preparados para PIX
+- Middleware de autenticação baseado em cookies
+- Cliente Instagram Graph API com retry automático
+- Testes E2E com Playwright configurados
+
+### Próximos Desenvolvimentos
+- Portal do cliente (`/client/*`) com autenticação separada
+- Sistema de onboarding self-service
+- Dashboards compartilhados entre clientes
+- Integração completa com Instagram para analytics
 
 ## Arquitetura e Requisitos Principais
 
-- O sistema será Multi Tenant, permitindo que múltiplos clientes utilizem a mesma infraestrutura com total segregação de dados e configurações.
-- Haverá um portal administrativo para gestão de licenças, acessível apenas por administradores do produto.
-- Cada cliente terá seu próprio portal, onde poderá administrar seus dados, configurações e visualizar relatórios/insights específicos.
+### Sistema Multi-Tenant
+- **Isolamento Completo**: Cada cliente tem dados e configurações totalmente segregados
+- **Portal Administrativo**: Gestão de licenças centralizada (implementado)
+- **Portal do Cliente**: Auto-gestão por cliente (em desenvolvimento - ADR-009)
+- **Autenticação Dupla**: Sistemas separados para admin vs clientes
+- **Escalabilidade**: Preparado para migração AWS com estrutura Docker-friendly
 
-Agentes AI devem considerar:
-- Padrões de autenticação e autorização multiusuário
-- Segregação de dados por cliente (isolamento lógico)
-- Fluxos para provisionamento, ativação e expiração de licenças
-- Interfaces administrativas e de autoatendimento
+### Decisões Arquiteturais Importantes (ADRs)
+- **ADR-006**: Playwright para testes E2E (crítico para validação UI)
+- **ADR-007**: Middleware de autenticação baseado em cookies
+- **ADR-009**: Arquitetura portal cliente com módulo `src/client/`
+- **ADR-013**: Integração Instagram Graph API (cliente já implementado)
 
 ## Checklist Atualizado para Agentes
 
@@ -304,3 +354,6 @@ Agentes AI devem considerar:
 3. Atualize documentação e diário após mudanças.
 4. Registre ADRs para decisões arquiteturais.
 5. Execute testes e valide localmente antes de prosseguir.
+6. Use comentários `# TASK-XXX` para rastreabilidade.
+7. Mantenha isolamento multi-tenant em todas as implementações.
+8. Documente tudo em português brasileiro.
