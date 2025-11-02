@@ -1,4 +1,4 @@
-# TASK-072: Router para rotas de autenticação do cliente
+# SECURITY FIX: Router para rotas de autenticação do cliente com JWT e CSRF
 from fastapi import APIRouter, Request, Form, HTTPException, Depends
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
@@ -6,6 +6,7 @@ from datetime import datetime, date
 
 from .auth import ClienteAuthService, get_current_cliente
 from .models import ClienteLogin, ClienteResponse
+from ..core.security import security_service
 
 
 router = APIRouter(prefix="/client", tags=["cliente"])
@@ -15,25 +16,45 @@ templates = Jinja2Templates(directory="src/client/templates")
 @router.get("/login", response_class=HTMLResponse)
 async def login_page(request: Request, erro: str = None, mensagem: str = None):
     """
-    TASK-074: Página de login do cliente
+    SECURITY FIX: Página de login do cliente com token CSRF
     """
-    return templates.TemplateResponse("login.html", {
+    # SECURITY FIX: Gerar token CSRF para formulário
+    csrf_token = security_service.generate_csrf_token()
+    
+    response = templates.TemplateResponse("login.html", {
         "request": request,
         "erro": erro,
-        "mensagem": mensagem
+        "mensagem": mensagem,
+        "csrf_token": csrf_token
     })
+    
+    # SECURITY FIX: Armazenar token CSRF em cookie seguro
+    response.set_cookie(
+        key="csrf_token", 
+        value=csrf_token, 
+        httponly=True, 
+        samesite="strict"
+    )
+    
+    return response
 
 
 @router.post("/login")
 async def login_submit(
     request: Request,
     email: str = Form(...),
-    password: str = Form(...)
+    password: str = Form(...),
+    csrf_token: str = Form(...)
 ):
     """
-    TASK-072: Processar login do cliente com validação de licença
+    SECURITY FIX: Processar login com JWT e validação CSRF
     """
     try:
+        # SECURITY FIX: Validar token CSRF
+        session_csrf = request.cookies.get("csrf_token")
+        if not security_service.validate_csrf_token(session_csrf, csrf_token):
+            raise HTTPException(status_code=403, detail="Token CSRF inválido")
+        
         # Validar dados de entrada
         dados_login = ClienteLogin(email=email, password=password)
         
@@ -41,10 +62,18 @@ async def login_submit(
         auth_service = ClienteAuthService()
         resultado = auth_service.login(dados_login)
         
-        # Criar resposta com cookies de sessão
+        # SECURITY FIX: Criar resposta com token JWT
         response = RedirectResponse(url="/client/dashboard", status_code=302)
-        response.set_cookie(key="client_session", value="authenticated", httponly=True)
-        response.set_cookie(key="cliente_id", value=str(resultado["cliente_id"]), httponly=True)
+        response.set_cookie(
+            key="client_token", 
+            value=resultado["token"],  # SECURITY FIX: JWT token
+            httponly=True, 
+            samesite="strict",
+            max_age=86400  # 24 horas
+        )
+        
+        # SECURITY FIX: Remover cookie CSRF após uso
+        response.delete_cookie("csrf_token")
         
         return response
         
@@ -109,15 +138,12 @@ async def dashboard(
 @router.get("/logout")
 async def logout(request: Request):
     """
-    TASK-072: Logout do cliente
+    SECURITY FIX: Logout do cliente removendo token JWT
     """
-    auth_service = ClienteAuthService()
-    auth_service.logout()
-    
-    # Criar resposta removendo cookies
+    # SECURITY FIX: Criar resposta removendo token JWT
     response = RedirectResponse(url="/client/login?mensagem=Logout realizado com sucesso", status_code=302)
-    response.delete_cookie(key="client_session")
-    response.delete_cookie(key="cliente_id")
+    response.delete_cookie(key="client_token")
+    response.delete_cookie(key="csrf_token")  # Remover qualquer token CSRF pendente
     
     return response
 

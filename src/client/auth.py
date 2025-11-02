@@ -1,4 +1,4 @@
-# TASK-072: Sistema de autenticação específico para clientes
+# SECURITY FIX: Sistema de autenticação com JWT para clientes
 import json
 import os
 from typing import Optional, Dict, Any
@@ -7,6 +7,7 @@ from fastapi import HTTPException, Depends, Request
 from passlib.hash import pbkdf2_sha256
 
 from .models import ClienteLogin, ClienteResponse, LicencaCliente
+from ..core.security import security_service
 
 
 class ClienteAuthService:
@@ -75,8 +76,7 @@ class ClienteAuthService:
     
     def login(self, dados_login: ClienteLogin) -> Dict[str, Any]:
         """
-        Autentica cliente verificando credenciais e licença ativa
-        TASK-072: Implementação de login com validação de licença
+        SECURITY FIX: Autentica cliente com JWT ao invés de token estático
         """
         # Buscar cliente por email
         cliente = self._get_cliente_by_email(dados_login.email)
@@ -95,11 +95,18 @@ class ClienteAuthService:
                 detail="Acesso negado: Licença inválida ou expirada"
             )
         
+        # SECURITY FIX: Criar token JWT seguro
+        token_jwt = security_service.create_jwt_token(
+            cliente_id=cliente.get("id"),
+            email=cliente.get("email")
+        )
+        
         # Atualizar último acesso
         self._update_ultimo_acesso(cliente.get("id"))
         
         return {
             "status": "sucesso",
+            "token": token_jwt,  # SECURITY FIX: Token JWT ao invés de "authenticated"
             "cliente_id": cliente.get("id"),
             "nome": cliente.get("nome"),
             "email": cliente.get("email"),
@@ -131,39 +138,47 @@ class ClienteAuthService:
                 return ClienteResponse(**cliente)
         return None
 
+    def validate_token(self, token: str) -> Dict[str, Any]:
+        """
+        SECURITY FIX: Validar token JWT e retornar dados do cliente
+        """
+        payload = security_service.validate_jwt_token(token)
+        
+        # Verificar se cliente ainda tem licença ativa
+        licenca = self._get_licenca_ativa_cliente(payload["cliente_id"])
+        if not licenca:
+            raise HTTPException(
+                status_code=403, 
+                detail="Acesso negado: Licença inválida ou expirada"
+            )
+        
+        return {
+            "cliente_id": payload["cliente_id"],
+            "email": payload["email"],
+            "licenca": licenca,
+            "tipo": "cliente"
+        }
+
 
 def get_current_cliente(request: Request) -> Dict[str, Any]:
     """
-    Dependência FastAPI para verificar autenticação de cliente via cookies
-    TASK-072: Verificação de sessão específica para clientes
+    SECURITY FIX: Dependência FastAPI com validação JWT
     """
-    # Verificar cookie de sessão do cliente
-    client_session = request.cookies.get("client_session")
-    cliente_id = request.cookies.get("cliente_id")
+    # SECURITY FIX: Buscar token JWT no cookie
+    client_token = request.cookies.get("client_token")
     
-    if not client_session or client_session != "authenticated" or not cliente_id:
+    if not client_token:
         raise HTTPException(status_code=401, detail="Cliente não autenticado")
     
-    try:
-        cliente_id = int(cliente_id)
-    except ValueError:
-        raise HTTPException(status_code=401, detail="Sessão inválida")
-    
-    # Verificar se cliente ainda tem licença ativa
+    # SECURITY FIX: Validar token JWT
     auth_service = ClienteAuthService()
-    licenca = auth_service._get_licenca_ativa_cliente(cliente_id)
-    
-    if not licenca:
-        raise HTTPException(
-            status_code=403, 
-            detail="Acesso negado: Licença inválida ou expirada"
-        )
-    
-    return {
-        "cliente_id": cliente_id,
-        "licenca": licenca,
-        "tipo": "cliente"
-    }
+    try:
+        cliente_data = auth_service.validate_token(client_token)
+        return cliente_data
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=401, detail="Token inválido")
 
 
 def require_client_auth():

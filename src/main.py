@@ -46,14 +46,24 @@ def create_app():
         
         # Se é uma rota /client/*, verifica autenticação de cliente
         elif request.url.path.startswith("/client/"):
-            client_session = request.cookies.get("client_session")
-            cliente_id = request.cookies.get("cliente_id")
+            # SECURITY FIX: Verificar token JWT ao invés de cookies estáticos
+            client_token = request.cookies.get("client_token")
             
-            if not client_session or not cliente_id:
+            if not client_token:
                 return RedirectResponse(url="/client/login", status_code=302)
             
-            # TASK-073: Injetar cliente_id no estado da requisição para isolamento
-            request.state.cliente_id = int(cliente_id) if cliente_id.isdigit() else None
+            try:
+                # SECURITY FIX: Validar token JWT
+                from src.core.security import security_service
+                payload = security_service.validate_jwt_token(client_token)
+                
+                # SECURITY FIX: Injetar dados seguros do cliente na requisição
+                request.state.cliente_id = payload["cliente_id"]
+                request.state.cliente_email = payload["email"]
+                
+            except Exception:
+                # Token inválido ou expirado
+                return RedirectResponse(url="/client/login", status_code=302)
 
         # Permite acesso se passou pelas verificações
         response = await call_next(request)

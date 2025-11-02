@@ -1080,3 +1080,68 @@ Este documento mantém o Product Backlog priorizado, estruturado em Épicos → 
 - Template HTML responsivo e profissional
 
 **Tarefas Associadas:** TASK-032 (planejado)
+
+---
+
+## 📋 ITENS MOVIDOS PARA BACKLOG - PÓS SECURITY FIX
+
+### US-026: Melhorias de Acessibilidade no Portal Cliente
+
+**Status:** Planejado  
+**Origem:** Code Review FEAT-004 - Movido para backlog conforme priorização de segurança  
+**Como:** Cliente com necessidades de acessibilidade  
+**Quero:** Portal totalmente acessível (WCAG 2.1 AA)  
+**Para:** Ter acesso igual às funcionalidades independente de limitações  
+**Critérios de Aceitação:**
+
+- Navegação completa via teclado
+- Leitores de tela compatíveis
+- Contraste adequado em todos os elementos
+- Textos alternativos em imagens
+- Formulários com labels adequados
+- Estados de foco visíveis
+- Validação WCAG 2.1 AA
+
+**Tarefas Associadas:** TASK-076 (planejado)
+
+### US-027: Expansão de Testes E2E Comprehensivos
+
+**Status:** Planejado  
+**Origem:** Code Review FEAT-004 - Movido para backlog conforme priorização de segurança  
+**Como:** Desenvolvedor da equipe  
+**Quero:** Suite completa de testes E2E para todas as jornadas  
+**Para:** Garantir qualidade e evitar regressões  
+**Critérios de Aceitação:**
+
+- Testes E2E para todas as jornadas principais
+- Testes cross-browser (Chrome, Firefox, Safari)
+- Testes responsivos (desktop, tablet, mobile)
+- Testes de performance e load
+- Integração com CI/CD
+- Relatórios de cobertura detalhados
+- Testes de acessibilidade automatizados
+
+**Tarefas Associadas:** TASK-077 (planejado)
+
+### US-028: Otimizações de Performance Cliente
+
+**Status:** Planejado  
+**Origem:** Code Review FEAT-004 - Movido para backlog conforme priorização de segurança  
+**Como:** Cliente da plataforma  
+**Quero:** Portal com carregamento rápido e responsivo  
+**Para:** Ter experiência fluida e produtiva  
+**Critérios de Aceitação:**
+
+- Carregamento inicial < 3 segundos
+- Time to Interactive < 5 segundos
+- Lazy loading para componentes pesados
+- Cache estratégico de assets
+- Otimização de imagens e recursos
+- Compressão de assets (minificação, gzip)
+- Métricas Core Web Vitals > 90
+
+**Tarefas Associadas:** TASK-078 (planejado)
+
+---
+
+**🔒 SECURITY FIX COMPLETO**: Vulnerabilidades críticas de FEAT-004 foram corrigidas com implementação de JWT, remoção de cookies manipuláveis e proteção CSRF. Sistema está seguro para merge em produção.
