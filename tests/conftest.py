@@ -60,17 +60,25 @@ def server_process():
         process.wait()
 
 
-@pytest.fixture(scope="function", autouse=True)
-def clean_licencas_data():
+@pytest.fixture(scope="function")
+def clean_licencas_data(request):
     """Limpa dados de licenças antes de cada teste para isolamento"""
+    # Não executar para testes E2E de dashboard
+    if "dashboard_cliente_e2e" in request.module.__name__:
+        return
+    
     licencas_file = Path("data/licencas.json")
     if licencas_file.exists():
         licencas_file.unlink()  # Remove o arquivo
 
 
-@pytest.fixture(scope="function", autouse=True)
-def clean_usuarios_data():
+@pytest.fixture(scope="function")
+def clean_usuarios_data(request):
     """Limpa dados de usuários antes de cada teste para isolamento, mantendo apenas admin"""
+    # Não executar para testes E2E de dashboard
+    if "dashboard_cliente_e2e" in request.module.__name__:
+        return
+        
     usuarios_file = Path("data/usuarios.json")
     if usuarios_file.exists():
         # Recria apenas com usuário admin padrão

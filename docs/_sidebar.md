@@ -10,9 +10,11 @@
 ## 🏗️ Desenvolvimento
 
 - [Fluxos do Administrador](02-fluxos-administrador.md)
+- [Fluxos do Cliente](07-fluxos-cliente.md)
 - [Padrões de Desenvolvimento](03-padroes-desenvolvimento.md)
 - [Exemplos e Comandos](05-exemplos-comandos.md)
 - [Data Lineage e Mapping](06-data-lineage-mapping.md)
+- [API Endpoints Cliente](08-api-endpoints-cliente.md)
 
 ## 📊 Gestão Ágil
 
@@ -30,6 +32,7 @@
 - [ADR-006: Testes E2E](adrs/ADR-006-testes-e2e-playwright.md)
 - [ADR-007: Middleware](adrs/ADR-007-middleware-autenticacao.md)
 - [ADR-008: Gestão de Licenças](adrs/ADR-008-implementacao-gestao-licencas.md)
+- [ADR-012: Dashboard Cliente (FEAT-005)](adrs/ADR-012-feat-005-dashboard-cliente-avancado.md)
 
 ## 🔧 Desenvolvimento Local
 

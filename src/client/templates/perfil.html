@@ -1,0 +1,332 @@
+<!-- TASK-081: Template para gestão de perfil corporativo -->
+<!DOCTYPE html>
+<html lang="{{ idioma_ativo or 'pt-BR' }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil Corporativo - {{ perfil.nome_empresa if perfil else 'Sua Empresa' }}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .perfil-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            margin: 20px auto;
+            max-width: 1000px;
+            overflow: hidden;
+        }
+        
+        .perfil-header {
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .form-section {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .form-section h5 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 10px;
+            padding: 12px 30px;
+        }
+        
+        .btn-secondary {
+            background: #6c757d;
+            border: none;
+            border-radius: 10px;
+            padding: 12px 30px;
+        }
+        
+        .alert {
+            border-radius: 10px;
+            border: none;
+        }
+        
+        .form-control, .form-select {
+            border-radius: 8px;
+            border: 2px solid #e9ecef;
+            padding: 12px 15px;
+        }
+        
+        .form-control:focus, .form-select:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+        
+        .status-completo {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status-incompleto {
+            background: #f8d7da;
+            color: #721c24;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <!-- Header -->
+        <div class="perfil-container">
+            <div class="perfil-header">
+                <h1><i class="fas fa-building"></i> Perfil Corporativo</h1>
+                <p class="mb-0">Gerencie as informações da sua empresa e preferências</p>
+                {% if tem_perfil_completo %}
+                    <span class="status-badge status-completo mt-3">
+                        <i class="fas fa-check-circle"></i> Perfil Completo
+                    </span>
+                {% else %}
+                    <span class="status-badge status-incompleto mt-3">
+                        <i class="fas fa-exclamation-triangle"></i> Perfil Incompleto
+                    </span>
+                {% endif %}
+            </div>
+            
+            <div class="container p-4">
+                <!-- Alertas -->
+                {% if request.query_params.get('mensagem') %}
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <i class="fas fa-check-circle"></i> {{ request.query_params.get('mensagem') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                {% endif %}
+                
+                {% if request.query_params.get('erro') %}
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <i class="fas fa-exclamation-triangle"></i> {{ request.query_params.get('erro') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                {% endif %}
+                
+                <div class="row">
+                    <!-- Formulário de Perfil -->
+                    <div class="col-lg-8">
+                        <div class="form-section">
+                            <h5><i class="fas fa-building"></i> Informações da Empresa</h5>
+                            
+                            <form method="POST" action="/client/perfil/atualizar">
+                                <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                                
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="nome_empresa" class="form-label">Nome da Empresa *</label>
+                                        <input type="text" class="form-control" id="nome_empresa" name="nome_empresa" 
+                                               value="{{ perfil.nome_empresa if perfil else '' }}" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="email_corporativo" class="form-label">Email Corporativo *</label>
+                                        <input type="email" class="form-control" id="email_corporativo" name="email_corporativo" 
+                                               value="{{ perfil.email_corporativo if perfil else '' }}" required>
+                                    </div>
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="telefone" class="form-label">Telefone</label>
+                                        <input type="text" class="form-control" id="telefone" name="telefone" 
+                                               value="{{ perfil.telefone if perfil else '' }}" placeholder="+55 11 99999-9999">
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="cnpj" class="form-label">CNPJ</label>
+                                        <input type="text" class="form-control" id="cnpj" name="cnpj" 
+                                               value="{{ perfil.cnpj if perfil else '' }}" placeholder="12.345.678/0001-90">
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="endereco" class="form-label">Endereço</label>
+                                    <input type="text" class="form-control" id="endereco" name="endereco" 
+                                           value="{{ perfil.endereco if perfil else '' }}" placeholder="Rua, número, bairro">
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col-md-4 mb-3">
+                                        <label for="cidade" class="form-label">Cidade</label>
+                                        <input type="text" class="form-control" id="cidade" name="cidade" 
+                                               value="{{ perfil.cidade if perfil else 'São Paulo' }}">
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label for="estado" class="form-label">Estado</label>
+                                        <select class="form-select" id="estado" name="estado">
+                                            <option value="SP" {{ 'selected' if (perfil and perfil.estado == 'SP') or not perfil }}>São Paulo</option>
+                                            <option value="RJ" {{ 'selected' if perfil and perfil.estado == 'RJ' }}>Rio de Janeiro</option>
+                                            <option value="MG" {{ 'selected' if perfil and perfil.estado == 'MG' }}>Minas Gerais</option>
+                                            <option value="RS" {{ 'selected' if perfil and perfil.estado == 'RS' }}>Rio Grande do Sul</option>
+                                            <option value="PR" {{ 'selected' if perfil and perfil.estado == 'PR' }}>Paraná</option>
+                                            <option value="SC" {{ 'selected' if perfil and perfil.estado == 'SC' }}>Santa Catarina</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label for="cep" class="form-label">CEP</label>
+                                        <input type="text" class="form-control" id="cep" name="cep" 
+                                               value="{{ perfil.cep if perfil else '' }}" placeholder="01234-567">
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="site" class="form-label">Website</label>
+                                    <input type="url" class="form-control" id="site" name="site" 
+                                           value="{{ perfil.site if perfil else '' }}" placeholder="https://suaempresa.com">
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="descricao" class="form-label">Descrição da Empresa</label>
+                                    <textarea class="form-control" id="descricao" name="descricao" rows="3" 
+                                              placeholder="Descreva brevemente sua empresa e seus serviços">{{ perfil.descricao if perfil else '' }}</textarea>
+                                </div>
+                                
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-save"></i> Salvar Perfil
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                    
+                    <!-- Preferências -->
+                    <div class="col-lg-4">
+                        <div class="form-section">
+                            <h5><i class="fas fa-cog"></i> Preferências</h5>
+                            
+                            <form method="POST" action="/client/preferencias/atualizar">
+                                <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                                
+                                <div class="mb-3">
+                                    <label for="tema" class="form-label">Tema da Interface</label>
+                                    <select class="form-select" id="tema" name="tema">
+                                        <option value="light" {{ 'selected' if preferencias.tema == 'light' }}>Claro</option>
+                                        <option value="dark" {{ 'selected' if preferencias.tema == 'dark' }}>Escuro</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="idioma" class="form-label">Idioma</label>
+                                    <select class="form-select" id="idioma" name="idioma">
+                                        <option value="pt-BR" {{ 'selected' if preferencias.idioma == 'pt-BR' }}>Português (Brasil)</option>
+                                        <option value="en-US" {{ 'selected' if preferencias.idioma == 'en-US' }}>English (US)</option>
+                                        <option value="es-ES" {{ 'selected' if preferencias.idioma == 'es-ES' }}>Español</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="fuso_horario" class="form-label">Fuso Horário</label>
+                                    <select class="form-select" id="fuso_horario" name="fuso_horario">
+                                        <option value="America/Sao_Paulo" {{ 'selected' if preferencias.fuso_horario == 'America/Sao_Paulo' }}>Brasília (UTC-3)</option>
+                                        <option value="America/New_York" {{ 'selected' if preferencias.fuso_horario == 'America/New_York' }}>New York (UTC-5)</option>
+                                        <option value="Europe/London" {{ 'selected' if preferencias.fuso_horario == 'Europe/London' }}>London (UTC+0)</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="notificacoes_email" 
+                                               name="notificacoes_email" {{ 'checked' if preferencias.notificacoes_email }}>
+                                        <label class="form-check-label" for="notificacoes_email">
+                                            Notificações por Email
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="notificacoes_push" 
+                                               name="notificacoes_push" {{ 'checked' if preferencias.notificacoes_push }}>
+                                        <label class="form-check-label" for="notificacoes_push">
+                                            Notificações Push
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="metricas_favoritas" class="form-label">Métricas Favoritas</label>
+                                    <input type="text" class="form-control" id="metricas_favoritas" name="metricas_favoritas" 
+                                           value="{{ preferencias.metricas_favoritas|join(', ') if preferencias.metricas_favoritas else '' }}" 
+                                           placeholder="engajamento, alcance, impressões">
+                                    <div class="form-text">Separe por vírgulas</div>
+                                </div>
+                                
+                                <button type="submit" class="btn btn-secondary w-100">
+                                    <i class="fas fa-cog"></i> Salvar Preferências
+                                </button>
+                            </form>
+                        </div>
+                        
+                        <!-- Ações Rápidas -->
+                        <div class="form-section">
+                            <h5><i class="fas fa-bolt"></i> Ações Rápidas</h5>
+                            <div class="d-grid gap-2">
+                                <a href="/client/dashboard" class="btn btn-outline-primary">
+                                    <i class="fas fa-tachometer-alt"></i> Voltar ao Dashboard
+                                </a>
+                                <a href="/client/configuracoes" class="btn btn-outline-secondary">
+                                    <i class="fas fa-tools"></i> Configurações Avançadas
+                                </a>
+                                <a href="/client/logout" class="btn btn-outline-danger">
+                                    <i class="fas fa-sign-out-alt"></i> Sair
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Máscara para CNPJ
+        document.getElementById('cnpj').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length <= 14) {
+                value = value.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})$/, '$1.$2.$3/$4-$5');
+                e.target.value = value;
+            }
+        });
+        
+        // Máscara para CEP
+        document.getElementById('cep').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length <= 8) {
+                value = value.replace(/^(\d{5})(\d{3})$/, '$1-$2');
+                e.target.value = value;
+            }
+        });
+        
+        // Auto-dismiss de alertas
+        setTimeout(function() {
+            var alerts = document.querySelectorAll('.alert');
+            alerts.forEach(function(alert) {
+                var bsAlert = new bootstrap.Alert(alert);
+                bsAlert.close();
+            });
+        }, 5000);
+    </script>
+</body>
+</html>

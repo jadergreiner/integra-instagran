@@ -19,7 +19,9 @@ Este documento mantém o Product Backlog priorizado, estruturado em Épicos → 
 **Descrição:** Criar portal dedicado para clientes gerenciarem suas próprias configurações, dados e integrações com APIs externas.  
 **Valor de Negócio:** Permite auto-gestão dos clientes, reduzindo suporte e aumentando satisfação.  
 **Duração Estimada:** 3-4 Sprints  
-**Progresso:** 40% (FEAT-004 concluída, FEAT-005 iniciando)  
+**Progresso:** 80% (FEAT-004 concluída, FEAT-005 em desenvolvimento)  
+**SPIN Validado:** 01/11/2025 - Dashboard essencial para retenção (risco R$ 1.164-7.164/ano por cliente)  
+**Aprovação Gate de Início:** Jader Greiner - 01/11/2025 às 23:34 BRT  
 
 ### EPIC-003: Analytics e Insights Avançados para Clientes
 
@@ -105,9 +107,54 @@ Este documento mantém o Product Backlog priorizado, estruturado em Épicos → 
 #### FEAT-005: Dashboard do Cliente
 
 **Status:** Em Desenvolvimento  
-**Descrição:** Página inicial do cliente com visão geral dos dados e configurações.  
+**Prioridade:** ALTA ⭐  
+**Responsável:** Jader Greiner  
+**Sprint:** 3-4  
+**SPIN Validado:** 01/11/2025 - Dashboard essencial para retenção (risco R$ 1.164-7.164/ano por cliente)  
+**SMART Approved:** 01/11/2025 às 23:34 BRT por Jader Greiner  
+
+**Situação (SPIN):**
+- **S (Situation):** Clientes precisam acompanhar métricas detalhadas dos posts
+- **P (Problem):** Falta de insights causa abandono da plataforma (32% churn rate)
+- **I (Implication):** Perda de R$ 1.164-7.164/ano por cliente que abandona
+- **N (Need-payoff):** Dashboard aumenta engajamento e reduz churn
+
+**Descrição:** Dashboard abrangente para clientes acompanharem métricas de performance, engajamento e crescimento de seus perfis do Instagram com insights automáticos e recomendações personalizadas.
+
+**Critérios de Aceite:**
+1. Dashboard exibe métricas em tempo real
+2. Gráficos interativos de engajamento
+3. Insights automáticos baseados em dados
+4. Notificações de performance
+5. Histórico de posts com métricas detalhadas
+6. Sistema de recomendações personalizadas
+
+**Tarefas (SMART):**
+- ✅ **TASK-079**: Expandir dashboard cliente com seções avançadas (4h) - **CONCLUÍDA**
+- ✅ **TASK-080**: Implementar sistema de métricas (6h) - **CONCLUÍDA**
+- 🔄 **TASK-081**: Implementar gestão de perfil cliente (3-4h) - **EM PROGRESSO**
+- ⏳ **TASK-082**: Testes E2E dashboard completo (2-3h) - **PENDENTE**
+- ⏳ **TASK-083**: Documentação dashboard (2-3h) - **PENDENTE**
+
+**Valor de Negócio:**
+- Redução do churn rate de clientes
+- Maior satisfação e engajamento
+- Diferencial competitivo no mercado
+- Base para funcionalidades de IA/ML futuras
+
+**Dependências:**
+- Sistema de autenticação cliente (FEAT-004) ✅
+- API Instagram Graph integrada ✅
+- Banco de dados métricas ✅
+
+**Riscos:**
+- Performance com grande volume de dados (mitigado com cache)
+- Limites da API Instagram (monitoramento implementado)
+
+**Estimativa:** 14-17 horas totais  
+**Progresso:** 70% (10h/17h completadas)  
 **Histórias Associadas:** US-011 (em desenvolvimento)  
-**Duração Estimada:** 1 Sprint  
+**Duração Estimada:** 1-2 Sprints  
 
 #### FEAT-006: Gestão de APIs Externas
 

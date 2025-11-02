@@ -68,9 +68,11 @@ class ClienteAuthService:
                 licenca.get("status") == "ativa"):
                 
                 # Verificar se não expirou
-                data_expiracao = datetime.strptime(licenca.get("data_expiracao"), "%Y-%m-%d").date()
-                if data_expiracao >= hoje:
-                    return LicencaCliente(**licenca)
+                data_expiracao_str = licenca.get("data_expiracao")
+                if data_expiracao_str:
+                    data_expiracao = datetime.strptime(data_expiracao_str, "%Y-%m-%d").date()
+                    if data_expiracao >= hoje:
+                        return LicencaCliente(**licenca)
         
         return None
     
@@ -164,21 +166,24 @@ def get_current_cliente(request: Request) -> Dict[str, Any]:
     """
     SECURITY FIX: Dependência FastAPI com validação JWT
     """
-    # SECURITY FIX: Buscar token JWT no cookie
-    client_token = request.cookies.get("client_token")
-    
-    if not client_token:
-        raise HTTPException(status_code=401, detail="Cliente não autenticado")
-    
-    # SECURITY FIX: Validar token JWT
-    auth_service = ClienteAuthService()
     try:
-        cliente_data = auth_service.validate_token(client_token)
-        return cliente_data
-    except HTTPException:
-        raise
+        # SECURITY FIX: Buscar token JWT no cookie
+        client_token = request.cookies.get("client_token")
+        
+        if not client_token:
+            raise HTTPException(status_code=401, detail="Cliente não autenticado")
+        
+        # SECURITY FIX: Validar token JWT
+        auth_service = ClienteAuthService()
+        try:
+            cliente_data = auth_service.validate_token(client_token)
+            return cliente_data
+        except HTTPException:
+            raise
+        except Exception as e:
+            raise HTTPException(status_code=401, detail="Token inválido")
     except Exception as e:
-        raise HTTPException(status_code=401, detail="Token inválido")
+        raise
 
 
 def require_client_auth():
