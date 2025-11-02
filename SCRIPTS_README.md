@@ -61,8 +61,10 @@ Verificando: README.md... ✓ OK
 
 ```markdown
 Texto antes da lista
+
 - Item 1
 - Item 2
+
 Texto depois da lista
 ```
 
